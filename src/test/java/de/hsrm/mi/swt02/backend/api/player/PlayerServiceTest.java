@@ -41,7 +41,7 @@ public class PlayerServiceTest {
     }
 
     @Test
-    void CreateUsersTest() {
+    void CreatePlayersTest() {
         //create player with Service
         Player yannick = playerService.createPlayer("Yannick");
         Player marc = playerService.createPlayer("Marc");
@@ -58,7 +58,7 @@ public class PlayerServiceTest {
     }
 
     @Test
-    void DeleteUserTest() {
+    void DeletePlayersTest() {
         //Setup
         List<Player> playerList = initDB();
 
@@ -71,7 +71,7 @@ public class PlayerServiceTest {
     }
 
     @Test
-    void FindAllUsersTest() {
+    void FindAllPlayersTest() {
         //Setup
         List<Player> playerList = initDB();
         List<Player> playerListFromService = playerService.findAllPlayers();
@@ -88,7 +88,7 @@ public class PlayerServiceTest {
     }
 
     @Test
-    void FindUserByIdTest() {
+    void FindPlayersByIdTest() {
         //Setup
         List<Player> playerList = initDB();
 

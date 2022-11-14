@@ -47,7 +47,7 @@ public class PlayerRestControllerTest {
     }
 
     @Test
-    void postNewUserAndGetIDTest() throws Exception {
+    void postNewPlayerAndGetIDTest() throws Exception {
         //setup Json Objects
         Object Yannick = new Object() {
             public final String userName = "Yannick";
@@ -67,14 +67,14 @@ public class PlayerRestControllerTest {
 
         String yannickID = resultUserYannick.getResponse().getContentAsString();
 
-        //test that IDs are not the same
+        //test that ID are a number
         assertThat(yannickID).containsOnlyDigits();
 
         playerService.deletePlayer(Long.parseLong(yannickID));
     }
 
     @Test
-    void getAllUsersTest() throws Exception {
+    void getAllPlayersTest() throws Exception {
         //Setup
         Player marc = playerService.createPlayer("Marc");
         Player yannick = playerService.createPlayer("Yannick");
@@ -96,7 +96,7 @@ public class PlayerRestControllerTest {
     }
 
     @Test
-    void getUserWithId() throws Exception {
+    void getPlayerWithId() throws Exception {
         //Setup
         Player marc = playerService.createPlayer("marc");
 
@@ -115,7 +115,7 @@ public class PlayerRestControllerTest {
     }
 
     @Test
-    void deleteUserWithId() throws Exception {
+    void deletePlayerWithId() throws Exception {
         //Setup
         Player marc = playerService.createPlayer("marc");
 
