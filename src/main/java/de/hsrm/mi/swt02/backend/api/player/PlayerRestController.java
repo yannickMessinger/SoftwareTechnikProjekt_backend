@@ -1,4 +1,4 @@
-package de.hsrm.mi.swt02.backend.api.user;
+package de.hsrm.mi.swt02.backend.api.player;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,41 +11,41 @@ import java.util.List;
 public class PlayerRestController {
 
     @Autowired
-    PlayerServiceImpl userService;
+    PlayerServiceImpl playerService;
 
     // GET localhost:8080/api/player | {}
-    @GetMapping("/")
-    public List<GetPlayerResponseDTO> getAllUsers() {
+    @GetMapping("")
+    public List<GetPlayerResponseDTO> getAllPlayers() {
         List<GetPlayerResponseDTO> uDTOs = new ArrayList<GetPlayerResponseDTO>(
-                userService.findAllUsers()
-                    .stream()
-                    .map(GetPlayerResponseDTO::from)
-                    .toList());
+                playerService.findAllPlayers()
+                        .stream()
+                        .map(GetPlayerResponseDTO::from)
+                        .toList());
         return uDTOs;
     }
 
     // POST localhost:8080/api/player | {"userName": "Hans"}
-    @PostMapping("/")
-    public long postNewUser(
+    @PostMapping("")
+    public long postNewPlayer(
             @RequestBody AddPlayerRequestDTO uDTO) {
-        Player u = userService.createUser(uDTO.userName());
+        Player u = playerService.createPlayer(uDTO.userName());
 
         return u.getId();
     }
 
     // GET localhost:8080/api/player?id=12 | {}
     @GetMapping("/{id}")
-    public GetPlayerResponseDTO getUser(
+    public GetPlayerResponseDTO getPlayer(
             @PathVariable("id") long id) {
-        Player player = userService.findUserById(id);
+        Player player = playerService.findPlayerById(id);
         return GetPlayerResponseDTO.from(player);
     }
 
     // DEL localhost:8080/api/player?id=12 | {}
     @DeleteMapping("/{id}")
-    public void delUser(
+    public void delPlayer(
             @PathVariable("id") long id) {
 
-        userService.deleteUser(id);
+        playerService.deletePlayer(id);
     }
 }

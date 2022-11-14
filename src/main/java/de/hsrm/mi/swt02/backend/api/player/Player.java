@@ -1,4 +1,4 @@
-package de.hsrm.mi.swt02.backend.api.user;
+package de.hsrm.mi.swt02.backend.api.player;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

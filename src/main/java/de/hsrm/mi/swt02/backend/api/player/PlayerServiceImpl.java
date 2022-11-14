@@ -1,4 +1,4 @@
-package de.hsrm.mi.swt02.backend.api.user;
+package de.hsrm.mi.swt02.backend.api.player;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,29 +13,29 @@ public class PlayerServiceImpl implements PlayerService {
     PlayerRepository uRepo;
 
     @Override
-    public List<Player> findAllUsers() {
+    public List<Player> findAllPlayers() {
         return uRepo.findAll();
     }
 
     @Override
-    public Player findUserById(long id) {
+    public Player findPlayerById(long id) {
 
-        Optional<Player> user = uRepo.findById(id);
+        Optional<Player> player = uRepo.findById(id);
 
-        if (user.isEmpty()) {
+        if (player.isEmpty()) {
             // logger
         }
-        return user.get();
+        return player.get();
     }
 
     @Override
-    public void deleteUser(long id) {
+    public void deletePlayer(long id) {
 
         uRepo.deleteById(id);
     }
 
     @Override
-    public Player createUser(String userName) {
+    public Player createPlayer(String userName) {
 
         return uRepo.save(new Player(userName));
     }
