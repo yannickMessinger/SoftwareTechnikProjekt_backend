@@ -27,39 +27,37 @@ public class LobbyRestController {
     private LobbyServiceImpl lobbyService;
 
 
-    @GetMapping("")
-    public ResponseEntity<GetLobbyResponseDTO> getID() {
-        GetLobbyResponseDTO test = GetLobbyResponseDTO.from(new Lobby());
-        return new ResponseEntity<>(test, HttpStatus.OK);
-    }
+   
 
-    // @GetMapping("")
-    // public List<GetLobbyResponseDTO> getAllLobbys() {
-    //     List<GetLobbyResponseDTO> lobbyDTOs = new ArrayList<GetLobbyResponseDTO>(
-    //         lobbyService.findAllLobbys()
-    //                     .stream()
-    //                     .map(GetLobbyResponseDTO::from)
-    //                     .toList());
-    //     return lobbyDTOs;
-    // }
+     @GetMapping("")
+        public ResponseEntity<List<GetLobbyResponseDTO>> getAllLobbys() {
+        List<GetLobbyResponseDTO> lobbyDTOs = new ArrayList<GetLobbyResponseDTO>(
+            lobbyService.findAllLobbys()
+                        .stream()
+                       .map(GetLobbyResponseDTO::from)
+                       .toList());
+            return new ResponseEntity <>(lobbyDTOs, HttpStatus.OK);
+     }
 
 
     @GetMapping("/{id}")
-    public GetLobbyResponseDTO getSingleLobby(@PathVariable("id") long id){
-        return GetLobbyResponseDTO.from(lobbyService.findLobbyById(id));
+    public ResponseEntity<GetLobbyResponseDTO> getSingleLobby(@PathVariable("id") long id){
+        GetLobbyResponseDTO lobby = GetLobbyResponseDTO.from(lobbyService.findLobbyById(id));
+        return new ResponseEntity<>(lobby, HttpStatus.OK);
     }
 
     @PostMapping("")
-    public long postNewLobby(@RequestBody Lobby lobby){
+    public ResponseEntity<Long> postNewLobby(@RequestBody Lobby lobby){
 
-        return lobbyService.createLobby(lobby.getLobbyName());
+        return new ResponseEntity<>(lobbyService.createLobby(lobby.getLobbyName()), HttpStatus.OK);
 
     }
 
 
     @DeleteMapping("/{id}")
-    public void deleteLobby(@PathVariable("id") long id){
+    public ResponseEntity<HttpStatus> deleteLobby(@PathVariable("id") long id){
         lobbyService.deleteLobby(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
