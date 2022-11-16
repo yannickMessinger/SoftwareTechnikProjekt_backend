@@ -1,5 +1,7 @@
 package de.hsrm.mi.swt02.backend.api.player;
 
+import de.hsrm.mi.swt02.backend.api.player.dtos.AddPlayerRequestDTO;
+import de.hsrm.mi.swt02.backend.api.player.dtos.GetPlayerResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
