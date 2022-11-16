@@ -23,7 +23,7 @@ public class Lobby {
 
     private String lobbyName;
     private int numOfPlayers;
-    private LobbyState lobbyState;
+    private LobbyMode lobbyState;
     
     //add relations
     @OneToMany(mappedBy = "lobby")
@@ -33,7 +33,7 @@ public class Lobby {
     public Lobby(){
         this.lobbyName = "";
         this.numOfPlayers = 0;
-        this.lobbyState = LobbyState.BUILD_MODE;
+        this.lobbyState = LobbyMode.BUILD_MODE;
         this.playerList = new ArrayList<Player>();
     }
 
@@ -78,12 +78,12 @@ public class Lobby {
     }
 
 
-    public LobbyState getLobbyState() {
+    public LobbyMode getLobbyState() {
         return lobbyState;
     }
 
 
-    public void setLobbyState(LobbyState lobbyState) {
+    public void setLobbyState(LobbyMode lobbyState) {
         this.lobbyState = lobbyState;
     }
 
