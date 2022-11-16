@@ -51,11 +51,11 @@ public class LobbyRestController {
     @PostMapping("")
     public ResponseEntity<Long> postNewLobby(
             @Schema(description = "Lobby Dto",
-                    defaultValue =  "{\n" +
-                                    "  \"lobbyName\": \"Default Lobby\",\n" +
-                                    "  \"numOfPlayers\": \"1\",\n" +
-                                    "  \"lobbyState\": \"BUILD_MODE\"\n" +
-                                    "}",
+                    defaultValue =  "{ " +
+                                    "  lobbyName: Default Lobby," +
+                                    "  numOfPlayers: 1," +
+                                    "  lobbyState: BUILD_MODE" +
+                                    " }",
                     required = true)
             @RequestBody Lobby lobby) {
 
