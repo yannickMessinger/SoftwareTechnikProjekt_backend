@@ -6,4 +6,6 @@ public interface LobbyService {
     List<Lobby> findAllLobbys();
     Lobby findLobbyById(long id);
     void deleteLobby(long id);
+    long createLobby(String lobbyName);
+    void updateLobby(long id);
 }
