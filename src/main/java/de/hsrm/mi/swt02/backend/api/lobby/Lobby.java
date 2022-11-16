@@ -1,6 +1,7 @@
 package de.hsrm.mi.swt02.backend.api.lobby;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,7 +28,7 @@ public class Lobby {
     
     //add relations
     @OneToMany(mappedBy = "lobby")
-    private ArrayList<Player> playerList;
+    private List<Player> playerList;
 
 
     public Lobby(){
@@ -87,21 +88,23 @@ public class Lobby {
         this.lobbyState = lobbyState;
     }
 
-
-    public ArrayList<Player> getPlayerList() {
+    
+    public List<Player> getPlayerList() {
         return playerList;
     }
 
-
+    
     public void setPlayerList(ArrayList<Player> playerList) {
         this.playerList = playerList;
     }
 
+    
     public void addPlayerToPlayerlist(Player addPlayer){
         this.playerList.add(addPlayer);
 
     }
 
+    
     public void removePlayerFromPlayerList(Player removePlayer){
             this.playerList.remove(removePlayer);
     }
