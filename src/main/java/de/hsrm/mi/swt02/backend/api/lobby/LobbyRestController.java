@@ -60,7 +60,7 @@ public class LobbyRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
+    //Todo: match DTO's with DTO's from frontend!
     @PutMapping("/{id}")
     public void updateLobby(
 

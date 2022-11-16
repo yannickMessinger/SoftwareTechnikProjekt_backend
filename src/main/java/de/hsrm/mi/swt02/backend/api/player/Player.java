@@ -3,7 +3,11 @@ package de.hsrm.mi.swt02.backend.api.player;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Version;
+
+import de.hsrm.mi.swt02.backend.api.lobby.Lobby;
+
 import java.util.Objects;
 
 @Entity
@@ -17,6 +21,9 @@ public class Player {
     private long version;
 
     private String userName;
+
+    @ManyToOne
+    private Lobby lobby;
 
     public Player(String userName) {
         this.userName = userName;
