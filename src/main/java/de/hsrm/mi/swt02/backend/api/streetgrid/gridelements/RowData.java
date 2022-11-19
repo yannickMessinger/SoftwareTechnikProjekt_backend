@@ -3,7 +3,7 @@ package de.hsrm.mi.swt02.backend.api.streetgrid.gridelements;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RowData {
+public class RowData{
     
     private List<ColumnData> columnData;
 

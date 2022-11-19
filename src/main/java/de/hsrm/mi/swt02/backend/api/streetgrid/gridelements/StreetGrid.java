@@ -9,6 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Version;
 
+import de.hsrm.mi.swt02.backend.api.streetgrid.dtos.AddColumnDataDTO;
+import de.hsrm.mi.swt02.backend.api.streetgrid.dtos.AddStreetGridRequestDTO;
+
 //@Entity
 public class StreetGrid {
     
@@ -22,19 +25,25 @@ public class StreetGrid {
     private String mapname;
 
 
-    private List<ArrayList> gridData;
+    private List<List<ColumnData>> gridData;
 
 
     public StreetGrid(){
         this.mapname= "testMap";
-        this. gridData = new ArrayList<ArrayList>();
+        this. gridData = new ArrayList<List<ColumnData>>();
 
     }
 
-    public void parseStreetData(Object dto){
-        List<ArrayList> parseList = (List<ArrayList>)dto;
-        
-        }
+
+    public List<List<ColumnData>> getGridData() {
+        return gridData;
     }
 
 
+    public void setGridData(List<List<ColumnData>> gridData) {
+        this.gridData = gridData;
+    }
+
+    
+
+}
