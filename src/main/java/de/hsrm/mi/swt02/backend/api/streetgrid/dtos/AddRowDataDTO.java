@@ -4,8 +4,4 @@ import de.hsrm.mi.swt02.backend.api.streetgrid.gridelements.ColumnData;
 
 import java.util.List;
 
-public class AddRowDataDTO {
-
-    private List<AddColumnDataDTO> columnData;
-
-}
+public record AddRowDataDTO(List<AddColumnDataDTO> columnData) {}

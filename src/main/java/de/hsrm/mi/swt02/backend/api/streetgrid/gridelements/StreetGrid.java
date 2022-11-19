@@ -1,6 +1,7 @@
 package de.hsrm.mi.swt02.backend.api.streetgrid.gridelements;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -21,17 +22,19 @@ public class StreetGrid {
     private String mapname;
 
 
-    private List<RowData> gridData;
+    private List<ArrayList> gridData;
 
 
     public StreetGrid(){
         this.mapname= "testMap";
-        this. gridData = new ArrayList<RowData>();
+        this. gridData = new ArrayList<ArrayList>();
 
     }
 
-    public void parseStreetData(){
+    public void parseStreetData(Object dto){
+        List<ArrayList> parseList = (List<ArrayList>)dto;
         
+        }
     }
 
-}
+

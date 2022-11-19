@@ -4,8 +4,8 @@ import de.hsrm.mi.swt02.backend.api.streetgrid.gridelements.RowData;
 
 import java.util.List;
 
-public class AddStreetGridRequestDTO {
+public record AddStreetGridRequestDTO(List<AddRowDataDTO> playerGrid){}
 
-    private List<AddRowDataDTO> gridData;
+    
 
-}
+
