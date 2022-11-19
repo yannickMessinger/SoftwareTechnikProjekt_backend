@@ -49,7 +49,7 @@ public class LobbyRestController {
     @PostMapping("")
     public ResponseEntity<Long> postNewLobby(@RequestBody Lobby lobby){
 
-        return new ResponseEntity<>(lobbyService.createLobby(lobby.getLobbyName()), HttpStatus.OK);
+        return new ResponseEntity<>(lobbyService.createLobby(lobby.getLobbyName(), lobby.getNumOfPlayers(), lobby.getLobbyMode()), HttpStatus.OK);
 
     }
 

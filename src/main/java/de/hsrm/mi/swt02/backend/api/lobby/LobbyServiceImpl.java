@@ -50,10 +50,11 @@ public class LobbyServiceImpl implements LobbyService {
     }
 
     @Override
-    public long createLobby(String lobbyname) {
+    public long createLobby(String lobbyname, int numOfPlayers, LobbyMode lobbymode) {
        
-        Lobby createLobby = new Lobby();
-        createLobby.setLobbyName(lobbyname);
+        Lobby createLobby = new Lobby(lobbyname,numOfPlayers,lobbymode);
+
+       
 
         return lobbyRepository.save(createLobby).getId();
     }

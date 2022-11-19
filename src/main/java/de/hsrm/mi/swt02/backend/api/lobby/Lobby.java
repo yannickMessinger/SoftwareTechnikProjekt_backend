@@ -24,7 +24,7 @@ public class Lobby {
 
     private String lobbyName;
     private int numOfPlayers;
-    private LobbyMode lobbyState;
+    private LobbyMode lobbyMode;
     
     //add relations
     @OneToMany(mappedBy = "lobby")
@@ -34,7 +34,15 @@ public class Lobby {
     public Lobby(){
         this.lobbyName = "";
         this.numOfPlayers = 0;
-        this.lobbyState = LobbyMode.BUILD_MODE;
+        this.lobbyMode = LobbyMode.BUILD_MODE;
+        this.playerList = new ArrayList<Player>();
+    }
+
+
+    public Lobby(String lobbyName, int numOfPlayers,LobbyMode lobbyMode){
+        this.lobbyName = lobbyName;
+        this.lobbyMode = lobbyMode;
+        this.numOfPlayers = numOfPlayers;
         this.playerList = new ArrayList<Player>();
     }
 
@@ -79,13 +87,13 @@ public class Lobby {
     }
 
 
-    public LobbyMode getLobbyState() {
-        return lobbyState;
+    public LobbyMode getLobbyMode() {
+        return lobbyMode;
     }
 
 
-    public void setLobbyState(LobbyMode lobbyState) {
-        this.lobbyState = lobbyState;
+    public void setLobbyMode(LobbyMode lobbyMode) {
+        this.lobbyMode = lobbyMode;
     }
 
     
@@ -118,7 +126,7 @@ public class Lobby {
         result = prime * result + (int) (version ^ (version >>> 32));
         result = prime * result + ((lobbyName == null) ? 0 : lobbyName.hashCode());
         result = prime * result + numOfPlayers;
-        result = prime * result + ((lobbyState == null) ? 0 : lobbyState.hashCode());
+        result = prime * result + ((lobbyMode == null) ? 0 : lobbyMode.hashCode());
         result = prime * result + ((playerList == null) ? 0 : playerList.hashCode());
         return result;
     }
@@ -144,7 +152,7 @@ public class Lobby {
             return false;
         if (numOfPlayers != other.numOfPlayers)
             return false;
-        if (lobbyState != other.lobbyState)
+        if (lobbyMode != other.lobbyMode)
             return false;
         if (playerList == null) {
             if (other.playerList != null)
@@ -157,7 +165,7 @@ public class Lobby {
 
     @Override
     public String toString() {
-        return "Lobby [lobbyName=" + lobbyName + ", numOfPlayers=" + numOfPlayers + ", lobbyState=" + lobbyState + "]";
+        return "Lobby [lobbyName=" + lobbyName + ", numOfPlayers=" + numOfPlayers + ", lobbyState=" + lobbyMode + "]";
     }
 
 

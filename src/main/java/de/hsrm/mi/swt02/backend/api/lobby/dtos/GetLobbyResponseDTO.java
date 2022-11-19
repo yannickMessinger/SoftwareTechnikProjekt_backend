@@ -1,14 +1,17 @@
 package de.hsrm.mi.swt02.backend.api.lobby.dtos;
 
 import de.hsrm.mi.swt02.backend.api.lobby.Lobby;
+import de.hsrm.mi.swt02.backend.api.lobby.LobbyMode;
 
-public record GetLobbyResponseDTO(long lobbyID, String lobbyName){
+public record GetLobbyResponseDTO(String lobbyName, int numOfPlayers, LobbyMode lobbyMode){
     
 
     public static GetLobbyResponseDTO from (Lobby lobby) {
         return new GetLobbyResponseDTO(
-            lobby.getId(),
-             lobby.getLobbyName()
+            lobby.getLobbyName(),
+            lobby.getNumOfPlayers(),
+            lobby.getLobbyMode()
+             
         );
     }
 }
