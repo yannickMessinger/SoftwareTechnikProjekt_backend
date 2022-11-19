@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class StreetgridRestController {
 
     private StreetGrid grid;
-
+    
     @PostMapping("")
-    public  ResponseEntity<HttpStatus> postNewStreetGrid(@RequestBody Object dto){
+    public  ResponseEntity<HttpStatus> postNewStreetGrid(@RequestBody AddStreetGridRequestDTO dto){
         //ma schauen was vom frontend ankimmt
-        this.grid = new StreetGrid();
-        grid.parseStreetData(dto);
+        // this.grid = new StreetGrid();
+        // grid.parseStreetData(dto);
         
         return new ResponseEntity<>(HttpStatus.OK);
 

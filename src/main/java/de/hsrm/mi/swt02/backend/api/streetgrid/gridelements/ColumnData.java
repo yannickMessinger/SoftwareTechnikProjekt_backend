@@ -6,9 +6,13 @@ public class ColumnData {
     private int posY;
     private String texture;
 
+    public ColumnData() {
+        this.posX = 0;
+        this.posY = 0;
+        this.texture = "";
+    }
 
     public ColumnData(int posX, int posY, String texture){
-        
         this.posX = posX;
         this.posY = posY;
         this.texture = texture;
