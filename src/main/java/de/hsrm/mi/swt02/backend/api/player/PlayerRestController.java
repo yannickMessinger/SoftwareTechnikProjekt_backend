@@ -23,8 +23,7 @@ public class PlayerRestController {
 
     @Operation(summary = "Get all registered users")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found users")
-    })
+            @ApiResponse(responseCode = "200", description = "Found users")})
     @GetMapping("")
     public ResponseEntity<List<GetPlayerResponseDTO>> getAllPlayers() {
         List<GetPlayerResponseDTO> uDTOs = new ArrayList<>(
@@ -38,11 +37,10 @@ public class PlayerRestController {
     @Operation(summary = "Posting a new user to the DB")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User was created"),
-            @ApiResponse(responseCode = "400", description = "User JSON wrong syntax")
-    })
+            @ApiResponse(responseCode = "400", description = "User JSON wrong syntax")})
     @PostMapping("")
     public ResponseEntity<Long> postNewPlayer(
-            @Schema(description = "User name", defaultValue = "Josef Weitz")
+            @Schema(description = "User Dto (userName: '')", defaultValue = "Josef Weitz", required = true)
             @RequestBody AddPlayerRequestDTO uDTO) {
         Player u = playerService.createPlayer(uDTO.userName());
 
@@ -52,24 +50,22 @@ public class PlayerRestController {
     @Operation(summary = "Get user by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User was created"),
-            @ApiResponse(responseCode = "500", description = "User was not found and threw Exception internally")
-    })
+            @ApiResponse(responseCode = "500", description = "User was not found and threw Exception internally")})
     @GetMapping("/{id}")
     public ResponseEntity<GetPlayerResponseDTO> getPlayer(
-            @Schema(description = "User ID", defaultValue = "1")
+            @Schema(description = "User ID", defaultValue = "1", required = true)
             @PathVariable("id") long id) {
         Player player = playerService.findPlayerById(id);
-        return new ResponseEntity<>(GetPlayerResponseDTO.from(player), HttpStatus.OK) ;
+        return new ResponseEntity<>(GetPlayerResponseDTO.from(player), HttpStatus.OK);
     }
 
     @Operation(summary = "Delete user by given ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User was deleted"),
-            @ApiResponse(responseCode = "500", description = "User was not found and threw Exception internally")
-    })
+            @ApiResponse(responseCode = "500", description = "User was not found and threw Exception internally")})
     @DeleteMapping("/{id}")
     public void delPlayer(
-            @Schema(description = "User ID", defaultValue = "1")
+            @Schema(description = "User ID", defaultValue = "1", required = true)
             @PathVariable("id") long id) {
 
         playerService.deletePlayer(id);
