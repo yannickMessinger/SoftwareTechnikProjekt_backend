@@ -27,8 +27,6 @@ public class LobbyRestController {
     private LobbyServiceImpl lobbyService;
 
 
-   
-
      @GetMapping("")
         public ResponseEntity<List<GetLobbyResponseDTO>> getAllLobbys() {
         List<GetLobbyResponseDTO> lobbyDTOs = new ArrayList<GetLobbyResponseDTO>(

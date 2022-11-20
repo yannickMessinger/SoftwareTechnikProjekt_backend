@@ -28,6 +28,7 @@ public class StreetgridRestController {
     public ResponseEntity<HttpStatus> postNewStreetGrid(@RequestBody String gridDataString) {
         logger.info(gridDataString);
         gridService.saveStreetGrid(gridDataString);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -37,8 +38,23 @@ public class StreetgridRestController {
             @ApiResponse(responseCode = "500", description = "StreetGrid was not found and threw Exception internally")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<String> getStreetGrid(@PathVariable long id) {
+    public ResponseEntity<String> getStreetGridById(@PathVariable long id) {
         return new ResponseEntity<>(gridService.getStreetGridById(id).getGridData(), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get StreetGrid by LobbyId")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "StreetGrid was found by LobbyId"),
+            @ApiResponse(responseCode = "500", description = "StreetGrid was not found by LobbyId and threw Exception internally")
+    })
+    @GetMapping("/lobby/{id}")
+    public ResponseEntity<String> getStreetGridByLobbyId(@PathVariable long id) {
+        return new ResponseEntity<>(gridService.getStreetGridByLobbyId(id).getGridData(), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteStreetGrid(@PathVariable("id") long id){
+        gridService.deleteStreetGridById(id);
     }
 }
 
