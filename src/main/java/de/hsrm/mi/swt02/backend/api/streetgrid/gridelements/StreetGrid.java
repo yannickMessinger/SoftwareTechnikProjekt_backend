@@ -1,20 +1,12 @@
 package de.hsrm.mi.swt02.backend.api.streetgrid.gridelements;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Version;
+import java.util.Objects;
+import javax.persistence.*;
 
-import de.hsrm.mi.swt02.backend.api.streetgrid.dtos.AddColumnDataDTO;
-import de.hsrm.mi.swt02.backend.api.streetgrid.dtos.AddStreetGridRequestDTO;
-
-//@Entity
+@Entity
 public class StreetGrid {
-    
+
     @Id
     @GeneratedValue
     private long id;
@@ -22,28 +14,35 @@ public class StreetGrid {
     @Version
     private long version;
 
-    private String mapname;
+    @Column(columnDefinition = "TEXT")
+    private String gridData;
 
-
-    private List<List<ColumnData>> gridData;
-
-
-    public StreetGrid(){
-        this.mapname= "testMap";
-        this. gridData = new ArrayList<List<ColumnData>>();
-
-    }
-
-
-    public List<List<ColumnData>> getGridData() {
-        return gridData;
-    }
-
-
-    public void setGridData(List<List<ColumnData>> gridData) {
+    public StreetGrid(String gridData) {
         this.gridData = gridData;
     }
 
-    
+    public StreetGrid() {
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StreetGrid that = (StreetGrid) o;
+        return id == that.id && version == that.version && gridData.equals(that.gridData);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, version, gridData);
+    }
+
+    public String getGridData() {
+        return gridData;
+    }
+
+    public void setGridData(String gridData) {
+        this.gridData = gridData;
+    }
 }

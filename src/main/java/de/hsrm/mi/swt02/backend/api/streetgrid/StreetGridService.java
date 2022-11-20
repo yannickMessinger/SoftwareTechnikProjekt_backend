@@ -1,7 +1,7 @@
 package de.hsrm.mi.swt02.backend.api.streetgrid;
 
-import de.hsrm.mi.swt02.backend.api.streetgrid.dtos.AddStreetGridRequestDTO;
+import de.hsrm.mi.swt02.backend.api.streetgrid.gridelements.StreetGrid;
 
 public interface StreetGridService {
-    long createStreetGrid(String gridName, AddStreetGridRequestDTO dto);
+    StreetGrid saveStreetGrid(String gridData);
 }
