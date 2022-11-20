@@ -1,6 +1,11 @@
 package de.hsrm.mi.swt02.backend.api.streetgrid.gridelements;
 
 
+import de.hsrm.mi.swt02.backend.api.lobby.Lobby;
+import de.hsrm.mi.swt02.backend.api.player.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.*;
 
@@ -17,9 +22,17 @@ public class StreetGrid {
     @Column(columnDefinition = "TEXT")
     private String gridData;
 
+    @OneToMany(mappedBy = "streetGrid")
+    public List<Player> players;
+
+    @OneToOne(mappedBy = "streetGrid")
+    public Lobby lobby;
+
     public StreetGrid(String gridData) {
+        this.players = new ArrayList<>();
         this.gridData = gridData;
     }
+
 
     public StreetGrid() {
 
@@ -44,5 +57,21 @@ public class StreetGrid {
 
     public void setGridData(String gridData) {
         this.gridData = gridData;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
+
+    public Lobby getLobby() {
+        return lobby;
+    }
+
+    public void setLobby(Lobby lobby) {
+        this.lobby = lobby;
     }
 }

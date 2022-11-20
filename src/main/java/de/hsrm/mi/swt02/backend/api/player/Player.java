@@ -7,6 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 
 import de.hsrm.mi.swt02.backend.api.lobby.Lobby;
+import de.hsrm.mi.swt02.backend.api.streetgrid.gridelements.StreetGrid;
 
 import java.util.Objects;
 
@@ -24,6 +25,9 @@ public class Player {
 
     @ManyToOne
     private Lobby lobby;
+
+    @ManyToOne
+    private StreetGrid streetGrid;
 
     public Player(String userName) {
         this.userName = userName;
@@ -76,5 +80,21 @@ public class Player {
     @Override
     public int hashCode() {
         return Objects.hash(id, version, userName);
+    }
+
+    public Lobby getLobby() {
+        return lobby;
+    }
+
+    public void setLobby(Lobby lobby) {
+        this.lobby = lobby;
+    }
+
+    public StreetGrid getStreetGrid() {
+        return streetGrid;
+    }
+
+    public void setStreetGrid(StreetGrid streetGrid) {
+        this.streetGrid = streetGrid;
     }
 }
