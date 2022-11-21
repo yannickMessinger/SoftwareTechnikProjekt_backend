@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.hsrm.mi.swt02.backend.api.streetgrid.streetConstructionKit.dtos.GetStreetConstructionKitResponseDTO;
-import de.hsrm.mi.swt02.backend.api.streetgrid.streetConstructionKit.dtos.StreetConstructionKitDTO;
+import de.hsrm.mi.swt02.backend.api.streetgrid.streetConstructionKit.dtos.AddStreetConstructionKitRequestDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,7 @@ public class StreetConstructionKitRestController {
 
 
     @PostMapping("")
-    public ResponseEntity<Long> postNewLobby(@RequestBody StreetConstructionKitDTO kit){
+    public ResponseEntity<Long> postNewLobby(@RequestBody AddStreetConstructionKitRequestDTO kit){
 
         return new ResponseEntity<>(streetService.createStreetConstructionKit(), HttpStatus.OK);
 
