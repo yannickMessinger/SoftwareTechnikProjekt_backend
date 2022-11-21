@@ -26,7 +26,6 @@ import org.springframework.test.web.servlet.MvcResult;
 @AutoConfigureMockMvc
 public class PlayerRestControllerTest {
 
-    //Injection works - IntelliJ bug?
     @Autowired
     private MockMvc mockmvc;
 
