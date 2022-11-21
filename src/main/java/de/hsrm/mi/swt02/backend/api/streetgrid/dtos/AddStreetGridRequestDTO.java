@@ -7,6 +7,5 @@ import java.util.ArrayList;
 import java.util.List;
 
 public record AddStreetGridRequestDTO(
-    List<List<ColumnData>> playerGrid,
-    String errorMsg
+    
 ){}
