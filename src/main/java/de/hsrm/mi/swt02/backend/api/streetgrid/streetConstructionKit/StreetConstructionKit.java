@@ -13,8 +13,8 @@ public class StreetConstructionKit {
     @Version
     private long version;
 
-    private String Object_ID; 
-    private String Object_Name; 
+    private String object_ID; 
+    private String object_Name; 
     private String img;
     private String type;
     private String rotatable;
@@ -27,8 +27,8 @@ public class StreetConstructionKit {
 
 
     public StreetConstructionKit(String object_ID, String object_Name, String img, String type, String rotatable) {
-        Object_ID = object_ID;
-        Object_Name = object_Name;
+        this.object_ID = object_ID;
+        this.object_Name = object_Name;
         this.img = img;
         this.type = type;
         this.rotatable = rotatable;
@@ -37,13 +37,13 @@ public class StreetConstructionKit {
 
 
     public String getObject_ID() {
-        return Object_ID;
+        return object_ID;
     }
 
 
 
     public String getObject_Name() {
-        return Object_Name;
+        return object_Name;
     }
 
 
@@ -64,6 +64,14 @@ public class StreetConstructionKit {
         return rotatable;
     }
 
+    
+
+
+
+    public long getId() {
+        return id;
+    }
+
 
 
     @Override
@@ -72,8 +80,8 @@ public class StreetConstructionKit {
         int result = 1;
         result = prime * result + (int) (id ^ (id >>> 32));
         result = prime * result + (int) (version ^ (version >>> 32));
-        result = prime * result + ((Object_ID == null) ? 0 : Object_ID.hashCode());
-        result = prime * result + ((Object_Name == null) ? 0 : Object_Name.hashCode());
+        result = prime * result + ((object_ID == null) ? 0 : object_ID.hashCode());
+        result = prime * result + ((object_Name == null) ? 0 : object_Name.hashCode());
         result = prime * result + ((img == null) ? 0 : img.hashCode());
         result = prime * result + ((type == null) ? 0 : type.hashCode());
         result = prime * result + ((rotatable == null) ? 0 : rotatable.hashCode());
@@ -95,15 +103,15 @@ public class StreetConstructionKit {
             return false;
         if (version != other.version)
             return false;
-        if (Object_ID == null) {
-            if (other.Object_ID != null)
+        if (object_ID == null) {
+            if (other.object_ID != null)
                 return false;
-        } else if (!Object_ID.equals(other.Object_ID))
+        } else if (!object_ID.equals(other.object_ID))
             return false;
-        if (Object_Name == null) {
-            if (other.Object_Name != null)
+        if (object_Name == null) {
+            if (other.object_Name != null)
                 return false;
-        } else if (!Object_Name.equals(other.Object_Name))
+        } else if (!object_Name.equals(other.object_Name))
             return false;
         if (img == null) {
             if (other.img != null)
@@ -127,7 +135,7 @@ public class StreetConstructionKit {
 
     @Override
     public String toString() {
-        return "StreetConstructionKit [Object_ID=" + Object_ID + ", Object_Name=" + Object_Name + "]";
+        return "StreetConstructionKit [Object_ID=" + object_ID + ", Object_Name=" + object_Name + "]";
     }
 
     
