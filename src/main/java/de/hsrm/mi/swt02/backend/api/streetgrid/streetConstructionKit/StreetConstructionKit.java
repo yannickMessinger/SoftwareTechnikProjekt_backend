@@ -2,11 +2,13 @@ package de.hsrm.mi.swt02.backend.api.streetgrid.streetConstructionKit;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Version;
 
 @Entity
 public class StreetConstructionKit {
     
+    @Id
     @GeneratedValue
     private long id;
 
