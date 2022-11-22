@@ -91,12 +91,7 @@ public class Lobby {
         return playerList;
     }
 
-    
-    public void setPlayerList(ArrayList<Player> playerList) {
-        this.playerList = playerList;
-    }
 
-    
     public void addPlayerToPlayerlist(Player addPlayer){
         this.playerList.add(addPlayer);
 
