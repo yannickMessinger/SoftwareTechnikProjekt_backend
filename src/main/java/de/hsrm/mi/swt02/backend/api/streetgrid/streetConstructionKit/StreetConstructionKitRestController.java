@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.hsrm.mi.swt02.backend.api.streetgrid.streetConstructionKit.dtos.GetStreetConstructionKitResponseDTO;
+import de.hsrm.mi.swt02.backend.api.streetgrid.streetConstructionKit.dtos.AddMultipleStreetConstructionKitsRequestDTO;
 import de.hsrm.mi.swt02.backend.api.streetgrid.streetConstructionKit.dtos.AddStreetConstructionKitRequestDTO;
 
 import java.util.ArrayList;
@@ -47,15 +48,25 @@ public class StreetConstructionKitRestController {
 
 
     @PostMapping("")
-    public ResponseEntity<Long> postNewLobby(@RequestBody AddStreetConstructionKitRequestDTO kit){
+    public ResponseEntity<Long> postNewConstructionKit(@RequestBody AddStreetConstructionKitRequestDTO kit){
+
+        return new ResponseEntity<>(streetService.createStreetConstructionKit(), HttpStatus.OK);
+
+    }
+
+    @PostMapping("/multiplekits")
+    public ResponseEntity<Long> postMultipleConstructionKits(@RequestBody AddMultipleStreetConstructionKitsRequestDTO kits){
+
+        //Todo: parse multiple objects.
 
         return new ResponseEntity<>(streetService.createStreetConstructionKit(), HttpStatus.OK);
 
     }
 
 
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteLobby(@PathVariable("id") long id){
+    public ResponseEntity<HttpStatus> deleteStreetConstructionKit(@PathVariable("id") long id){
         streetService.deleteStreetConstructionKitById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
