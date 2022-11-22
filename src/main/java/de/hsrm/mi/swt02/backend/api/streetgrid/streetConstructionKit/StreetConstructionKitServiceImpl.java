@@ -4,12 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import de.hsrm.mi.swt02.backend.api.streetgrid.streetConstructionKit.dtos.AddMultipleStreetConstructionKitsRequestDTO;
 import de.hsrm.mi.swt02.backend.api.streetgrid.streetConstructionKit.dtos.AddStreetConstructionKitRequestDTO;
 
+/**
+ * Service class to manage CRUD database operations on repository for StreetConstructionKit's.
+ */
 @Service
 public class StreetConstructionKitServiceImpl implements StreetConstructionKitService{
 
@@ -17,7 +22,11 @@ public class StreetConstructionKitServiceImpl implements StreetConstructionKitSe
     private StreetConstructionKitRepository streetConstRepo;
 
 
+    /**
+     * @return  list containing all elements of repository
+     */
     @Override
+    @Transactional
     public List<StreetConstructionKit> findAllStreetConstructionKits() {
         
         Optional<List<StreetConstructionKit>> allConstructionKits = Optional.of(streetConstRepo.findAll());
@@ -30,7 +39,15 @@ public class StreetConstructionKitServiceImpl implements StreetConstructionKitSe
 
     }
 
+    /**
+     * adds incoming StreetConstructionKits from frontend to the repository. 
+     * @param kit  initial converting from JSON to regular java object from incoming Request Body in corresponding REST Controller,
+     * every Entity is saved individually.
+     * 
+     * @return returns the id of the Entity that was saved last. 
+     */
     @Override
+    @Transactional
     public Long createStreetConstructionKit(AddMultipleStreetConstructionKitsRequestDTO kit) {
         List <StreetConstructionKit> kit_list = new ArrayList<>();
         //welche ID zurück geben?
@@ -46,7 +63,13 @@ public class StreetConstructionKitServiceImpl implements StreetConstructionKitSe
         return kit_list.get(kit_list.size() - 1).getId();
     }
 
+    /**
+     * gets single StreetConstructionKit by the handed id
+     * @param id id to look for the correct object
+     * @return returns StreetConstructionKit if found
+     */
     @Override
+    @Transactional
     public StreetConstructionKit getStreetConstructionKitById(long id) {
         Optional<StreetConstructionKit> foundKit = streetConstRepo.findById(id);
 
@@ -57,7 +80,12 @@ public class StreetConstructionKitServiceImpl implements StreetConstructionKitSe
         return foundKit.get();
     }
 
+    /**
+     * deletes single StreetConstructionKit by the given id
+     * @param id id of the StreetConstructionKit to be deleted.
+     */
     @Override
+    @Transactional
     public void deleteStreetConstructionKitById(long id) {
        streetConstRepo.deleteById(id);
     

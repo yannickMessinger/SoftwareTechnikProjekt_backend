@@ -5,6 +5,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Version;
 
+/**
+ * Entity thats used to persist Elements of the StreetEditor, very similar with corresponding DTO's but with additional id
+ * and version attributes for db management
+ * @param object_ID id of the object from frontend
+ * @param object_Name name of the object, e.g. straight road tile 
+ * @param img corresponding image of the tile
+ * @param type to specifiy type of element, e.g. road, building etc.
+ * @param rotatable angle of rotation the element is in (heading).
+ */
+
 @Entity
 public class StreetConstructionKit {
     
