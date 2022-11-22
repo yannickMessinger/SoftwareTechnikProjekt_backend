@@ -48,20 +48,14 @@ public class StreetConstructionKitRestController {
 
 
     @PostMapping("")
-    public ResponseEntity<Long> postNewConstructionKit(@RequestBody AddStreetConstructionKitRequestDTO kit){
+    public ResponseEntity<Long> postNewConstructionKit(@RequestBody AddMultipleStreetConstructionKitsRequestDTO kit){
 
-        return new ResponseEntity<>(streetService.createStreetConstructionKit(), HttpStatus.OK);
-
-    }
-
-    @PostMapping("/multiplekits")
-    public ResponseEntity<Long> postMultipleConstructionKits(@RequestBody AddMultipleStreetConstructionKitsRequestDTO kits){
-
-        //Todo: parse multiple objects.
-
-        return new ResponseEntity<>(streetService.createStreetConstructionKit(), HttpStatus.OK);
+        
+    return new ResponseEntity<>(streetService.createStreetConstructionKit(kit), HttpStatus.OK);
 
     }
+
+    
 
 
 

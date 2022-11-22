@@ -154,6 +154,13 @@ public class StreetObject {
 
 
 
+
+    public long getId() {
+        return this.id;
+    }
+
+
+
     
     
 

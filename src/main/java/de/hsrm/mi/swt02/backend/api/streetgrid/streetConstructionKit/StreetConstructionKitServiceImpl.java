@@ -1,10 +1,14 @@
 package de.hsrm.mi.swt02.backend.api.streetgrid.streetConstructionKit;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import de.hsrm.mi.swt02.backend.api.streetgrid.streetConstructionKit.dtos.AddMultipleStreetConstructionKitsRequestDTO;
+import de.hsrm.mi.swt02.backend.api.streetgrid.streetConstructionKit.dtos.AddStreetConstructionKitRequestDTO;
 
 @Service
 public class StreetConstructionKitServiceImpl implements StreetConstructionKitService{
@@ -27,11 +31,19 @@ public class StreetConstructionKitServiceImpl implements StreetConstructionKitSe
     }
 
     @Override
-    public Long createStreetConstructionKit() {
-        
-        StreetConstructionKit constructionKit = new StreetConstructionKit();
+    public Long createStreetConstructionKit(AddMultipleStreetConstructionKitsRequestDTO kit) {
+        List <StreetConstructionKit> kit_list = new ArrayList<>();
+        //welche ID zurück geben?
 
-        return streetConstRepo.save(constructionKit).getId();
+        for(AddStreetConstructionKitRequestDTO ele : kit.streetkits()){
+            kit_list.add(new StreetConstructionKit(ele.object_ID(), ele.object_Name(), ele.img(), ele.type(), ele.rotatable()));
+        }
+
+        for (StreetConstructionKit ele : kit_list){
+            streetConstRepo.save(ele);
+        }
+        
+        return kit_list.get(kit_list.size() - 1).getId();
     }
 
     @Override
