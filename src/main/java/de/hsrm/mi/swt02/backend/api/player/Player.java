@@ -1,13 +1,11 @@
 package de.hsrm.mi.swt02.backend.api.player;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Version;
+import javax.persistence.*;
 
 import de.hsrm.mi.swt02.backend.api.lobby.Lobby;
+import de.hsrm.mi.swt02.backend.api.maps.Map;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -24,6 +22,9 @@ public class Player {
 
     @ManyToOne
     private Lobby lobby;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Map> maps;
 
     public Player(String userName) {
         this.userName = userName;

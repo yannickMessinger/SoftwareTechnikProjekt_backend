@@ -3,13 +3,9 @@ package de.hsrm.mi.swt02.backend.api.lobby;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Version;
+import javax.persistence.*;
 
+import de.hsrm.mi.swt02.backend.api.maps.Map;
 import de.hsrm.mi.swt02.backend.api.player.Player;
 
 @Entity
@@ -25,6 +21,9 @@ public class Lobby {
     private String lobbyName;
     private int numOfPlayers;
     private LobbyMode lobbyMode;
+
+    @ManyToOne
+    private Map map;
     
     //add relations
     @OneToMany(mappedBy = "lobby")

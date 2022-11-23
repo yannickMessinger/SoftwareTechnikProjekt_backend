@@ -1,20 +1,19 @@
 package de.hsrm.mi.swt02.backend.api.maps;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import de.hsrm.mi.swt02.backend.api.lobby.Lobby;
 import de.hsrm.mi.swt02.backend.api.player.Player;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 @Setter
 @Getter
-@EqualsAndHashCode
-@ToString
 @Entity
 public class Map {
 
@@ -29,6 +28,9 @@ public class Map {
 
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate creationDate;
+
+    @OneToMany(mappedBy = "map")
+    private List<Lobby> lobbies;
 
     @ManyToOne
     private Player owner;
@@ -49,4 +51,16 @@ public class Map {
         this.owner = owner;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Map map = (Map) o;
+        return getId() == map.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
 }
