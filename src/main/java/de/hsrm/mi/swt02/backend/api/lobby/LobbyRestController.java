@@ -50,12 +50,9 @@ public class LobbyRestController {
             @ApiResponse(responseCode = "200", description = "Posted Lobby successfully")})
     @PostMapping("")
     public ResponseEntity<Long> postNewLobby(
-            @Schema(description = "Lobby Dto",
-                    defaultValue =  "{ " +
-                                    "  lobbyName: Default Lobby," +
-                                    "  numOfPlayers: 1," +
-                                    "  lobbyState: BUILD_MODE" +
-                                    " }",
+            @Schema(
+                    implementation = Lobby.class,
+                    description = "Lobby Dto",
                     required = true)
             @RequestBody Lobby lobby) {
 
