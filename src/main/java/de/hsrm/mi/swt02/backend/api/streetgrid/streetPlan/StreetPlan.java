@@ -18,17 +18,19 @@ public class StreetPlan {
     private String lobbyName;
     private String numOfPlayers;
     private String lobbyMode;
-    private String size;
+    private String sizeX;
+    private String sizeY;
 
 
     public StreetPlan() {
     }
 
-    public StreetPlan(String lobbyName, String numOfPlayers, String lobbyMode, String size) {
+    public StreetPlan(String lobbyName, String numOfPlayers, String lobbyMode, String sizeX, String sizeY) {
         this.lobbyName = lobbyName;
         this.numOfPlayers = numOfPlayers;
         this.lobbyMode = lobbyMode;
-        this.size = size;
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
     }
 
     public String getLobbyName() {
@@ -55,12 +57,12 @@ public class StreetPlan {
         this.lobbyMode = lobbyMode;
     }
 
-    public String getSize() {
-        return size;
+    public String getSizeX() {
+        return sizeX;
     }
 
-    public void setSize(String size) {
-        this.size = size;
+    public void setSizeX(String size) {
+        this.sizeX = size;
     }
 
     public long getId() {
@@ -71,26 +73,24 @@ public class StreetPlan {
         return version;
     }
 
+    public String getSizeY() {
+        return sizeY;
+    }
+
+    public void setSizeY(String sizeY) {
+        this.sizeY = sizeY;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         StreetPlan that = (StreetPlan) o;
-        return lobbyName.equals(that.lobbyName) && numOfPlayers.equals(that.numOfPlayers) && lobbyMode.equals(that.lobbyMode) && size.equals(that.size);
+        return id == that.id && version == that.version && Objects.equals(lobbyName, that.lobbyName) && Objects.equals(numOfPlayers, that.numOfPlayers) && Objects.equals(lobbyMode, that.lobbyMode) && Objects.equals(sizeX, that.sizeX) && Objects.equals(sizeY, that.sizeY);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(lobbyName, numOfPlayers, lobbyMode, size);
-    }
-
-    @Override
-    public String toString() {
-        return "StreetPlan{" +
-                "lobbyName='" + lobbyName + '\'' +
-                ", numOfPlayers='" + numOfPlayers + '\'' +
-                ", lobbyMode='" + lobbyMode + '\'' +
-                ", size='" + size + '\'' +
-                '}';
+        return Objects.hash(id, version, lobbyName, numOfPlayers, lobbyMode, sizeX, sizeY);
     }
 }
