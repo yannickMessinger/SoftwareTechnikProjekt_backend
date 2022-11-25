@@ -1,6 +1,8 @@
 package de.hsrm.mi.swt02.backend.api.streetgrid.streetPlan;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import de.hsrm.mi.swt02.backend.api.lobby.LobbyMode;
 import de.hsrm.mi.swt02.backend.api.streetgrid.streetPlan.dtos.AddStreetPlanRequestDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.annotation.Testable;
@@ -67,7 +69,7 @@ public class StreetPlanRestControllerTest {
 
     @Test
     void getStreetPlanById() throws Exception {
-        long id = streetPlanService.saveStreetPlan(new AddStreetPlanRequestDTO("TestLobby", "3", "BUILD_MODE", "30", "20"));
+        long id = streetPlanService.saveStreetPlan(new AddStreetPlanRequestDTO("TestLobby", 3, LobbyMode.BUILD_MODE, 30, 20));
         StreetPlan testStreetPlan = streetPlanService.getStreetPlanById(id);
 
         MvcResult mock = mockmvc.perform(
@@ -87,8 +89,8 @@ public class StreetPlanRestControllerTest {
 
     @Test
     void getAllLobbiesTest() throws Exception {
-        long id0 = streetPlanService.saveStreetPlan(new AddStreetPlanRequestDTO("TestLobby", "3", "BUILD_MODE", "30", "20"));
-        long id1 = streetPlanService.saveStreetPlan(new AddStreetPlanRequestDTO("TestLobby2", "4", "BUILD_MODE", "40", "20"));
+        long id0 = streetPlanService.saveStreetPlan(new AddStreetPlanRequestDTO("TestLobby", 3, LobbyMode.BUILD_MODE, 30, 20));
+        long id1 = streetPlanService.saveStreetPlan(new AddStreetPlanRequestDTO("TestLobby2", 4, LobbyMode.BUILD_MODE, 40, 20));
 
         StreetPlan testStreetPlan0 = streetPlanService.getStreetPlanById(id0);
         StreetPlan testStreetPlan1 = streetPlanService.getStreetPlanById(id1);
@@ -115,7 +117,7 @@ public class StreetPlanRestControllerTest {
 
     @Test
     void deleteStreetPlanByID() throws Exception {
-        long id = streetPlanService.saveStreetPlan(new AddStreetPlanRequestDTO("TestLobby", "3", "BUILD_MODE", "30", "20"));
+        long id = streetPlanService.saveStreetPlan(new AddStreetPlanRequestDTO("TestLobby", 3, LobbyMode.BUILD_MODE, 30, 20));
         StreetPlan testStreetPlan = streetPlanService.getStreetPlanById(id);
 
         mockmvc.perform(

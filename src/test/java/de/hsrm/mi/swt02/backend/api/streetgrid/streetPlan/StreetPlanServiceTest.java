@@ -1,5 +1,7 @@
 package de.hsrm.mi.swt02.backend.api.streetgrid.streetPlan;
 
+import de.hsrm.mi.swt02.backend.api.lobby.Lobby;
+import de.hsrm.mi.swt02.backend.api.lobby.LobbyMode;
 import de.hsrm.mi.swt02.backend.api.streetgrid.streetPlan.dtos.AddStreetPlanRequestDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.annotation.Testable;
@@ -26,9 +28,9 @@ public class StreetPlanServiceTest {
         streetPlanRepository.deleteAll();
         List<StreetPlan> streePlanList = new ArrayList<>();
 
-        streePlanList.add(streetPlanRepository.save(new StreetPlan("TestLobby", "3", "BUILD_MODE", "30", "20")));
-        streePlanList.add(streetPlanRepository.save(new StreetPlan("TestLobby2", "2", "BUILD_MODE", "30", "60")));
-        streePlanList.add(streetPlanRepository.save(new StreetPlan("TestLobby3", "4", "BUILD_MODE", "20", "10")));
+        streePlanList.add(streetPlanRepository.save(new StreetPlan("TestLobby", 3, LobbyMode.BUILD_MODE, 30, 20)));
+        streePlanList.add(streetPlanRepository.save(new StreetPlan("TestLobby2", 2, LobbyMode.BUILD_MODE, 30, 60)));
+        streePlanList.add(streetPlanRepository.save(new StreetPlan("TestLobby3", 4, LobbyMode.BUILD_MODE, 20, 10)));
 
         return streePlanList;
     }
@@ -43,8 +45,8 @@ public class StreetPlanServiceTest {
     void createStreetPlanTest() {
         //Setup
         streetPlanRepository.deleteAll();
-        long id0 = streetPlanService.saveStreetPlan(new AddStreetPlanRequestDTO("TestLobby0", "3", "BUILD_MODE", "70", "20"));
-        long id1 = streetPlanService.saveStreetPlan(new AddStreetPlanRequestDTO("TestLobby1", "3", "BUILD_MODE", "20", "20"));
+        long id0 = streetPlanService.saveStreetPlan(new AddStreetPlanRequestDTO("TestLobby0", 3, LobbyMode.BUILD_MODE, 70, 20));
+        long id1 = streetPlanService.saveStreetPlan(new AddStreetPlanRequestDTO("TestLobby1", 3, LobbyMode.BUILD_MODE, 20, 20));
 
         //Test
         assertThat(streetPlanRepository.count()).isEqualTo(2);

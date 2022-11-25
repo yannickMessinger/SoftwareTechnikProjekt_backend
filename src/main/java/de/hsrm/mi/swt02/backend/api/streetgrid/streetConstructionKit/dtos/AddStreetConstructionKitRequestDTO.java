@@ -1,5 +1,7 @@
 package de.hsrm.mi.swt02.backend.api.streetgrid.streetConstructionKit.dtos;
 
+import de.hsrm.mi.swt02.backend.api.streetgrid.streetConstructionKit.enums.KitType;
+
 /**
  * DTO for single Element of StreetEditor from frontend, e.g. StraightRoad Tile Element
  * @param object_ID id of the object from frontend
@@ -9,6 +11,6 @@ package de.hsrm.mi.swt02.backend.api.streetgrid.streetConstructionKit.dtos;
  * @param rotatable angle of rotation the element is in (heading).
  */
 
-public record AddStreetConstructionKitRequestDTO(String object_ID, String object_Name, String img, String type, String rotatable){
+public record AddStreetConstructionKitRequestDTO(long object_ID, String object_Name, String img, KitType type, boolean rotatable){
     
 }

@@ -4,7 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Version;
-import java.util.Objects;
+
+import de.hsrm.mi.swt02.backend.api.lobby.LobbyMode;
+
+
 
 @Entity
 public class StreetPlan {
@@ -16,16 +19,16 @@ public class StreetPlan {
     private long version;
 
     private String lobbyName;
-    private String numOfPlayers;
-    private String lobbyMode;
-    private String sizeX;
-    private String sizeY;
+    private int numOfPlayers;
+    private LobbyMode lobbyMode;
+    private int sizeX;
+    private int sizeY;
 
 
     public StreetPlan() {
     }
 
-    public StreetPlan(String lobbyName, String numOfPlayers, String lobbyMode, String sizeX, String sizeY) {
+    public StreetPlan(String lobbyName, int numOfPlayers, LobbyMode lobbyMode, int sizeX, int sizeY) {
         this.lobbyName = lobbyName;
         this.numOfPlayers = numOfPlayers;
         this.lobbyMode = lobbyMode;
@@ -41,28 +44,36 @@ public class StreetPlan {
         this.lobbyName = lobbyName;
     }
 
-    public String getNumOfPlayers() {
+    public int getNumOfPlayers() {
         return numOfPlayers;
     }
 
-    public void setNumOfPlayers(String numOfPlayers) {
+    public void setNumOfPlayers(int numOfPlayers) {
         this.numOfPlayers = numOfPlayers;
     }
 
-    public String getLobbyMode() {
+    public LobbyMode getLobbyMode() {
         return lobbyMode;
     }
 
-    public void setLobbyMode(String lobbyMode) {
+    public void setLobbyMode(LobbyMode lobbyMode) {
         this.lobbyMode = lobbyMode;
     }
 
-    public String getSizeX() {
+    public int getSizeX() {
         return sizeX;
     }
 
-    public void setSizeX(String size) {
-        this.sizeX = size;
+    public void setSizeX(int sizeX) {
+        this.sizeX = sizeX;
+    }
+
+    public int getSizeY() {
+        return sizeY;
+    }
+
+    public void setSizeY(int sizeY) {
+        this.sizeY = sizeY;
     }
 
     public long getId() {
@@ -73,24 +84,52 @@ public class StreetPlan {
         return version;
     }
 
-    public String getSizeY() {
-        return sizeY;
-    }
-
-    public void setSizeY(String sizeY) {
-        this.sizeY = sizeY;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        StreetPlan that = (StreetPlan) o;
-        return id == that.id && version == that.version && Objects.equals(lobbyName, that.lobbyName) && Objects.equals(numOfPlayers, that.numOfPlayers) && Objects.equals(lobbyMode, that.lobbyMode) && Objects.equals(sizeX, that.sizeX) && Objects.equals(sizeY, that.sizeY);
-    }
-
     @Override
     public int hashCode() {
-        return Objects.hash(id, version, lobbyName, numOfPlayers, lobbyMode, sizeX, sizeY);
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((lobbyName == null) ? 0 : lobbyName.hashCode());
+        result = prime * result + numOfPlayers;
+        result = prime * result + ((lobbyMode == null) ? 0 : lobbyMode.hashCode());
+        result = prime * result + sizeX;
+        result = prime * result + sizeY;
+        return result;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        StreetPlan other = (StreetPlan) obj;
+        if (lobbyName == null) {
+            if (other.lobbyName != null)
+                return false;
+        } else if (!lobbyName.equals(other.lobbyName))
+            return false;
+        if (numOfPlayers != other.numOfPlayers)
+            return false;
+        if (lobbyMode != other.lobbyMode)
+            return false;
+        if (sizeX != other.sizeX)
+            return false;
+        if (sizeY != other.sizeY)
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "StreetPlan [lobbyName=" + lobbyName + ", numOfPlayers=" + numOfPlayers + ", lobbyMode=" + lobbyMode
+                + ", sizeX=" + sizeX + ", sizeY=" + sizeY + "]";
+    }
+
+    
+
+    
+
+    
 }

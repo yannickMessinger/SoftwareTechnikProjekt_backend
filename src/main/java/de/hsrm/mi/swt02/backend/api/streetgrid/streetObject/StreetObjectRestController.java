@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.hsrm.mi.swt02.backend.api.streetgrid.streetObject.dtos.AddMultipleStreetObjectsRequestDTO;
-import de.hsrm.mi.swt02.backend.api.streetgrid.streetObject.dtos.AddStreetObjectRequestDTO;
 import de.hsrm.mi.swt02.backend.api.streetgrid.streetObject.dtos.GetStreetObjectResponseDTO;
 
 @RestController

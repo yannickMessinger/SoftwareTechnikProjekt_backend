@@ -1,6 +1,6 @@
 package de.hsrm.mi.swt02.backend.api.streetgrid.streetPlan;
 
-import de.hsrm.mi.swt02.backend.api.streetgrid.streetObject.StreetObject;
+
 import de.hsrm.mi.swt02.backend.api.streetgrid.streetPlan.dtos.AddStreetPlanRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

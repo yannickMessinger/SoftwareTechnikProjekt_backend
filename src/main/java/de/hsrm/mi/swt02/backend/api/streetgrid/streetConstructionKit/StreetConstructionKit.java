@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Version;
 
+import de.hsrm.mi.swt02.backend.api.streetgrid.streetConstructionKit.enums.KitType;
+
 /**
  * Entity thats used to persist Elements of the StreetEditor, very similar with corresponding DTO's but with additional id
  * and version attributes for db management
@@ -25,11 +27,11 @@ public class StreetConstructionKit {
     @Version
     private long version;
 
-    private String object_ID; 
+    private long object_ID; 
     private String object_Name; 
     private String img;
-    private String type;
-    private String rotatable;
+    private KitType type;
+    private boolean rotatable;
 
 
     public StreetConstructionKit(){
@@ -38,7 +40,7 @@ public class StreetConstructionKit {
 
 
 
-    public StreetConstructionKit(String object_ID, String object_Name, String img, String type, String rotatable) {
+    public StreetConstructionKit(long object_ID, String object_Name, String img, KitType type, boolean rotatable) {
         this.object_ID = object_ID;
         this.object_Name = object_Name;
         this.img = img;
@@ -48,8 +50,14 @@ public class StreetConstructionKit {
 
 
 
-    public String getObject_ID() {
+    public long getObject_ID() {
         return object_ID;
+    }
+
+
+
+    public void setObject_ID(long object_ID) {
+        this.object_ID = object_ID;
     }
 
 
@@ -60,23 +68,45 @@ public class StreetConstructionKit {
 
 
 
+    public void setObject_Name(String object_Name) {
+        this.object_Name = object_Name;
+    }
+
+
+
     public String getImg() {
         return img;
     }
 
 
 
-    public String getType() {
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+
+
+    public KitType getKitType() {
         return type;
     }
 
 
 
-    public String getRotatable() {
+    public void setKitType(KitType type) {
+        this.type = type;
+    }
+
+
+
+    public boolean isRotatable() {
         return rotatable;
     }
 
-    
+
+
+    public void setRotatable(boolean rotatable) {
+        this.rotatable = rotatable;
+    }
 
 
 
@@ -90,13 +120,9 @@ public class StreetConstructionKit {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + (int) (id ^ (id >>> 32));
-        result = prime * result + (int) (version ^ (version >>> 32));
-        result = prime * result + ((object_ID == null) ? 0 : object_ID.hashCode());
+        result = prime * result + (int) (object_ID ^ (object_ID >>> 32));
         result = prime * result + ((object_Name == null) ? 0 : object_Name.hashCode());
-        result = prime * result + ((img == null) ? 0 : img.hashCode());
         result = prime * result + ((type == null) ? 0 : type.hashCode());
-        result = prime * result + ((rotatable == null) ? 0 : rotatable.hashCode());
         return result;
     }
 
@@ -111,34 +137,14 @@ public class StreetConstructionKit {
         if (getClass() != obj.getClass())
             return false;
         StreetConstructionKit other = (StreetConstructionKit) obj;
-        if (id != other.id)
-            return false;
-        if (version != other.version)
-            return false;
-        if (object_ID == null) {
-            if (other.object_ID != null)
-                return false;
-        } else if (!object_ID.equals(other.object_ID))
+        if (object_ID != other.object_ID)
             return false;
         if (object_Name == null) {
             if (other.object_Name != null)
                 return false;
         } else if (!object_Name.equals(other.object_Name))
             return false;
-        if (img == null) {
-            if (other.img != null)
-                return false;
-        } else if (!img.equals(other.img))
-            return false;
-        if (type == null) {
-            if (other.type != null)
-                return false;
-        } else if (!type.equals(other.type))
-            return false;
-        if (rotatable == null) {
-            if (other.rotatable != null)
-                return false;
-        } else if (!rotatable.equals(other.rotatable))
+        if (type != other.type)
             return false;
         return true;
     }
@@ -147,9 +153,14 @@ public class StreetConstructionKit {
 
     @Override
     public String toString() {
-        return "StreetConstructionKit [Object_ID=" + object_ID + ", Object_Name=" + object_Name + "]";
+        return "StreetConstructionKit [object_ID=" + object_ID + ", object_Name=" + object_Name + ", type=" + type
+                + "]";
     }
 
+
+    
+    
+    
     
 
 

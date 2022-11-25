@@ -9,7 +9,7 @@ import de.hsrm.mi.swt02.backend.api.streetgrid.streetObject.StreetObject;
  * @param y Y-Coordinate / Position in StreetGrid / MapEditor
  * @param rotation angle of rotation the element was set to.
  */
-public record GetStreetObjectResponseDTO(String object_ID, String x, String y, String rotation){
+public record GetStreetObjectResponseDTO(long object_ID, int x, int y, int rotation){
     
 
     public static GetStreetObjectResponseDTO from (StreetObject s) {

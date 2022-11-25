@@ -1,6 +1,7 @@
 package de.hsrm.mi.swt02.backend.api.streetgrid.streetConstructionKit.dtos;
 
 import de.hsrm.mi.swt02.backend.api.streetgrid.streetConstructionKit.StreetConstructionKit;
+import de.hsrm.mi.swt02.backend.api.streetgrid.streetConstructionKit.enums.KitType;
 
 /**
  * DTO to be communicate from back to frontend
@@ -10,7 +11,7 @@ import de.hsrm.mi.swt02.backend.api.streetgrid.streetConstructionKit.StreetConst
  * @param type to specifiy type of element, e.g. road, building etc.
  * @param rotatable angle of rotation the element is in (heading).
  */
-public record GetStreetConstructionKitResponseDTO(String object_ID, String object_Name, String img, String type, String rotatable){
+public record GetStreetConstructionKitResponseDTO(long object_ID, String object_Name, String img, KitType type, boolean rotatable){
     
     public static GetStreetConstructionKitResponseDTO from (StreetConstructionKit kit) {
         return new GetStreetConstructionKitResponseDTO(
@@ -18,8 +19,8 @@ public record GetStreetConstructionKitResponseDTO(String object_ID, String objec
            kit.getObject_ID(),
            kit.getObject_Name(),
            kit.getImg(),
-           kit.getType(),
-           kit.getRotatable()
+           kit.getKitType(),
+           kit.isRotatable()
         );
     }
 }

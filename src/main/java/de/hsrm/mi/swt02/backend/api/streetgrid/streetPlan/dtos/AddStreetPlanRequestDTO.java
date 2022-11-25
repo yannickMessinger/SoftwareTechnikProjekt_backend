@@ -1,5 +1,7 @@
 package de.hsrm.mi.swt02.backend.api.streetgrid.streetPlan.dtos;
 
-public record AddStreetPlanRequestDTO(String lobbyName, String numOfPlayers, String lobbyMode, String sizeX, String sizeY) {
+import de.hsrm.mi.swt02.backend.api.lobby.LobbyMode;
+
+public record AddStreetPlanRequestDTO(String lobbyName, int numOfPlayers, LobbyMode lobbyMode, int sizeX, int sizeY) {
 
 }
