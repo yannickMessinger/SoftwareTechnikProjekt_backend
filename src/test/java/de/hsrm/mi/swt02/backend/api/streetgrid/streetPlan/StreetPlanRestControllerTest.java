@@ -46,10 +46,10 @@ public class StreetPlanRestControllerTest {
     void postNewStreetPlanAndGetIDTest() throws Exception {
         Object streetPlan = new Object() {
             public final String lobbyName = "TestLobby";
-            public final String numOfPlayers = "3";
-            public final String lobbyMode = "BUILD_MODE";
-            public final String sizeX = "30";
-            public final String sizeY = "20";
+            public final int numOfPlayers = 3;
+            public final LobbyMode lobbyMode = LobbyMode.BUILD_MODE;
+            public final int sizeX = 30;
+            public final int sizeY = 20;
         };
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -78,7 +78,7 @@ public class StreetPlanRestControllerTest {
                         .characterEncoding("utf-8"))
                 .andExpect(jsonPath("$.lobbyName", is(testStreetPlan.getLobbyName())))
                 .andExpect(jsonPath("$.numOfPlayers", is(testStreetPlan.getNumOfPlayers())))
-                .andExpect(jsonPath("$.lobbyMode", is(testStreetPlan.getLobbyMode())))
+                .andExpect(jsonPath("$.lobbyMode", is(testStreetPlan.getLobbyMode().toString())))
                 .andExpect(jsonPath("$.sizeX", is(testStreetPlan.getSizeX())))
                 .andExpect(jsonPath("$.sizeY", is(testStreetPlan.getSizeY())))
                 .andReturn();
@@ -101,12 +101,12 @@ public class StreetPlanRestControllerTest {
                         .characterEncoding("utf-8"))
                 .andExpect(jsonPath("$.[0].lobbyName", is(testStreetPlan0.getLobbyName())))
                 .andExpect(jsonPath("$.[0].numOfPlayers", is(testStreetPlan0.getNumOfPlayers())))
-                .andExpect(jsonPath("$.[0].lobbyMode", is(testStreetPlan0.getLobbyMode())))
+                .andExpect(jsonPath("$.[0].lobbyMode", is(testStreetPlan0.getLobbyMode().toString())))
                 .andExpect(jsonPath("$.[0].sizeX", is(testStreetPlan0.getSizeX())))
                 .andExpect(jsonPath("$.[0].sizeY", is(testStreetPlan0.getSizeY())))
                 .andExpect(jsonPath("$.[1].lobbyName", is(testStreetPlan1.getLobbyName())))
                 .andExpect(jsonPath("$.[1].numOfPlayers", is(testStreetPlan1.getNumOfPlayers())))
-                .andExpect(jsonPath("$.[1].lobbyMode", is(testStreetPlan1.getLobbyMode())))
+                .andExpect(jsonPath("$.[1].lobbyMode", is(testStreetPlan1.getLobbyMode().toString())))
                 .andExpect(jsonPath("$.[1].sizeX", is(testStreetPlan1.getSizeX())))
                 .andExpect(jsonPath("$.[1].sizeY", is(testStreetPlan1.getSizeY())))
                 .andReturn();
