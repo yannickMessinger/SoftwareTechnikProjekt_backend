@@ -47,14 +47,8 @@ public class LobbyServiceTest {
                 LobbyMode.BUILD_MODE);
 
         // exercise
-        long lobby1ID = lobbyService.createLobby(
-                lobby1.getLobbyName(),
-                lobby1.getNumOfPlayers(),
-                lobby1.getLobbyMode());
-        long lobby2ID = lobbyService.createLobby(
-                lobby2.getLobbyName(),
-                lobby2.getNumOfPlayers(),
-                lobby2.getLobbyMode());
+        long lobby1ID = lobbyService.createLobby(lobby1);
+        long lobby2ID = lobbyService.createLobby(lobby2);
 
         // validate
         assertThat(lobbyRepository.count()).isEqualTo(2);

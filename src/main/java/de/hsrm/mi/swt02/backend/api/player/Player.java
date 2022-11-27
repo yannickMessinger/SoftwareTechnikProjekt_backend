@@ -27,22 +27,24 @@ public class Player {
     private String userName;
 
     //2: ein Player kann mehrere Lobbys hosten
+    /*
     @OneToMany(mappedBy = "host")
     private List<Lobby> hostedLobbys;
+    */
 
     @ManyToOne
     private StreetGrid streetGrid;
 
     //1: aber ein Spieler kann immer nur in einer Lobby gleichzeitig sein
-    @ManyToOne
-    private Lobby activeLobby;
+    //@ManyToOne
+    //private Lobby activeLobby;
 
 
     
     
     public Player(String userName) {
         this.userName = userName;
-        this.hostedLobbys = new ArrayList<Lobby>();
+        //this.hostedLobbys = new ArrayList<Lobby>();
     }
 
     public Player() {
@@ -94,13 +96,14 @@ public class Player {
         return Objects.hash(id, version, userName);
     }
 
+    /* 
     public Lobby getActiveLobby() {
         return activeLobby;
     }
 
     public void setActiveLobby(Lobby lobby) {
         this.activeLobby = lobby;
-    }
+    }*/
 
     public StreetGrid getStreetGrid() {
         return streetGrid;
@@ -110,6 +113,7 @@ public class Player {
         this.streetGrid = streetGrid;
     }
 
+    /* 
     public List<Lobby> getHostedLobbys() {
         return hostedLobbys;
     }
@@ -126,9 +130,10 @@ public class Player {
         this.hostedLobbys.remove(lobby);
     }
 
+     
     public boolean isHost(Lobby lobby){
         return lobby.getHostID() == this.id;
-    }
+    }*/
 
     
 }

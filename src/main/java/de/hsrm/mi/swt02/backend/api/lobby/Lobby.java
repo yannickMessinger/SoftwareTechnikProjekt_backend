@@ -24,22 +24,24 @@ public class Lobby {
     
     
     //1: eine Lobby kann viele Spieler haben
+    /* 
     @OneToMany(mappedBy = "activeLobby")
     private List<Player> playerList;
+    */
 
     @OneToOne
     private StreetGrid streetGrid;
 
     //2: aber eine Lobby kann immer nur einen Host haben
-    @ManyToOne
-    private Player host;
+    //@ManyToOne
+    //private Player host;
 
     public Lobby(){
         this.lobbyName = "";
         this.numOfPlayers = 0;
         this.lobbyMode = LobbyMode.BUILD_MODE;
-        this.playerList = new ArrayList<>();
-        this.host = new Player();
+        //this.playerList = new ArrayList<>();
+        //this.host = new Player();
         
     }
 
@@ -47,8 +49,8 @@ public class Lobby {
         this.lobbyName = lobbyname;
         this.numOfPlayers = numOfPlayers;
         this.lobbyMode = lobbyMode;
-        this.playerList = new ArrayList<>();
-        this.host = new Player();
+        //this.playerList = new ArrayList<>();
+        //this.host = new Player();
     }
 
 
@@ -85,7 +87,7 @@ public class Lobby {
         this.lobbyMode = lobbyMode;
     }
 
-    
+    /* 
     public List<Player> getPlayerList() {
         return playerList;
     }
@@ -104,6 +106,7 @@ public class Lobby {
     public void setPlayerList(List<Player> playerList) {
         this.playerList = playerList;
     }
+    */
 
     public StreetGrid getStreetGrid() {
         return streetGrid;
@@ -114,7 +117,7 @@ public class Lobby {
     }
 
 
-    public Player getHost() {
+    /*public Player getHost() {
         return host;
     }
 
@@ -130,7 +133,7 @@ public class Lobby {
     public void setHostID(long id){
         this.host.setId(id);
     }
-
+    */
    
 
 
@@ -143,7 +146,7 @@ public class Lobby {
         result = prime * result + ((lobbyName == null) ? 0 : lobbyName.hashCode());
         result = prime * result + numOfPlayers;
         result = prime * result + ((lobbyMode == null) ? 0 : lobbyMode.hashCode());
-        result = prime * result + ((playerList == null) ? 0 : playerList.hashCode());
+        //result = prime * result + ((playerList == null) ? 0 : playerList.hashCode());
         return result;
     }
 
@@ -170,11 +173,11 @@ public class Lobby {
             return false;
         if (lobbyMode != other.lobbyMode)
             return false;
-        if (playerList == null) {
-            if (other.playerList != null)
-                return false;
-        } else if (!playerList.equals(other.playerList))
-            return false;
+        //if (playerList == null) {
+            //if (other.playerList != null)
+                //return false;
+        //} else if (!playerList.equals(other.playerList))
+            //return false;
         return true;
     }
 

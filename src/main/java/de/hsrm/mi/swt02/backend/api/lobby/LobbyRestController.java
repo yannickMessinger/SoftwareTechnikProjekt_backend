@@ -59,7 +59,7 @@ public class LobbyRestController {
                     required = true)
             @RequestBody Lobby lobby) {
 
-        return new ResponseEntity<>(lobbyService.createLobby(lobby.getLobbyName(), lobby.getNumOfPlayers(), lobby.getLobbyMode()), HttpStatus.OK);
+        return new ResponseEntity<>(lobbyService.createLobby(lobby), HttpStatus.OK);
 
     }
 

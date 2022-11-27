@@ -1,5 +1,10 @@
 package de.hsrm.mi.swt02.backend.api.lobby;
 
+import java.util.List;
+import java.util.Optional;
+
+import javax.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,8 +65,8 @@ public class LobbyServiceImpl implements LobbyService {
         Lobby createLobby = new Lobby(lobby.getLobbyName(), lobby.getNumOfPlayers(), lobby.getLobbyMode());
         
         //DTO aus Frontend anpassen und PlayerID mitschicken der Lobby hosted um Host korrekt zu setzen
-        Player host = playerService.findPlayerById(lobby.getHostID());
-        createLobby.setHost(host);
+        //Player host = playerService.findPlayerById(lobby.getHostID());
+        //createLobby.setHost(host);
         //Beziehungen setzen!
         
         
