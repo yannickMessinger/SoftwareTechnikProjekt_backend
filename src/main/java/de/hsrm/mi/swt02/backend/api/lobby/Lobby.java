@@ -22,26 +22,33 @@ public class Lobby {
     private int numOfPlayers;
     private LobbyMode lobbyMode;
     
-    //add relations
-    @OneToMany(mappedBy = "lobby")
+    
+    //1: eine Lobby kann viele Spieler haben
+    @OneToMany(mappedBy = "activeLobby")
     private List<Player> playerList;
 
     @OneToOne
     private StreetGrid streetGrid;
 
+    //2: aber eine Lobby kann immer nur einen Host haben
+    @ManyToOne
+    private Player host;
+
     public Lobby(){
         this.lobbyName = "";
         this.numOfPlayers = 0;
         this.lobbyMode = LobbyMode.BUILD_MODE;
-        this.playerList = new ArrayList<Player>();
+        this.playerList = new ArrayList<>();
+        this.host = new Player();
+        
     }
 
-
-    public Lobby(String lobbyName, int numOfPlayers,LobbyMode lobbyMode){
-        this.lobbyName = lobbyName;
-        this.lobbyMode = lobbyMode;
+    public Lobby(String lobbyname, int numOfPlayers, LobbyMode lobbyMode){
+        this.lobbyName = lobbyname;
         this.numOfPlayers = numOfPlayers;
-        this.playerList = new ArrayList<Player>();
+        this.lobbyMode = lobbyMode;
+        this.playerList = new ArrayList<>();
+        this.host = new Player();
     }
 
 
@@ -93,6 +100,38 @@ public class Lobby {
     public void removePlayerFromPlayerList(Player removePlayer){
             this.playerList.remove(removePlayer);
     }
+
+    public void setPlayerList(List<Player> playerList) {
+        this.playerList = playerList;
+    }
+
+    public StreetGrid getStreetGrid() {
+        return streetGrid;
+    }
+
+    public void setStreetGrid(StreetGrid streetGrid) {
+        this.streetGrid = streetGrid;
+    }
+
+
+    public Player getHost() {
+        return host;
+    }
+
+
+    public void setHost(Player host) {
+        this.host = host;
+    }
+
+    public long getHostID(){
+        return this.host.getId();
+    }
+
+    public void setHostID(long id){
+        this.host.setId(id);
+    }
+
+   
 
 
     @Override
@@ -146,15 +185,5 @@ public class Lobby {
     }
 
 
-    public void setPlayerList(List<Player> playerList) {
-        this.playerList = playerList;
-    }
-
-    public StreetGrid getStreetGrid() {
-        return streetGrid;
-    }
-
-    public void setStreetGrid(StreetGrid streetGrid) {
-        this.streetGrid = streetGrid;
-    }
+   
 }

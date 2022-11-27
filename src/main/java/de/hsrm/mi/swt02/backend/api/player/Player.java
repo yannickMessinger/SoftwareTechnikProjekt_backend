@@ -4,11 +4,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
 import de.hsrm.mi.swt02.backend.api.lobby.Lobby;
 import de.hsrm.mi.swt02.backend.api.streetgrid.gridelements.StreetGrid;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -23,14 +26,23 @@ public class Player {
 
     private String userName;
 
-    @ManyToOne
-    private Lobby lobby;
+    //2: ein Player kann mehrere Lobbys hosten
+    @OneToMany(mappedBy = "host")
+    private List<Lobby> hostedLobbys;
 
     @ManyToOne
     private StreetGrid streetGrid;
 
+    //1: aber ein Spieler kann immer nur in einer Lobby gleichzeitig sein
+    @ManyToOne
+    private Lobby activeLobby;
+
+
+    
+    
     public Player(String userName) {
         this.userName = userName;
+        this.hostedLobbys = new ArrayList<Lobby>();
     }
 
     public Player() {
@@ -82,12 +94,12 @@ public class Player {
         return Objects.hash(id, version, userName);
     }
 
-    public Lobby getLobby() {
-        return lobby;
+    public Lobby getActiveLobby() {
+        return activeLobby;
     }
 
-    public void setLobby(Lobby lobby) {
-        this.lobby = lobby;
+    public void setActiveLobby(Lobby lobby) {
+        this.activeLobby = lobby;
     }
 
     public StreetGrid getStreetGrid() {
@@ -97,4 +109,26 @@ public class Player {
     public void setStreetGrid(StreetGrid streetGrid) {
         this.streetGrid = streetGrid;
     }
+
+    public List<Lobby> getHostedLobbys() {
+        return hostedLobbys;
+    }
+
+    public void setHostedLobbys(List<Lobby> hostedLobbys) {
+        this.hostedLobbys = hostedLobbys;
+    }
+
+    public void addLobbyToHostedLobbys(Lobby lobby){
+        this.hostedLobbys.add(lobby);
+    }
+
+    public void removeLobbyFromHostedLobbys(Lobby lobby){
+        this.hostedLobbys.remove(lobby);
+    }
+
+    public boolean isHost(Lobby lobby){
+        return lobby.getHostID() == this.id;
+    }
+
+    
 }

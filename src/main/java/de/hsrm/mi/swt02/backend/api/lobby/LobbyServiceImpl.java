@@ -5,9 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
+import de.hsrm.mi.swt02.backend.api.player.Player;
+import de.hsrm.mi.swt02.backend.api.player.PlayerServiceImpl;
 
 @Service
 public class LobbyServiceImpl implements LobbyService {
@@ -15,6 +14,9 @@ public class LobbyServiceImpl implements LobbyService {
     Logger logger = LoggerFactory.getLogger(LobbyServiceImpl.class);
     @Autowired
     private LobbyRepository lobbyRepository;
+
+    @Autowired
+    private PlayerServiceImpl playerService;
 
     @Override
     @Transactional
@@ -53,11 +55,17 @@ public class LobbyServiceImpl implements LobbyService {
     }
 
     @Override
-    public long createLobby(String lobbyname, int numOfPlayers, LobbyMode lobbymode) {
+    public long createLobby(Lobby lobby) {
        
-        Lobby createLobby = new Lobby(lobbyname,numOfPlayers,lobbymode);
-
-       
+        Lobby createLobby = new Lobby(lobby.getLobbyName(), lobby.getNumOfPlayers(), lobby.getLobbyMode());
+        
+        //DTO aus Frontend anpassen und PlayerID mitschicken der Lobby hosted um Host korrekt zu setzen
+        Player host = playerService.findPlayerById(lobby.getHostID());
+        createLobby.setHost(host);
+        //Beziehungen setzen!
+        
+        
+        
 
         return lobbyRepository.save(createLobby).getId();
     }
