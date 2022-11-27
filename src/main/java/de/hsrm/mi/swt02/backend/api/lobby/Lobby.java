@@ -3,14 +3,10 @@ package de.hsrm.mi.swt02.backend.api.lobby;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Version;
+import javax.persistence.*;
 
 import de.hsrm.mi.swt02.backend.api.player.Player;
+import de.hsrm.mi.swt02.backend.api.streetgrid.gridelements.StreetGrid;
 
 @Entity
 public class Lobby {
@@ -30,6 +26,8 @@ public class Lobby {
     @OneToMany(mappedBy = "lobby")
     private List<Player> playerList;
 
+    @OneToOne
+    private StreetGrid streetGrid;
 
     public Lobby(){
         this.lobbyName = "";
@@ -85,12 +83,7 @@ public class Lobby {
         return playerList;
     }
 
-    
-    public void setPlayerList(ArrayList<Player> playerList) {
-        this.playerList = playerList;
-    }
 
-    
     public void addPlayerToPlayerlist(Player addPlayer){
         this.playerList.add(addPlayer);
 
@@ -153,12 +146,15 @@ public class Lobby {
     }
 
 
-    
+    public void setPlayerList(List<Player> playerList) {
+        this.playerList = playerList;
+    }
 
-    
+    public StreetGrid getStreetGrid() {
+        return streetGrid;
+    }
 
-
-    
-
-    
+    public void setStreetGrid(StreetGrid streetGrid) {
+        this.streetGrid = streetGrid;
+    }
 }

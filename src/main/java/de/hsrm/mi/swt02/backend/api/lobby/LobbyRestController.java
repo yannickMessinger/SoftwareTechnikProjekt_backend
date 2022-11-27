@@ -19,7 +19,7 @@ public class LobbyRestController {
 
     @Autowired
     private LobbyServiceImpl lobbyService;
-
+    
     @Operation(summary = "Get all available Lobby´s")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found Lobby´s")})

@@ -21,12 +21,6 @@ public class PlayerServiceTest {
     @Autowired
     private PlayerRepository playerRepository;
 
-    @Test
-    void PreTest() {
-        assertThat(playerService).isNotNull();
-        assertThat(playerRepository).isNotNull();
-    }
-
     private List<Player> initDB() {
         //init DB to Test service methods
         playerRepository.deleteAll();
@@ -41,8 +35,16 @@ public class PlayerServiceTest {
     }
 
     @Test
-    void CreatePlayersTest() {
+    void preTest() {
+        assertThat(playerService).isNotNull();
+        assertThat(playerRepository).isNotNull();
+    }
+
+    @Test
+    void createPlayersTest() {
         //create player with Service
+        playerRepository.deleteAll();
+
         Player yannick = playerService.createPlayer("Yannick");
         Player marc = playerService.createPlayer("Marc");
         Player lena = playerService.createPlayer("Lena");
@@ -58,7 +60,7 @@ public class PlayerServiceTest {
     }
 
     @Test
-    void DeletePlayersTest() {
+    void deletePlayersTest() {
         //Setup
         List<Player> playerList = initDB();
 
@@ -71,7 +73,7 @@ public class PlayerServiceTest {
     }
 
     @Test
-    void FindAllPlayersTest() {
+    void findAllPlayersTest() {
         //Setup
         List<Player> playerList = initDB();
         List<Player> playerListFromService = playerService.findAllPlayers();
@@ -88,7 +90,7 @@ public class PlayerServiceTest {
     }
 
     @Test
-    void FindPlayersByIdTest() {
+    void findPlayersByIdTest() {
         //Setup
         List<Player> playerList = initDB();
 
