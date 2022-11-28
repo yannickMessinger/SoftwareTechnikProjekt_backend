@@ -1,5 +1,6 @@
 package de.hsrm.mi.swt02.backend.api.player;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -27,10 +28,10 @@ public class Player {
     private String userName;
 
     //2: ein Player kann mehrere Lobbys hosten
-    /*
-    @OneToMany(mappedBy = "host")
+    
+    @OneToMany(mappedBy = "host", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Lobby> hostedLobbys;
-    */
+    
 
     @ManyToOne
     private StreetPlan streetPlan;
@@ -113,7 +114,7 @@ public class Player {
         this.streetPlan = streetPlan;
     }
 
-    /*
+    
     public List<Lobby> getHostedLobbys() {
         return hostedLobbys;
     }
@@ -133,7 +134,7 @@ public class Player {
      
     public boolean isHost(Lobby lobby){
         return lobby.getHostID() == this.id;
-    }*/
+    }
 
     
 }

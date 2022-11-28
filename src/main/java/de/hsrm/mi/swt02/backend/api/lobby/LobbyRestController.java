@@ -1,5 +1,6 @@
 package de.hsrm.mi.swt02.backend.api.lobby;
 
+import de.hsrm.mi.swt02.backend.api.lobby.dtos.AddLobbyRequestDTO;
 import de.hsrm.mi.swt02.backend.api.lobby.dtos.GetLobbyResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -55,11 +56,12 @@ public class LobbyRestController {
                                     "  lobbyName: Default Lobby," +
                                     "  lobbyMode: BUILD_MODE," +
                                     "  numOfPlayers: 2" +
+                                    "  hostID:1 " +
                                     " }",
                     required = true)
-            @RequestBody Lobby lobby) {
+            @RequestBody AddLobbyRequestDTO lobbyDTO) {
 
-        return new ResponseEntity<>(lobbyService.createLobby(lobby), HttpStatus.OK);
+        return new ResponseEntity<>(lobbyService.createLobby(lobbyDTO.lobbyName(), lobbyDTO.lobbyMode(), lobbyDTO.numOfPlayers(), lobbyDTO.hostID()), HttpStatus.OK);
 
     }
 

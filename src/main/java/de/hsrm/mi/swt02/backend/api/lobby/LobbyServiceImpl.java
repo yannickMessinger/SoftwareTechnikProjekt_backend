@@ -46,7 +46,7 @@ public class LobbyServiceImpl implements LobbyService {
             logger.warn("No Lobby with given ID was found");
         }
 
-        return foundLobby.get();
+        return foundLobby.orElseThrow();
     }
 
     @Override
@@ -55,19 +55,25 @@ public class LobbyServiceImpl implements LobbyService {
 
         // logger.warn("No Lobby with given ID was found");
         //Todo: remove possible realtionships if existent
+        Lobby delLobby = this.findLobbyById(id);
+        Player host = playerService.findPlayerById(delLobby.getHostID());
+        host.removeLobbyFromHostedLobbys(delLobby);
+
         lobbyRepository.deleteById(id);
 
     }
 
     @Override
-    public long createLobby(Lobby lobby) {
+    @Transactional
+    public long createLobby(String lobbyName, LobbyMode lobbyMode, int numOfPlayers, long hostID) {
        
-        Lobby createLobby = new Lobby(lobby.getLobbyName(), lobby.getNumOfPlayers(), lobby.getLobbyMode());
+        Lobby createLobby = new Lobby(lobbyName, numOfPlayers, lobbyMode);
 
         //DTO aus Frontend anpassen und PlayerID mitschicken der Lobby hosted um Host korrekt zu setzen
-        //Player host = playerService.findPlayerById(lobby.getHostID());
-        //createLobby.setHost(host);
-        //Beziehungen setzen!
+        Player host = playerService.findPlayerById(hostID);
+        createLobby.setHost(host);
+        host.getHostedLobbys().add(createLobby);
+       
 
 
 
@@ -76,6 +82,7 @@ public class LobbyServiceImpl implements LobbyService {
     }
 
     @Override
+    @Transactional
     public void updateLobby(long id) {
         Optional<Lobby> findLobby = lobbyRepository.findById(id);
 
@@ -86,6 +93,7 @@ public class LobbyServiceImpl implements LobbyService {
     }
 
     @Override
+    @Transactional
     public void addPlayerToLobby(long lobbyId, long playerId) {
         Player player = playerService.findPlayerById(playerId);
         Lobby lobby = this.findLobbyById(lobbyId);

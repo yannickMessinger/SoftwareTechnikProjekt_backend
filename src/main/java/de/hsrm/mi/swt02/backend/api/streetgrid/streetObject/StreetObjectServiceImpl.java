@@ -55,8 +55,9 @@ public class StreetObjectServiceImpl implements StreetObjectService {
         if(foundStreetObj.isEmpty()){
             //logger
         }
+        
 
-        return foundStreetObj.get();
+        return foundStreetObj.orElseThrow();
     }
 
 

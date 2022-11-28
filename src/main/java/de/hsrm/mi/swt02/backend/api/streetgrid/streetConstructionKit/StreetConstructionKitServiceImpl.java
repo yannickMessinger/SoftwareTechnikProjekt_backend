@@ -29,13 +29,13 @@ public class StreetConstructionKitServiceImpl implements StreetConstructionKitSe
     @Transactional
     public List<StreetConstructionKit> findAllStreetConstructionKits() {
         
-        Optional<List<StreetConstructionKit>> allConstructionKits = Optional.of(streetConstRepo.findAll());
+        List<StreetConstructionKit> allConstructionKits = streetConstRepo.findAll();
         
         if(allConstructionKits.isEmpty()){
             //logger
         }
 
-        return allConstructionKits.get();
+        return allConstructionKits;
 
     }
 
@@ -77,7 +77,7 @@ public class StreetConstructionKitServiceImpl implements StreetConstructionKitSe
             //logger
         }
 
-        return foundKit.get();
+       return foundKit.orElseThrow();
     }
 
     /**

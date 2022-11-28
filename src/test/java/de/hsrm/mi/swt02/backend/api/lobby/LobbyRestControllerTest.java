@@ -73,8 +73,8 @@ public class LobbyRestControllerTest {
         Lobby lobby1 = new Lobby("Lobby 1", 1, LobbyMode.BUILD_MODE);
         Lobby lobby2 = new Lobby("Lobby 2", 3, LobbyMode.PLAY_MODE);
 
-        long lobby1ID = lobbyService.createLobby(lobby1);
-        long lobby2ID = lobbyService.createLobby(lobby2);
+        long lobby1ID = lobbyService.createLobby("Lobby 1", LobbyMode.BUILD_MODE, 1, 1);
+        long lobby2ID = lobbyService.createLobby("Lobby 2", LobbyMode.PLAY_MODE, 3, 1);
 
         // exercise
         MvcResult mock = mockMvc.perform(
@@ -106,7 +106,7 @@ public class LobbyRestControllerTest {
         // setup
         ObjectMapper mapper = new ObjectMapper();
         Lobby testLobby = new Lobby("TestLobby", 3, LobbyMode.PLAY_MODE);
-        long testLobbyID = lobbyService.createLobby(testLobby);
+        long testLobbyID = lobbyService.createLobby("TestLobby",LobbyMode.PLAY_MODE, 3, 1);
 
         // exercise
         MvcResult mock = mockMvc.perform(
@@ -133,7 +133,7 @@ public class LobbyRestControllerTest {
 
         // setup
         Lobby testLobby = new Lobby("TestLobby", 3, LobbyMode.PLAY_MODE);
-        long testLobbyID = lobbyService.createLobby(testLobby);
+        long testLobbyID = lobbyService.createLobby("TestLobby",LobbyMode.PLAY_MODE,3,1);
 
         //delete user with ID
         mockMvc.perform(

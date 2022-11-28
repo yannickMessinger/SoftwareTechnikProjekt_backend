@@ -33,6 +33,9 @@ public class Lobby {
     @OneToMany(mappedBy = "lobby")
     private List<StreetPlan> streetPlans;
 
+    @ManyToOne
+    private Player host;
+
     public Lobby() {
         this.lobbyName = "";
         this.numOfPlayers = 0;
@@ -98,6 +101,22 @@ public class Lobby {
 
     public void removePlayerFromPlayerList(Player removePlayer) {
         this.playerList.remove(removePlayer);
+    }
+
+    
+
+
+    public Player getHost() {
+        return host;
+    }
+
+
+    public void setHost(Player host) {
+        this.host = host;
+    }
+
+    public long getHostID(){
+        return this.host.getId();
     }
 
 
