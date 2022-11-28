@@ -59,8 +59,11 @@ public class LobbyServiceImpl implements LobbyService {
         Player host = playerService.findPlayerById(delLobby.getHostID());
         host.removeLobbyFromHostedLobbys(delLobby);
 
-        lobbyRepository.deleteById(id);
+        for (Player player:  this.findLobbyById(id).getPlayerList()) {
+            player.setActiveLobby(null);
+        }
 
+        lobbyRepository.deleteById(id);
     }
 
     @Override
@@ -73,13 +76,11 @@ public class LobbyServiceImpl implements LobbyService {
         Player host = playerService.findPlayerById(hostID);
         createLobby.setHost(host);
         host.getHostedLobbys().add(createLobby);
-       
-
-
 
 
         return lobbyRepository.save(createLobby).getId();
     }
+
 
     @Override
     @Transactional
@@ -92,6 +93,11 @@ public class LobbyServiceImpl implements LobbyService {
         }
     }
 
+    /**
+     * Find Player and Lobby by id and maintain the relations.
+     * @param lobbyId from Lobby
+     * @param playerId from Player
+     */
     @Override
     @Transactional
     public void addPlayerToLobby(long lobbyId, long playerId) {
@@ -100,8 +106,19 @@ public class LobbyServiceImpl implements LobbyService {
         player.setActiveLobby(lobby);
         lobby.addPlayerToPlayerlist(player);
         lobbyRepository.save(lobby);
-
     }
+
+    /**
+     * Find Lobby by lobbyId and get all Players from Lobby
+     * @param lobbyId from Lobby
+     * @return list of Players
+     */
+    @Override
+    public List<Player> findAllPlayersFromLobby(long lobbyId) {
+        return this.findLobbyById(lobbyId).getPlayerList();
+    }
+
+
 
 
 }

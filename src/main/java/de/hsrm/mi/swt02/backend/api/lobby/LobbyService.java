@@ -1,5 +1,7 @@
 package de.hsrm.mi.swt02.backend.api.lobby;
 
+import de.hsrm.mi.swt02.backend.api.player.Player;
+
 import java.util.List;
 
 public interface LobbyService {
@@ -9,4 +11,5 @@ public interface LobbyService {
     long createLobby(String lobbyName, LobbyMode lobbyMode, int numOfPlayers, long hostID);
     void updateLobby(long id);
     void addPlayerToLobby(long lobbyId, long playerId);
+    List<Player> findAllPlayersFromLobby(long lobbyId);
 }

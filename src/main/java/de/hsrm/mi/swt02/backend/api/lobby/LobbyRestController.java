@@ -2,6 +2,7 @@ package de.hsrm.mi.swt02.backend.api.lobby;
 
 import de.hsrm.mi.swt02.backend.api.lobby.dtos.AddLobbyRequestDTO;
 import de.hsrm.mi.swt02.backend.api.lobby.dtos.GetLobbyResponseDTO;
+import de.hsrm.mi.swt02.backend.api.player.dtos.GetPlayerResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -20,7 +21,7 @@ public class LobbyRestController {
 
     @Autowired
     private LobbyServiceImpl lobbyService;
-    
+
     @Operation(summary = "Get all available Lobby´s")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found Lobby´s")})
@@ -65,7 +66,7 @@ public class LobbyRestController {
 
     }
 
-    @Operation(description = "Delete Lobby by ID")
+    @Operation(summary = "Delete Lobby by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully deleted Lobby")})
     @DeleteMapping("/{id}")
@@ -77,7 +78,7 @@ public class LobbyRestController {
     }
 
     //Todo: match DTO's with DTO's from frontend!
-    @Operation(description = "Update Lobby with given JSON")
+    @Operation(summary = "Update Lobby with given JSON")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully updated Lobby")})
     @PutMapping("/{id}")
@@ -87,14 +88,28 @@ public class LobbyRestController {
 
     }
 
-    @PostMapping(value = "/{id}", params = "player_id")
+    //path: localhost:8080
+    @Operation(summary = "Add Player to Lobby ")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully added Player to Lobby")})
+    @PostMapping(value = "/get_players/{id}", params = "player_id")
     public ResponseEntity<HttpStatus> addPlayerToLobby(@PathVariable("id") long id, @RequestParam long player_id) {
         //service aufrufen der player raussucht und in lobby hinzufügt
         lobbyService.addPlayerToLobby(id, player_id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
-
-
+    @Operation(summary = "Get all Player from Lobby")
+    @GetMapping("/get_players/{lobby_id}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully got all Players from Lobby")})
+    public ResponseEntity<List<GetPlayerResponseDTO>> getAllPlayersFromLobby(@PathVariable("lobby_id") long id) {
+        List<GetPlayerResponseDTO> playerDTOS = new ArrayList<>(
+                lobbyService
+                        .findAllPlayersFromLobby(id)
+                        .stream()
+                        .map(GetPlayerResponseDTO::from)
+                        .toList());
+        return new ResponseEntity<>(playerDTOS, HttpStatus.OK);
+    }
 }
