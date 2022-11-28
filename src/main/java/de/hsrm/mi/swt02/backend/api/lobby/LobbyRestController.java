@@ -88,14 +88,21 @@ public class LobbyRestController {
 
     }
 
-    //path: localhost:8080
     @Operation(summary = "Add Player to Lobby ")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully added Player to Lobby")})
     @PostMapping(value = "/get_players/{id}", params = "player_id")
     public ResponseEntity<HttpStatus> addPlayerToLobby(@PathVariable("id") long id, @RequestParam long player_id) {
-        //service aufrufen der player raussucht und in lobby hinzufügt
         lobbyService.addPlayerToLobby(id, player_id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Operation(summary = "Remove Player from Lobby ")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully removed Player from Lobby")})
+    @DeleteMapping(value = "/get_players/{id}", params = "player_id")
+    public ResponseEntity<HttpStatus> removePlayerToLobby(@PathVariable("id") long id, @RequestParam long player_id) {
+        lobbyService.removePlayerFromLobby(id, player_id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

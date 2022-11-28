@@ -109,6 +109,21 @@ public class LobbyServiceImpl implements LobbyService {
     }
 
     /**
+     * Find Player and Lobby by id and remove the relations.
+     * @param lobbyId from Lobby
+     * @param playerId from Player
+     */
+    @Override
+    @Transactional
+    public void removePlayerFromLobby(long lobbyId, long playerId) {
+        Player player = playerService.findPlayerById(playerId);
+        Lobby lobby = this.findLobbyById(lobbyId);
+        player.setActiveLobby(null);
+        lobby.getPlayerList().remove(player);
+        lobbyRepository.save(lobby);
+    }
+
+    /**
      * Find Lobby by lobbyId and get all Players from Lobby
      * @param lobbyId from Lobby
      * @return list of Players
