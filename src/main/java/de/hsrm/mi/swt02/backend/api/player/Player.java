@@ -29,7 +29,7 @@ public class Player {
 
     //2: ein Player kann mehrere Lobbys hosten
     
-    @OneToMany(mappedBy = "host", cascade = CascadeType.ALL, orphanRemoval=true)
+    @OneToMany(mappedBy = "host")
     private List<Lobby> hostedLobbys;
     
 
