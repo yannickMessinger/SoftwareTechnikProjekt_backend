@@ -40,7 +40,7 @@ public class PlayerRestController {
             @ApiResponse(responseCode = "400", description = "User JSON wrong syntax")})
     @PostMapping("")
     public ResponseEntity<Long> postNewPlayer(
-            @Schema(description = "User Dto (userName: '')", defaultValue = "Josef Weitz", required = true)
+            @Schema(description = "User Dto (userName: '')", required = true)
             @RequestBody AddPlayerRequestDTO uDTO) {
         Player u = playerService.createPlayer(uDTO.userName());
 

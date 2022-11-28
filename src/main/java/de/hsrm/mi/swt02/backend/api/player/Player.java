@@ -8,7 +8,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
 import de.hsrm.mi.swt02.backend.api.lobby.Lobby;
-import de.hsrm.mi.swt02.backend.api.streetgrid.gridelements.StreetGrid;
+import de.hsrm.mi.swt02.backend.api.streetgrid.streetPlan.StreetPlan;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +33,11 @@ public class Player {
     */
 
     @ManyToOne
-    private StreetGrid streetGrid;
+    private StreetPlan streetPlan;
 
     //1: aber ein Spieler kann immer nur in einer Lobby gleichzeitig sein
-    //@ManyToOne
-    //private Lobby activeLobby;
+    @ManyToOne
+    private Lobby activeLobby;
 
 
     
@@ -96,24 +96,24 @@ public class Player {
         return Objects.hash(id, version, userName);
     }
 
-    /* 
+
     public Lobby getActiveLobby() {
         return activeLobby;
     }
 
     public void setActiveLobby(Lobby lobby) {
         this.activeLobby = lobby;
-    }*/
-
-    public StreetGrid getStreetGrid() {
-        return streetGrid;
     }
 
-    public void setStreetGrid(StreetGrid streetGrid) {
-        this.streetGrid = streetGrid;
+    public StreetPlan getStreetPlan() {
+        return streetPlan;
     }
 
-    /* 
+    public void setStreetPlan(StreetPlan streetPlan) {
+        this.streetPlan = streetPlan;
+    }
+
+    /*
     public List<Lobby> getHostedLobbys() {
         return hostedLobbys;
     }

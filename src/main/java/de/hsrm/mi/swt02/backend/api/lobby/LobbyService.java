@@ -8,4 +8,5 @@ public interface LobbyService {
     void deleteLobby(long id);
     long createLobby(Lobby lobby);
     void updateLobby(long id);
+    void addPlayerToLobby(long lobbyId, long playerId);
 }

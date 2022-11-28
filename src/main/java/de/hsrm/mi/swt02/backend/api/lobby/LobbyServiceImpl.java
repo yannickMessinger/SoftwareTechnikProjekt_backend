@@ -1,5 +1,7 @@
 package de.hsrm.mi.swt02.backend.api.lobby;
 
+import de.hsrm.mi.swt02.backend.api.player.Player;
+import de.hsrm.mi.swt02.backend.api.player.PlayerService;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,8 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import de.hsrm.mi.swt02.backend.api.player.Player;
-import de.hsrm.mi.swt02.backend.api.player.PlayerServiceImpl;
 
 @Service
 public class LobbyServiceImpl implements LobbyService {
@@ -21,7 +21,7 @@ public class LobbyServiceImpl implements LobbyService {
     private LobbyRepository lobbyRepository;
 
     @Autowired
-    private PlayerServiceImpl playerService;
+    private PlayerService playerService;
 
     @Override
     @Transactional
@@ -63,14 +63,14 @@ public class LobbyServiceImpl implements LobbyService {
     public long createLobby(Lobby lobby) {
        
         Lobby createLobby = new Lobby(lobby.getLobbyName(), lobby.getNumOfPlayers(), lobby.getLobbyMode());
-        
+
         //DTO aus Frontend anpassen und PlayerID mitschicken der Lobby hosted um Host korrekt zu setzen
         //Player host = playerService.findPlayerById(lobby.getHostID());
         //createLobby.setHost(host);
         //Beziehungen setzen!
-        
-        
-        
+
+
+
 
         return lobbyRepository.save(createLobby).getId();
     }
@@ -83,6 +83,16 @@ public class LobbyServiceImpl implements LobbyService {
         if (findLobby.isPresent()) {
 
         }
+    }
+
+    @Override
+    public void addPlayerToLobby(long lobbyId, long playerId) {
+        Player player = playerService.findPlayerById(playerId);
+        Lobby lobby = this.findLobbyById(lobbyId);
+        player.setActiveLobby(lobby);
+        lobby.addPlayerToPlayerlist(player);
+        lobbyRepository.save(lobby);
+
     }
 
 

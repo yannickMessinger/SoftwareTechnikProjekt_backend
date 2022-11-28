@@ -53,8 +53,8 @@ public class LobbyRestController {
             @Schema(description = "Lobby Dto",
                     defaultValue =  "{ " +
                                     "  lobbyName: Default Lobby," +
-                                    "  numOfPlayers: 1," +
-                                    "  lobbyState: BUILD_MODE" +
+                                    "  lobbyMode: BUILD_MODE," +
+                                    "  numOfPlayers: 2" +
                                     " }",
                     required = true)
             @RequestBody Lobby lobby) {
@@ -84,5 +84,15 @@ public class LobbyRestController {
             @PathVariable("id") long id) {
 
     }
+
+    @PostMapping(value = "/{id}", params = "player_id")
+    public ResponseEntity<HttpStatus> addPlayerToLobby(@PathVariable("id") long id, @RequestParam long player_id) {
+        //service aufrufen der player raussucht und in lobby hinzufügt
+        lobbyService.addPlayerToLobby(id, player_id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+
 
 }

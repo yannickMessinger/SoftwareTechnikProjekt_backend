@@ -1,12 +1,9 @@
 package de.hsrm.mi.swt02.backend.api.streetgrid.streetPlan;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Version;
+import javax.persistence.*;
 
+import de.hsrm.mi.swt02.backend.api.lobby.Lobby;
 import de.hsrm.mi.swt02.backend.api.lobby.LobbyMode;
-
 
 
 @Entity
@@ -23,6 +20,9 @@ public class StreetPlan {
     private LobbyMode lobbyMode;
     private int sizeX;
     private int sizeY;
+
+    @ManyToOne
+    private Lobby lobby;
 
 
     public StreetPlan() {
@@ -127,9 +127,11 @@ public class StreetPlan {
                 + ", sizeX=" + sizeX + ", sizeY=" + sizeY + "]";
     }
 
-    
+    public Lobby getLobby() {
+        return lobby;
+    }
 
-    
-
-    
+    public void setLobby(Lobby lobby) {
+        this.lobby = lobby;
+    }
 }
