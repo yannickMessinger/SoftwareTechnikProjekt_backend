@@ -27,7 +27,7 @@ public class Player {
 
     private String userName;
 
-    //2: ein Player kann mehrere Lobbys hosten
+    
     
     @OneToMany(mappedBy = "host")
     private List<Lobby> hostedLobbys;
@@ -36,7 +36,7 @@ public class Player {
     @ManyToOne
     private StreetPlan streetPlan;
 
-    //1: aber ein Spieler kann immer nur in einer Lobby gleichzeitig sein
+    
     @ManyToOne
     private Lobby activeLobby;
 
@@ -45,7 +45,7 @@ public class Player {
     
     public Player(String userName) {
         this.userName = userName;
-        //this.hostedLobbys = new ArrayList<Lobby>();
+        this.hostedLobbys = new ArrayList<Lobby>();
     }
 
     public Player() {

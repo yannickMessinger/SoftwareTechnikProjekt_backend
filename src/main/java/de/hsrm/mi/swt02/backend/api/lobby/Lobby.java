@@ -23,9 +23,9 @@ public class Lobby {
     private LobbyMode lobbyMode;
     
 
-    //1: eine Lobby kann viele Spieler haben
+    
 
-    //add relations
+    
     @OneToMany(mappedBy = "activeLobby")
     private List<Player> playerList;
 
@@ -103,7 +103,10 @@ public class Lobby {
         this.playerList.remove(removePlayer);
     }
 
-    
+
+    public int getNumOfPlayersInLobby(){
+        return this.getPlayerList().size();
+    }
 
 
     public Player getHost() {
@@ -181,5 +184,13 @@ public class Lobby {
 
     public void setStreetPlans(List<StreetPlan> streetPlans) {
         this.streetPlans = streetPlans;
+    }
+
+
+    public boolean isHostOf(Player possiblehost){
+        //this.host.equals(possiblehost)
+
+        
+        return this.host.getId() == possiblehost.getId();
     }
 }
