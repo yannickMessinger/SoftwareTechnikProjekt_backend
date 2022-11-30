@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import de.hsrm.mi.swt02.backend.api.streetgrid.streetPlan.StreetPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import de.hsrm.mi.swt02.backend.api.streetgrid.streetObject.dtos.AddStreetObject
  * Service Class to handle CRUD operations on the StreetObjectRepository.
  */
 
+
 @Service
 public class StreetObjectServiceImpl implements StreetObjectService {
 
@@ -24,6 +26,8 @@ public class StreetObjectServiceImpl implements StreetObjectService {
     @Autowired
     private StreetObjectRepository streetObjRepo;
 
+    @Autowired
+    private StreetPlanService streetPlanService;
 
 
      /**
@@ -62,12 +66,13 @@ public class StreetObjectServiceImpl implements StreetObjectService {
 
 
     /**
-     * deletes single StreetObject by the given id
+     * deletes single StreetObject by the given id and delete StreetObject from StreetObjectList in StreetPlan
      * @param id id of the StreetObject to be deleted.
      */
     @Override
     @Transactional
     public void deleteStreetObjectById(long id) {
+        this.getStreetObjectById(id).getStreetPlan().getStreetObjects().remove(this.getStreetObjectById(id));
         streetObjRepo.deleteById(id);
     }
 
@@ -77,12 +82,12 @@ public class StreetObjectServiceImpl implements StreetObjectService {
      * adds incoming StreetObjects from frontend to the repository. 
      * @param streetObjects  initial converting from JSON to regular java object from incoming Request Body in corresponding REST Controller,
      * every Entity is saved individually.
-     * 
+     * @param streetPlanId id to add the StreetObjects to the right StreetPlan (in StreetObjects list) and add StreetPlan field to the right StreetObject
      * @return returns the id of the Entity that was saved last. 
      */
     @Override
     @Transactional
-    public Long createStreetObject(AddMultipleStreetObjectsRequestDTO streetObjects) {
+    public Long createStreetObject(AddMultipleStreetObjectsRequestDTO streetObjects, long streetPlanId) {
         List <StreetObject> street_list = new ArrayList<>();
 
         for(AddStreetObjectRequestDTO ele : streetObjects.streetobjects()){
@@ -91,8 +96,11 @@ public class StreetObjectServiceImpl implements StreetObjectService {
 
         for (StreetObject ele : street_list){
             streetObjRepo.save(ele);
+
+            ele.setStreetPlan(streetPlanService.getStreetPlanById(streetPlanId));
+            streetPlanService.getStreetPlanById(streetPlanId).getStreetObjects().add(ele);
         }
-        
+
         return street_list.get(street_list.size() - 1).getId();
     }
 

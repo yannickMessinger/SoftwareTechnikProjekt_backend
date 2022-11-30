@@ -11,5 +11,5 @@ public interface StreetObjectService {
     List<StreetObject> findAllStreetObjects();
     StreetObject getStreetObjectById(long id);
     void deleteStreetObjectById(long id);
-    Long createStreetObject(AddMultipleStreetObjectsRequestDTO streetObjects);
+    Long createStreetObject(AddMultipleStreetObjectsRequestDTO streetObjects, long streetPlanId);
 }

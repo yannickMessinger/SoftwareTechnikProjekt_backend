@@ -4,6 +4,9 @@ import javax.persistence.*;
 
 import de.hsrm.mi.swt02.backend.api.lobby.Lobby;
 import de.hsrm.mi.swt02.backend.api.lobby.LobbyMode;
+import de.hsrm.mi.swt02.backend.api.streetgrid.streetObject.StreetObject;
+
+import java.util.List;
 
 
 @Entity
@@ -23,6 +26,10 @@ public class StreetPlan {
 
     @ManyToOne
     private Lobby lobby;
+
+    @OneToMany(mappedBy = "streetPlan", orphanRemoval = true)
+    private List<StreetObject> streetObjects;
+
 
 
     public StreetPlan() {
@@ -133,5 +140,13 @@ public class StreetPlan {
 
     public void setLobby(Lobby lobby) {
         this.lobby = lobby;
+    }
+
+    public List<StreetObject> getStreetObjects() {
+        return streetObjects;
+    }
+
+    public void setStreetObjects(List<StreetObject> streetObjects) {
+        this.streetObjects = streetObjects;
     }
 }

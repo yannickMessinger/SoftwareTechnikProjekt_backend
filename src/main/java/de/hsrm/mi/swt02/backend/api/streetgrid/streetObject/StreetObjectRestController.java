@@ -3,6 +3,9 @@ package de.hsrm.mi.swt02.backend.api.streetgrid.streetObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +28,10 @@ public class StreetObjectRestController {
     @Autowired
     private StreetObjectServiceImpl streeObjectService;
 
+    @Operation(summary = "Get all StreetObjects")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "got all StreetObjects")
+    })
     @GetMapping("")
     public ResponseEntity<List<GetStreetObjectResponseDTO>> getAllStreetObjects() {
         List<GetStreetObjectResponseDTO> allStreetObjectDTOs = new ArrayList<GetStreetObjectResponseDTO>(
@@ -35,35 +42,35 @@ public class StreetObjectRestController {
             return new ResponseEntity <>(allStreetObjectDTOs, HttpStatus.OK);
      }
 
-
+    @Operation(summary = "Get StreetObject by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "got StreetObject")
+    })
      @GetMapping("/{id}")
      public ResponseEntity<GetStreetObjectResponseDTO> getSingleStreetObject(@PathVariable("id") long id){
         GetStreetObjectResponseDTO streetObjectDTO = GetStreetObjectResponseDTO.from(streeObjectService.getStreetObjectById(id));
         return new ResponseEntity<>(streetObjectDTO, HttpStatus.OK);
     }
 
+    @Operation(summary = "Post new StreetObjects to StreetPlan (by id)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "new StreetObjects are created")
+    })
+    @PostMapping("/{streetplan_id}")
+    public ResponseEntity<Long> postNewStreetObject(@RequestBody AddMultipleStreetObjectsRequestDTO streetObjects, @PathVariable("streetplan_id") long streetPlanId){
 
-
-    @PostMapping("")
-    public ResponseEntity<Long> postNewStreetObject(@RequestBody AddMultipleStreetObjectsRequestDTO streetObjects){
-
-        return new ResponseEntity<>(streeObjectService.createStreetObject(streetObjects), HttpStatus.OK);
-
+        return new ResponseEntity<>(streeObjectService.createStreetObject(streetObjects, streetPlanId), HttpStatus.OK);
     }
 
-    
 
-
-
+    @Operation(summary = "Delete StreetObject by Id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "StreetObject has been deleted")
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteStreetObject(@PathVariable("id") long id){
         streeObjectService.deleteStreetObjectById(id);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
-    
-
-
-
 }

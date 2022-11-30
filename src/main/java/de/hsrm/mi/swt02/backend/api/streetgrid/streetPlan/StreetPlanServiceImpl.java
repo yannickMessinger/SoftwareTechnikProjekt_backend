@@ -14,6 +14,11 @@ public class StreetPlanServiceImpl implements StreetPlanService {
     @Autowired
     StreetPlanRepository streetPlanRepository;
 
+    /**
+     * save street Plan
+     * @param dto
+     * @return id
+     */
     @Override
     public long saveStreetPlan(AddStreetPlanRequestDTO dto) {
         StreetPlan streetPlan = new StreetPlan(dto.lobbyName(), dto.numOfPlayers(), dto.lobbyMode(), dto.sizeX(), dto.sizeY());
@@ -22,6 +27,11 @@ public class StreetPlanServiceImpl implements StreetPlanService {
         return streetPlan.getId();
     }
 
+    /**
+     * get streetPlan by id
+     * @param id
+     * @return streetPlan
+     */
     @Override
     public StreetPlan getStreetPlanById(long id) {
         Optional<StreetPlan> streetPlanOpt = streetPlanRepository.findById(id);
@@ -31,11 +41,20 @@ public class StreetPlanServiceImpl implements StreetPlanService {
         return streetPlanOpt.orElseThrow();
     }
 
+    /**
+     * delete streetPlan by id
+     * @param id
+     * @return streetPlan
+     */
     @Override
     public void deleteStreetPlanById(long id) {
         streetPlanRepository.deleteById(id);
     }
 
+    /**
+     * get all StreetPlans
+     * @return StreetPlans
+     */
     @Override
     public List<StreetPlan> findAllStreetPlans() {
 

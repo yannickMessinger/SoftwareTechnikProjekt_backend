@@ -69,4 +69,18 @@ public class StreetPlanRestController {
         streetPlanService.deleteStreetPlanById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @Operation(summary = "Get all StreetObjects from a specific Streetplan (by Streetplan id)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Got all StreetObjects from StreetPlan")
+    })
+    @GetMapping("/objects/{id}")
+    public ResponseEntity<List<GetStreetObjectResponseDTO>> getAllStreetObjectsFromStreetPlan(@PathVariable("id") long id) {
+        List<GetStreetObjectResponseDTO> allStreetObjectDTOs = new ArrayList<GetStreetObjectResponseDTO>(
+                streetPlanService.getStreetPlanById(id).getStreetObjects()
+                        .stream()
+                        .map(GetStreetObjectResponseDTO::from)
+                        .toList());
+        return new ResponseEntity<>(allStreetObjectDTOs, HttpStatus.OK);
+    }
 }

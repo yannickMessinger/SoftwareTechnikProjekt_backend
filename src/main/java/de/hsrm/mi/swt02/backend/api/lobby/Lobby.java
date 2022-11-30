@@ -3,8 +3,10 @@ package de.hsrm.mi.swt02.backend.api.lobby;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import javax.persistence.*;
 
+import de.hsrm.mi.swt02.backend.api.maps.Map;
 import de.hsrm.mi.swt02.backend.api.player.Player;
 import de.hsrm.mi.swt02.backend.api.streetgrid.streetPlan.StreetPlan;
 
@@ -23,9 +25,6 @@ public class Lobby {
     private LobbyMode lobbyMode;
     
 
-    
-
-    
     @OneToMany(mappedBy = "activeLobby")
     private List<Player> playerList;
 
@@ -35,6 +34,9 @@ public class Lobby {
 
     @ManyToOne
     private Player host;
+
+    @ManyToOne
+    private Map map;
 
     public Lobby() {
         this.lobbyName = "";
@@ -190,7 +192,7 @@ public class Lobby {
     public boolean isHostOf(Player possiblehost){
         //this.host.equals(possiblehost)
 
-        
+
         return this.host.getId() == possiblehost.getId();
     }
 }

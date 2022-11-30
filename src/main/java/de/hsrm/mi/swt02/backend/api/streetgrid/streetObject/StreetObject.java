@@ -1,22 +1,22 @@
 package de.hsrm.mi.swt02.backend.api.streetgrid.streetObject;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Version;
+import de.hsrm.mi.swt02.backend.api.streetgrid.streetPlan.StreetPlan;
+
+import javax.persistence.*;
 
 /**
  * Entity thats used to persist Elements of StreetObject's , very similar with corresponding DTO's but with additional id
  * and version attributes for db management
+ *
  * @param object_ID id of the object from frontend
- * @param x X-Coordinate / Position in StreetGrid / MapEditor
- * @param y Y-Coordinate / Position in StreetGrid / MapEditor
- * @param rotation angle of rotation the element was set to.
+ * @param x         X-Coordinate / Position in StreetGrid / MapEditor
+ * @param y         Y-Coordinate / Position in StreetGrid / MapEditor
+ * @param rotation  angle of rotation the element was set to.
  */
 
 @Entity
 public class StreetObject {
-    
+
     @Id
     @GeneratedValue
     private long id;
@@ -25,20 +25,18 @@ public class StreetObject {
     private long version;
 
 
-
-
     private long object_ID;
     private int x;
     private int y;
     private int rotation;
 
+    @ManyToOne
+    private StreetPlan streetPlan;
 
 
-    public StreetObject(){
+    public StreetObject() {
 
     }
-
-
 
 
     public StreetObject(long object_ID, int x, int y, int rotation) {
@@ -49,13 +47,9 @@ public class StreetObject {
     }
 
 
-
-
     public long getObject_ID() {
         return object_ID;
     }
-
-
 
 
     public void setObject_ID(long object_ID) {
@@ -63,13 +57,9 @@ public class StreetObject {
     }
 
 
-
-
     public int getX() {
         return x;
     }
-
-
 
 
     public void setX(int x) {
@@ -77,13 +67,9 @@ public class StreetObject {
     }
 
 
-
-
     public int getY() {
         return y;
     }
-
-
 
 
     public void setY(int y) {
@@ -91,13 +77,9 @@ public class StreetObject {
     }
 
 
-
-
     public int getRotation() {
         return rotation;
     }
-
-
 
 
     public void setRotation(int rotation) {
@@ -105,12 +87,9 @@ public class StreetObject {
     }
 
 
-    
     public long getId() {
         return this.id;
     }
-
-
 
 
     @Override
@@ -122,8 +101,6 @@ public class StreetObject {
         result = prime * result + y;
         return result;
     }
-
-
 
 
     @Override
@@ -145,23 +122,16 @@ public class StreetObject {
     }
 
 
-
-
     @Override
     public String toString() {
         return "StreetObject [object_ID=" + object_ID + ", x=" + x + ", y=" + y + ", rotation=" + rotation + "]";
     }
 
+    public StreetPlan getStreetPlan() {
+        return streetPlan;
+    }
 
-    
-
-
-
-    
-    
-
-
-    
-
-
+    public void setStreetPlan(StreetPlan streetPlan) {
+        this.streetPlan = streetPlan;
+    }
 }
