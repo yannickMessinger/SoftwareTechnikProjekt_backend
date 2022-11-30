@@ -6,6 +6,9 @@ import de.hsrm.mi.swt02.backend.domain.lobby.LobbyModeEnum;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public interface LobbyService {
     List<Lobby> findAllLobbys();
     Lobby findLobbyById(long id);

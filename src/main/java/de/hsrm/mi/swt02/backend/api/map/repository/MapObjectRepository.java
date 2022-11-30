@@ -4,7 +4,7 @@ import de.hsrm.mi.swt02.backend.domain.map.MapObject;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * Repository to persist StreetObjects.
+ * Repository to persist MapObjects.
  */
 public interface MapObjectRepository extends JpaRepository<MapObject, Long> {
     

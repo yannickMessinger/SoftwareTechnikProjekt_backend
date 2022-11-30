@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/streetplan")
+@RequestMapping("api/mapplan")
 public class MapRestController {
 
     @Autowired
@@ -29,9 +29,9 @@ public class MapRestController {
             @ApiResponse(responseCode = "400", description = "User JSON wrong syntax")
     })
     @PostMapping("")
-    public ResponseEntity<Long> postNewStreetPlan(
+    public ResponseEntity<Long> postNewMap(
             @RequestBody AddMapRequestDTO addMapRequestDTO) {
-        long id = mapService.saveStreetPlan(addMapRequestDTO);
+        long id = mapService.saveMap(addMapRequestDTO);
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
@@ -40,25 +40,25 @@ public class MapRestController {
             @ApiResponse(responseCode = "200", description = "Found Map")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<GetMapResponseDTO> getStreetPlanById(
+    public ResponseEntity<GetMapResponseDTO> getMapById(
             @Schema(description = "Map ID", defaultValue = "1")
             @PathVariable long id) {
-        GetMapResponseDTO dto = GetMapResponseDTO.from(mapService.getStreetPlanById(id));
+        GetMapResponseDTO dto = GetMapResponseDTO.from(mapService.getMapById(id));
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @Operation(summary = "Get all Streetplans")
+    @Operation(summary = "Get all Mapplans")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found StreetPlans")
+            @ApiResponse(responseCode = "200", description = "Found Maps")
     })
     @GetMapping("")
-    public ResponseEntity<List<GetMapResponseDTO>> getAllStreetPlans() {
-        List<GetMapResponseDTO> allStreetPlansDTOs = new ArrayList<>(
-                mapService.findAllStreetPlans()
+    public ResponseEntity<List<GetMapResponseDTO>> getAllMaps() {
+        List<GetMapResponseDTO> allMapsDTOs = new ArrayList<>(
+                mapService.findAllMaps()
                         .stream()
                         .map(GetMapResponseDTO::from)
                         .toList());
-        return new ResponseEntity<>(allStreetPlansDTOs, HttpStatus.OK);
+        return new ResponseEntity<>(allMapsDTOs, HttpStatus.OK);
     }
 
     @Operation(summary = "Delete Map by ID")
@@ -66,22 +66,22 @@ public class MapRestController {
             @ApiResponse(responseCode = "200", description = "Delete Map")
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteStreetPlans(@PathVariable("id") long id) {
-        mapService.deleteStreetPlanById(id);
+    public ResponseEntity<HttpStatus> deleteMaps(@PathVariable("id") long id) {
+        mapService.deleteMapById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @Operation(summary = "Get all StreetObjects from a specific Streetplan (by Streetplan id)")
+    @Operation(summary = "Get all MapObjects from a specific Mapplan (by Mapplan id)")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Got all StreetObjects from Map")
+            @ApiResponse(responseCode = "200", description = "Got all MapObjects from Map")
     })
     @GetMapping("/objects/{id}")
-    public ResponseEntity<List<GetMapObjectResponseDTO>> getAllStreetObjectsFromStreetPlan(@PathVariable("id") long id) {
-        List<GetMapObjectResponseDTO> allStreetObjectDTOs = new ArrayList<GetMapObjectResponseDTO>(
-                mapService.getStreetPlanById(id).getMapObjects()
+    public ResponseEntity<List<GetMapObjectResponseDTO>> getAllMapObjectsFromMap(@PathVariable("id") long id) {
+        List<GetMapObjectResponseDTO> allMapObjectDTOs = new ArrayList<GetMapObjectResponseDTO>(
+                mapService.getMapById(id).getMapObjects()
                         .stream()
                         .map(GetMapObjectResponseDTO::from)
                         .toList());
-        return new ResponseEntity<>(allStreetObjectDTOs, HttpStatus.OK);
+        return new ResponseEntity<>(allMapObjectDTOs, HttpStatus.OK);
     }
 }

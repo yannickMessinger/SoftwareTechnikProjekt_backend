@@ -9,8 +9,8 @@ import de.hsrm.mi.swt02.backend.domain.map.MapObject;
  * Service methods that are  to operate on MapObject database.
  */
 public interface MapObjectService {
-    List<MapObject> findAllStreetObjects();
-    MapObject getStreetObjectById(long id);
-    void deleteStreetObjectById(long id);
-    Long createStreetObject(AddMapObjectsRequestDTO streetObjects, long streetPlanId);
+    List<MapObject> findAllMapObjects();
+    MapObject getMapObjectById(long id);
+    void deleteMapObjectById(long id);
+    Long createMapObject(AddMapObjectsRequestDTO mapObjects, long mapId);
 }

@@ -28,22 +28,18 @@ public class Map {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate creationDate;
 
-    @OneToMany(mappedBy = "streetPlan", orphanRemoval = true)
+    @OneToMany(mappedBy = "map", orphanRemoval = true)
     private List<MapObject> mapObjects;
 
     private int sizeX;
     private int sizeY;
 
     public Map(
-            long id,
-            long version,
             String mapName,
             LocalDate creationDate,
             int sizeX,
             int sizeY
     ) {
-        this.id = id;
-        this.version = version;
         this.mapName = mapName;
         this.creationDate = creationDate;
         this.mapObjects = new ArrayList<>();

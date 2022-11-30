@@ -65,5 +65,7 @@ public class Player {
         return lobby.getHostID() == this.id;
     }
 
+    
+
 
 }

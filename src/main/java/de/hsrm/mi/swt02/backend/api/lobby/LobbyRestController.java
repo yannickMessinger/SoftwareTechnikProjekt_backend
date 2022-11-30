@@ -55,7 +55,7 @@ public class LobbyRestController {
     public ResponseEntity<Long> postNewLobby(
             @Schema(description = "Lobby Dto",
                     defaultValue =  "{ " +
-                                    "  mapName: Default Lobby," +
+                                    "  lobbyName: Default Lobby," +
                                     "  lobbyModeEnum: BUILD_MODE," +
                                     "  numOfPlayers: 2" +
                                     "  hostID:1 " +

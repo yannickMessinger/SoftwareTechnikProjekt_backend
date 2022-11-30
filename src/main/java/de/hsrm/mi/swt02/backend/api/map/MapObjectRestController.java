@@ -18,28 +18,29 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.hsrm.mi.swt02.backend.api.map.dto.AddMapObjectsRequestDTO;
 import de.hsrm.mi.swt02.backend.api.map.dto.GetMapObjectResponseDTO;
 
 @RestController
-@RequestMapping("api/streetobject")
+@RequestMapping("api/mapobject")
 public class MapObjectRestController {
     
 
     @Autowired
-    private MapObjectServiceImpl streeObjectService;
+    private MapObjectServiceImpl mapObjectService;
 
-    @Operation(summary = "Get all StreetObjects")
+    @Operation(summary = "Get all mapObjects")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "got all StreetObjects")
+            @ApiResponse(responseCode = "200", description = "got all mapObjects")
     })
     @GetMapping("")
-    public ResponseEntity<List<GetMapObjectResponseDTO>> getAllStreetObjects() {
-        List<GetMapObjectResponseDTO> allStreetObjectDTOs = new ArrayList<GetMapObjectResponseDTO>(
-            streeObjectService.findAllStreetObjects()
+    public ResponseEntity<List<GetMapObjectResponseDTO>> getAllMapObjects() {
+        List<GetMapObjectResponseDTO> allMapObjectDTOs = new ArrayList<GetMapObjectResponseDTO>(
+            mapObjectService.findAllMapObjects()
                         .stream()
                        .map(GetMapObjectResponseDTO::from)
                        .toList());
-            return new ResponseEntity <>(allStreetObjectDTOs, HttpStatus.OK);
+            return new ResponseEntity <>(allMapObjectDTOs, HttpStatus.OK);
      }
 
     @Operation(summary = "Get MapObject by id")
@@ -47,19 +48,19 @@ public class MapObjectRestController {
             @ApiResponse(responseCode = "200", description = "got MapObject")
     })
      @GetMapping("/{id}")
-     public ResponseEntity<GetMapObjectResponseDTO> getSingleStreetObject(@PathVariable("id") long id){
-        GetMapObjectResponseDTO streetObjectDTO = GetMapObjectResponseDTO.from(streeObjectService.getStreetObjectById(id));
-        return new ResponseEntity<>(streetObjectDTO, HttpStatus.OK);
+     public ResponseEntity<GetMapObjectResponseDTO> getSingleMapObject(@PathVariable("id") long id){
+        GetMapObjectResponseDTO mapObjectDTO = GetMapObjectResponseDTO.from(mapObjectService.getMapObjectById(id));
+        return new ResponseEntity<>(mapObjectDTO, HttpStatus.OK);
     }
 
-    @Operation(summary = "Post new StreetObjects to Map (by id)")
+    @Operation(summary = "Post new MapObjects to Map (by id)")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "new StreetObjects are created")
+            @ApiResponse(responseCode = "200", description = "new MapObjects are created")
     })
-    @PostMapping("/{streetplan_id}")
-    public ResponseEntity<Long> postNewStreetObject(@RequestBody AddMultipleStreetObjectsRequestDTO streetObjects, @PathVariable("streetplan_id") long streetPlanId){
+    @PostMapping("/{map_id}")
+    public ResponseEntity<Long> postMapObject(@RequestBody AddMapObjectsRequestDTO mapObjects, @PathVariable("map_id") long mapId){
 
-        return new ResponseEntity<>(streeObjectService.createStreetObject(streetObjects, streetPlanId), HttpStatus.OK);
+        return new ResponseEntity<>(mapObjectService.createMapObject(mapObjects, mapId), HttpStatus.OK);
     }
 
 
@@ -68,8 +69,8 @@ public class MapObjectRestController {
             @ApiResponse(responseCode = "200", description = "MapObject has been deleted")
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteStreetObject(@PathVariable("id") long id){
-        streeObjectService.deleteStreetObjectById(id);
+    public ResponseEntity<HttpStatus> deleteMapObject(@PathVariable("id") long id){
+        mapObjectService.deleteMapObjectById(id);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

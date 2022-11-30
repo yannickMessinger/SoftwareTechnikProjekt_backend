@@ -17,56 +17,56 @@ public class MapServiceImpl implements MapService {
     MapRepository mapRepository;
 
     /**
-     * save street Plan
+     * save map Plan
      * @param dto
      * @return id
      */
     @Override
-    public long saveStreetPlan(AddMapRequestDTO dto) {
-        Map map = new Map(dto.lobbyName(), dto.numOfPlayers(), dto.lobbyModeEnum(), dto.sizeX(), dto.sizeY());
+    public long saveMap(AddMapRequestDTO dto) {
+        Map map = new Map(dto.mapName(), dto.creationDate(), dto.sizeX(), dto.sizeY());
         map = mapRepository.save(map);
 
         return map.getId();
     }
 
     /**
-     * get streetPlan by id
+     * get map by id
      * @param id
-     * @return streetPlan
+     * @return map
      */
     @Override
-    public Map getStreetPlanById(long id) {
-        Optional<Map> streetPlanOpt = mapRepository.findById(id);
-        if (streetPlanOpt.isEmpty()) {
+    public Map getMapById(long id) {
+        Optional<Map> mapOpt = mapRepository.findById(id);
+        if (mapOpt.isEmpty()) {
             //logger
         }
-        return streetPlanOpt.orElseThrow();
+        return mapOpt.orElseThrow();
     }
 
     /**
-     * delete streetPlan by id
+     * delete map by id
      * @param id
-     * @return streetPlan
+     * @return map
      */
     @Override
-    public void deleteStreetPlanById(long id) {
+    public void deleteMapById(long id) {
         mapRepository.deleteById(id);
     }
 
     /**
-     * get all StreetPlans
-     * @return StreetPlans
+     * get all Maps
+     * @return Maps
      */
     @Override
-    public List<Map> findAllStreetPlans() {
+    public List<Map> findAllMaps() {
 
-        Optional<List<Map>> allStreetPlans = Optional.of(mapRepository.findAll());
+        Optional<List<Map>> allMaps = Optional.of(mapRepository.findAll());
 
-        if (allStreetPlans.isEmpty()) {
+        if (allMaps.isEmpty()) {
             //logger
         }
 
-        return allStreetPlans.get();
+        return allMaps.get();
     }
 
 

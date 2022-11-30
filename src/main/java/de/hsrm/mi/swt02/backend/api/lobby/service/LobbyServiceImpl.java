@@ -2,6 +2,7 @@ package de.hsrm.mi.swt02.backend.api.lobby.service;
 
 import de.hsrm.mi.swt02.backend.api.lobby.repository.LobbyRepository;
 import de.hsrm.mi.swt02.backend.domain.player.Player;
+import lombok.extern.java.Log;
 import de.hsrm.mi.swt02.backend.api.player.service.PlayerService;
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 @Service
 public class LobbyServiceImpl implements LobbyService {
@@ -56,13 +56,9 @@ public class LobbyServiceImpl implements LobbyService {
     @Transactional
     public void deleteLobby(long id) {
 
-        // logger.warn("No Lobby with given ID was found");
-        //Todo: remove possible realtionships if existent
-        Lobby delLobby = this.findLobbyById(id);
-        Player host = playerService.findPlayerById(delLobby.getHostID());
-        host.removeLobbyFromHostedLobbys(delLobby);
+        logger.warn("No Lobby with given ID was found");
 
-        for (Player player:  this.findLobbyById(id).getPlayerList()) {
+        for (Player player : this.findLobbyById(id).getPlayerList()) {
             player.setActiveLobby(null);
         }
 
@@ -72,18 +68,16 @@ public class LobbyServiceImpl implements LobbyService {
     @Override
     @Transactional
     public long createLobby(String lobbyName, LobbyModeEnum lobbyMode, int numOfPlayers, long hostID) {
-       
+
         Lobby createLobby = new Lobby(lobbyName, numOfPlayers, lobbyMode);
 
-        //DTO aus Frontend anpassen und PlayerID mitschicken der Lobby hosted um Host korrekt zu setzen
+        // DTO aus Frontend anpassen und PlayerID mitschicken der Lobby hosted um Host
+        // korrekt zu setzen
         Player host = playerService.findPlayerById(hostID);
         createLobby.setHost(host);
-        host.getHostedLobbys().add(createLobby);
-
 
         return lobbyRepository.save(createLobby).getId();
     }
-
 
     @Override
     @Transactional
@@ -98,7 +92,8 @@ public class LobbyServiceImpl implements LobbyService {
 
     /**
      * Find Player and Lobby by id and maintain the relations.
-     * @param lobbyId from Lobby
+     * 
+     * @param lobbyId  from Lobby
      * @param playerId from Player
      */
     @Override
@@ -113,7 +108,8 @@ public class LobbyServiceImpl implements LobbyService {
 
     /**
      * Find Player and Lobby by id and remove the relations.
-     * @param lobbyId from Lobby
+     * 
+     * @param lobbyId  from Lobby
      * @param playerId from Player
      */
     @Override
@@ -121,6 +117,11 @@ public class LobbyServiceImpl implements LobbyService {
     public void removePlayerFromLobby(long lobbyId, long playerId) {
         Player player = playerService.findPlayerById(playerId);
         Lobby lobby = this.findLobbyById(lobbyId);
+        
+        if(lobby.isHostOf(player.getId())){
+            this.deleteLobby(lobbyId);
+            return;
+        }
         player.setActiveLobby(null);
         lobby.getPlayerList().remove(player);
         lobbyRepository.save(lobby);
@@ -128,6 +129,7 @@ public class LobbyServiceImpl implements LobbyService {
 
     /**
      * Find Lobby by lobbyId and get all Players from Lobby
+     * 
      * @param lobbyId from Lobby
      * @return list of Players
      */
@@ -135,8 +137,4 @@ public class LobbyServiceImpl implements LobbyService {
     public List<Player> findAllPlayersFromLobby(long lobbyId) {
         return this.findLobbyById(lobbyId).getPlayerList();
     }
-
-
-
-
 }

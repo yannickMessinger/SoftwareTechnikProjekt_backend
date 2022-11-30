@@ -134,10 +134,7 @@ public class Lobby {
     }
 
 
-    public boolean isHostOf(Player possiblehost){
-        //this.host.equals(possiblehost)
-
-
-        return this.host.getId() == possiblehost.getId();
+    public boolean isHostOf(long possiblehostID){
+        return this.host.getId() == possiblehostID;
     }
 }

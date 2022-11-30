@@ -9,9 +9,9 @@ import java.util.List;
 @Service
 public interface MapService {
 
-    long saveStreetPlan(AddMapRequestDTO dto);
-    Map getStreetPlanById(long id);
-    void deleteStreetPlanById(long id);
-    List<Map> findAllStreetPlans();
+    long saveMap(AddMapRequestDTO dto);
+    Map getMapById(long id);
+    void deleteMapById(long id);
+    List<Map> findAllMaps();
 
 }

@@ -25,26 +25,26 @@ public class MapObjectServiceImpl implements MapObjectService {
 
 
     @Autowired
-    private MapObjectRepository streetObjRepo;
+    private MapObjectRepository mapObjRepo;
 
     @Autowired
     private MapService mapService;
 
 
      /**
-     * @return  list containing all StreetObjects of repository.
+     * @return  list containing all MapObjects of repository.
      */
     @Override
     @Transactional
-    public List<MapObject> findAllStreetObjects() {
+    public List<MapObject> findAllMapObjects() {
         
-        Optional<List<MapObject>> allStreets = Optional.of(streetObjRepo.findAll());
+        Optional<List<MapObject>> allMaps = Optional.of(mapObjRepo.findAll());
         
-        if(allStreets.isEmpty()){
+        if(allMaps.isEmpty()){
             //logger
         }
 
-        return allStreets.get();
+        return allMaps.get();
     }
 
     /**
@@ -54,55 +54,55 @@ public class MapObjectServiceImpl implements MapObjectService {
      */
     @Override
     @Transactional
-    public MapObject getStreetObjectById(long id) {
-        Optional<MapObject> foundStreetObj = streetObjRepo.findById(id);
+    public MapObject getMapObjectById(long id) {
+        Optional<MapObject> foundMapObj = mapObjRepo.findById(id);
 
-        if(foundStreetObj.isEmpty()){
+        if(foundMapObj.isEmpty()){
             //logger
         }
         
 
-        return foundStreetObj.orElseThrow();
+        return foundMapObj.orElseThrow();
     }
 
 
     /**
-     * deletes single MapObject by the given id and delete MapObject from StreetObjectList in Map
+     * deletes single MapObject by the given id and delete MapObject from MapObjectList in Map
      * @param id id of the MapObject to be deleted.
      */
     @Override
     @Transactional
-    public void deleteStreetObjectById(long id) {
-        this.getStreetObjectById(id).getMap().getMapObjects().remove(this.getStreetObjectById(id));
-        streetObjRepo.deleteById(id);
+    public void deleteMapObjectById(long id) {
+        this.getMapObjectById(id).getMap().getMapObjects().remove(this.getMapObjectById(id));
+        mapObjRepo.deleteById(id);
     }
 
 
 
      /**
-     * adds incoming StreetObjects from frontend to the repository. 
-     * @param streetObjects  initial converting from JSON to regular java object from incoming Request Body in corresponding REST Controller,
+     * adds incoming MapObjects from frontend to the repository. 
+     * @param mapObjects  initial converting from JSON to regular java object from incoming Request Body in corresponding REST Controller,
      * every Entity is saved individually.
-     * @param streetPlanId id to add the StreetObjects to the right Map (in StreetObjects list) and add Map field to the right MapObject
+     * @param mapId id to add the MapObjects to the right Map (in MapObjects list) and add Map field to the right MapObject
      * @return returns the id of the Entity that was saved last. 
      */
     @Override
     @Transactional
-    public Long createStreetObject(AddMapObjectsRequestDTO streetObjects, long streetPlanId) {
-        List <MapObject> street_list = new ArrayList<>();
+    public Long createMapObject(AddMapObjectsRequestDTO mapObjects, long mapId) {
+        List <MapObject> map_list = new ArrayList<>();
 
-        for(AddMapObjectRequestDTO ele : streetObjects.streetobjects()){
-            street_list.add(new MapObject(ele.object_ID(), ele.x(), ele.y(), ele.rotation()));
+        for(AddMapObjectRequestDTO ele : mapObjects.mapObjects()){
+            map_list.add(new MapObject(ele.objectTypeID(), ele.x(), ele.y(), ele.rotation()));
         }
 
-        for (MapObject ele : street_list){
-            streetObjRepo.save(ele);
+        for (MapObject ele : map_list){
+            mapObjRepo.save(ele);
 
-            ele.setMap(mapService.getStreetPlanById(streetPlanId));
-            mapService.getStreetPlanById(streetPlanId).getMapObjects().add(ele);
+            ele.setMap(mapService.getMapById(mapId));
+            mapService.getMapById(mapId).getMapObjects().add(ele);
         }
 
-        return street_list.get(street_list.size() - 1).getId();
+        return map_list.get(map_list.size() - 1).getId();
     }
 
 
