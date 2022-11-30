@@ -2,6 +2,8 @@ package de.hsrm.mi.swt02.backend.api.player;
 
 import de.hsrm.mi.swt02.backend.api.player.dtos.AddPlayerRequestDTO;
 import de.hsrm.mi.swt02.backend.api.player.dtos.GetPlayerResponseDTO;
+import de.hsrm.mi.swt02.backend.api.player.service.PlayerServiceImpl;
+import de.hsrm.mi.swt02.backend.domain.player.Player;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

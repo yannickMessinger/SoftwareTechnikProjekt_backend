@@ -10,6 +10,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import de.hsrm.mi.swt02.backend.api.player.repository.PlayerRepository;
+import de.hsrm.mi.swt02.backend.api.player.service.PlayerService;
+import de.hsrm.mi.swt02.backend.domain.player.Player;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.annotation.Testable;
 

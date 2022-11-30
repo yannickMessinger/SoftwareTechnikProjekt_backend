@@ -1,6 +1,10 @@
 package de.hsrm.mi.swt02.backend.api.lobby;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.hsrm.mi.swt02.backend.api.lobby.repository.LobbyRepository;
+import de.hsrm.mi.swt02.backend.api.lobby.service.LobbyService;
+import de.hsrm.mi.swt02.backend.domain.lobby.Lobby;
+import de.hsrm.mi.swt02.backend.domain.lobby.LobbyModeEnum;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.annotation.Testable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,11 +74,11 @@ public class LobbyRestControllerTest {
 
         // setup
         ObjectMapper mapper = new ObjectMapper();
-        Lobby lobby1 = new Lobby("Lobby 1", 1, LobbyMode.BUILD_MODE);
-        Lobby lobby2 = new Lobby("Lobby 2", 3, LobbyMode.PLAY_MODE);
+        Lobby lobby1 = new Lobby("Lobby 1", 1, LobbyModeEnum.BUILD_MODE);
+        Lobby lobby2 = new Lobby("Lobby 2", 3, LobbyModeEnum.PLAY_MODE);
 
-        long lobby1ID = lobbyService.createLobby("Lobby 1", LobbyMode.BUILD_MODE, 1, 1);
-        long lobby2ID = lobbyService.createLobby("Lobby 2", LobbyMode.PLAY_MODE, 3, 1);
+        long lobby1ID = lobbyService.createLobby("Lobby 1", LobbyModeEnum.BUILD_MODE, 1, 1);
+        long lobby2ID = lobbyService.createLobby("Lobby 2", LobbyModeEnum.PLAY_MODE, 3, 1);
 
         // exercise
         MvcResult mock = mockMvc.perform(
@@ -105,8 +109,8 @@ public class LobbyRestControllerTest {
 
         // setup
         ObjectMapper mapper = new ObjectMapper();
-        Lobby testLobby = new Lobby("TestLobby", 3, LobbyMode.PLAY_MODE);
-        long testLobbyID = lobbyService.createLobby("TestLobby",LobbyMode.PLAY_MODE, 3, 1);
+        Lobby testLobby = new Lobby("TestLobby", 3, LobbyModeEnum.PLAY_MODE);
+        long testLobbyID = lobbyService.createLobby("TestLobby", LobbyModeEnum.PLAY_MODE, 3, 1);
 
         // exercise
         MvcResult mock = mockMvc.perform(
@@ -132,8 +136,8 @@ public class LobbyRestControllerTest {
     void deleteLobbyWithId() throws Exception {
 
         // setup
-        Lobby testLobby = new Lobby("TestLobby", 3, LobbyMode.PLAY_MODE);
-        long testLobbyID = lobbyService.createLobby("TestLobby",LobbyMode.PLAY_MODE,3,1);
+        Lobby testLobby = new Lobby("TestLobby", 3, LobbyModeEnum.PLAY_MODE);
+        long testLobbyID = lobbyService.createLobby("TestLobby", LobbyModeEnum.PLAY_MODE,3,1);
 
         //delete user with ID
         mockMvc.perform(

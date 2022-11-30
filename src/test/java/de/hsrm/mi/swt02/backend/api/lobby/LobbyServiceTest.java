@@ -1,5 +1,9 @@
 package de.hsrm.mi.swt02.backend.api.lobby;
 
+import de.hsrm.mi.swt02.backend.api.lobby.repository.LobbyRepository;
+import de.hsrm.mi.swt02.backend.api.lobby.service.LobbyService;
+import de.hsrm.mi.swt02.backend.domain.lobby.Lobby;
+import de.hsrm.mi.swt02.backend.domain.lobby.LobbyModeEnum;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.annotation.Testable;
@@ -40,15 +44,15 @@ public class LobbyServiceTest {
         Lobby lobby1 = new Lobby(
                 "Lobby1",
                 1,
-                LobbyMode.PLAY_MODE);
+                LobbyModeEnum.PLAY_MODE);
         Lobby lobby2 = new Lobby(
                 "Lobby2",
                 2,
-                LobbyMode.BUILD_MODE);
+                LobbyModeEnum.BUILD_MODE);
 
         // exercise
-        long lobby1ID = lobbyService.createLobby("Lobby1",LobbyMode.PLAY_MODE,1,1);
-        long lobby2ID = lobbyService.createLobby( "Lobby2",LobbyMode.BUILD_MODE,2,1);
+        long lobby1ID = lobbyService.createLobby("Lobby1", LobbyModeEnum.PLAY_MODE,1,1);
+        long lobby2ID = lobbyService.createLobby( "Lobby2", LobbyModeEnum.BUILD_MODE,2,1);
 
         // validate
         assertThat(lobbyRepository.count()).isEqualTo(2);
@@ -129,7 +133,7 @@ public class LobbyServiceTest {
 
         for (var name: List.of("Lobby1, Lobby2")) {
             Lobby lobby = new Lobby(
-                    name, i++, LobbyMode.BUILD_MODE);
+                    name, i++, LobbyModeEnum.BUILD_MODE);
             lobbyList.add(lobbyRepository.save(lobby));
         }
         return lobbyList;

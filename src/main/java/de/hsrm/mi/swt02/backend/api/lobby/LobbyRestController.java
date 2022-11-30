@@ -2,6 +2,7 @@ package de.hsrm.mi.swt02.backend.api.lobby;
 
 import de.hsrm.mi.swt02.backend.api.lobby.dtos.AddLobbyRequestDTO;
 import de.hsrm.mi.swt02.backend.api.lobby.dtos.GetLobbyResponseDTO;
+import de.hsrm.mi.swt02.backend.api.lobby.service.LobbyServiceImpl;
 import de.hsrm.mi.swt02.backend.api.player.dtos.GetPlayerResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -54,15 +55,15 @@ public class LobbyRestController {
     public ResponseEntity<Long> postNewLobby(
             @Schema(description = "Lobby Dto",
                     defaultValue =  "{ " +
-                                    "  lobbyName: Default Lobby," +
-                                    "  lobbyMode: BUILD_MODE," +
+                                    "  mapName: Default Lobby," +
+                                    "  lobbyModeEnum: BUILD_MODE," +
                                     "  numOfPlayers: 2" +
                                     "  hostID:1 " +
                                     " }",
                     required = true)
             @RequestBody AddLobbyRequestDTO lobbyDTO) {
 
-        return new ResponseEntity<>(lobbyService.createLobby(lobbyDTO.lobbyName(), lobbyDTO.lobbyMode(), lobbyDTO.numOfPlayers(), lobbyDTO.hostID()), HttpStatus.OK);
+        return new ResponseEntity<>(lobbyService.createLobby(lobbyDTO.lobbyName(), lobbyDTO.lobbyModeEnum(), lobbyDTO.numOfPlayers(), lobbyDTO.hostID()), HttpStatus.OK);
 
     }
 
