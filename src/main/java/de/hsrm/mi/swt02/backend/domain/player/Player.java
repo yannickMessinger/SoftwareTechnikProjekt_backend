@@ -1,15 +1,19 @@
 package de.hsrm.mi.swt02.backend.domain.player;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
 import de.hsrm.mi.swt02.backend.domain.lobby.Lobby;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -27,12 +31,17 @@ public class Player {
     private String userName;
 
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private Lobby activeLobby;
 
+    
+    @OneToMany(mappedBy = "host",cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Lobby> hostedLobbys;
+    
 
     public Player(String userName) {
         this.userName = userName;
+        this.hostedLobbys = new ArrayList<Lobby>();
     }
 
     public Player() {
@@ -66,6 +75,14 @@ public class Player {
     }
 
     
+    public void AddHostToHostedLobbyList(Lobby addLobby){
+        this.hostedLobbys.add(addLobby);
+    }
 
+    public void removeLobbyFromHostedLobbyList(Lobby removeLobby){
+        this.hostedLobbys.remove(removeLobby);
+    }
+
+    
 
 }

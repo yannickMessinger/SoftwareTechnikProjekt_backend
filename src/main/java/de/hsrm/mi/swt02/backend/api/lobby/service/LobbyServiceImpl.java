@@ -56,9 +56,14 @@ public class LobbyServiceImpl implements LobbyService {
     @Transactional
     public void deleteLobby(long id) {
 
-        logger.warn("No Lobby with given ID was found");
+        Lobby delLobby = this.findLobbyById(id);
 
-        for (Player player : this.findLobbyById(id).getPlayerList()) {
+        //logger.warn("No Lobby with given ID was found");
+        //Player findPlayer = this.findLobbyById(id).getHost();
+        //findPlayer.removeLobbyFromHostedLobbyList(delLobby);
+        
+
+        for (Player player : delLobby.getPlayerList()) {
             player.setActiveLobby(null);
         }
 
@@ -73,7 +78,9 @@ public class LobbyServiceImpl implements LobbyService {
 
         // DTO aus Frontend anpassen und PlayerID mitschicken der Lobby hosted um Host
         // korrekt zu setzen
+
         Player host = playerService.findPlayerById(hostID);
+        host.AddHostToHostedLobbyList(createLobby);
         createLobby.setHost(host);
 
         return lobbyRepository.save(createLobby).getId();
@@ -118,7 +125,7 @@ public class LobbyServiceImpl implements LobbyService {
         Player player = playerService.findPlayerById(playerId);
         Lobby lobby = this.findLobbyById(lobbyId);
         
-        if(lobby.isHostOf(player.getId())){
+        if(lobby.isHostedBy(player.getId())){
             this.deleteLobby(lobbyId);
             return;
         }

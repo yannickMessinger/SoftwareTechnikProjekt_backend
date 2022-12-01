@@ -1,8 +1,5 @@
 package de.hsrm.mi.swt02.backend.api.player.service;
 
-import de.hsrm.mi.swt02.backend.api.lobby.repository.LobbyRepository;
-import de.hsrm.mi.swt02.backend.api.lobby.service.LobbyService;
-import de.hsrm.mi.swt02.backend.api.lobby.service.LobbyServiceImpl;
 import de.hsrm.mi.swt02.backend.api.player.repository.PlayerRepository;
 import de.hsrm.mi.swt02.backend.domain.lobby.Lobby;
 import de.hsrm.mi.swt02.backend.domain.player.Player;
@@ -19,11 +16,6 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Autowired
     PlayerRepository uRepo;
-
-    /*
-    @Autowired
-    LobbyService lobbyService;
-    */
 
     Logger logger = LoggerFactory.getLogger(PlayerServiceImpl.class);
 
@@ -53,13 +45,30 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public void deletePlayer(long id) {
         Lobby activeLobby = findPlayerById(id).getActiveLobby();
+        Player delPlayer = this.findPlayerById(id);
+
+        for (Player ele : activeLobby.getPlayerList()) {
+            if (ele.getActiveLobby().isHostedBy(id)) {
+                ele.setActiveLobby(null);
+            }
+        }
+
+        if (activeLobby.isHostedBy(id)) {
+            activeLobby.setHost(null);
+        }
+
         activeLobby.getPlayerList().remove(findPlayerById(id));
 
-        if(activeLobby.isHostOf(id)) {
-            activeLobby.setHost(null);
-            //lobbyService.deleteLobby(activeLobby.getId());
+        for (Lobby lobby : delPlayer.getHostedLobbys()) {
+            lobby.setHost(null);
+            for (Player player : lobby.getPlayerList()) {
+                player.setActiveLobby(null);
+            }
+
         }
+
         findPlayerById(id).setActiveLobby(null);
+
         uRepo.deleteById(id);
     }
 

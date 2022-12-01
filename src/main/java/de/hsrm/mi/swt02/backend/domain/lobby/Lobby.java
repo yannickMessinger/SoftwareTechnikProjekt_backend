@@ -36,6 +36,7 @@ public class Lobby {
 
     @ManyToOne
     private Map map;
+    
 
     public Lobby() {
         this.lobbyName = "";
@@ -134,7 +135,7 @@ public class Lobby {
     }
 
 
-    public boolean isHostOf(long possiblehostID){
+    public boolean isHostedBy(long possiblehostID){
         return this.host.getId() == possiblehostID;
     }
 }
