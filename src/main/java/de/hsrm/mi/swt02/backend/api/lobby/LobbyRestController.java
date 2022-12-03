@@ -4,6 +4,7 @@ import de.hsrm.mi.swt02.backend.api.lobby.dtos.AddLobbyRequestDTO;
 import de.hsrm.mi.swt02.backend.api.lobby.dtos.GetLobbyResponseDTO;
 import de.hsrm.mi.swt02.backend.api.lobby.service.LobbyServiceImpl;
 import de.hsrm.mi.swt02.backend.api.player.dtos.GetPlayerResponseDTO;
+import de.hsrm.mi.swt02.backend.api.map.dto.AddMapRequestDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -119,5 +120,21 @@ public class LobbyRestController {
                         .map(GetPlayerResponseDTO::from)
                         .toList());
         return new ResponseEntity<>(playerDTOS, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Post new map to lobby")
+    @PostMapping("/{lobby_id}/{map_id}")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Posted new map to lobby successfully"
+            )
+    })
+    public ResponseEntity<Long> postMapToLobby(
+            @PathVariable("lobby_id") long lobbyId,
+            @PathVariable("map_id") long mapId
+    ) {
+        lobbyService.addMap(lobbyId, mapId);
+        return new ResponseEntity<>(mapId, HttpStatus.OK);
     }
 }
