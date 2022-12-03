@@ -34,9 +34,9 @@ public class Lobby {
     @ManyToOne
     private Player host;
 
-    @ManyToOne
+    @OneToOne
     private Map map;
-    
+
 
     public Lobby() {
         this.lobbyName = "";
@@ -65,7 +65,7 @@ public class Lobby {
     }
 
 
-    public int getNumOfPlayersInLobby(){
+    public int getNumOfPlayersInLobby() {
         return this.getPlayerList().size();
     }
 
@@ -79,7 +79,7 @@ public class Lobby {
         this.host = host;
     }
 
-    public long getHostID(){
+    public long getHostID() {
         return this.host.getId();
     }
 

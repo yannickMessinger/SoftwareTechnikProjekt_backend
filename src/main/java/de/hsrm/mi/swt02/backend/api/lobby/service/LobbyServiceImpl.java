@@ -2,7 +2,6 @@ package de.hsrm.mi.swt02.backend.api.lobby.service;
 
 import de.hsrm.mi.swt02.backend.api.lobby.repository.LobbyRepository;
 import de.hsrm.mi.swt02.backend.domain.player.Player;
-import lombok.extern.java.Log;
 import de.hsrm.mi.swt02.backend.api.player.service.PlayerService;
 import java.util.List;
 import java.util.Optional;
