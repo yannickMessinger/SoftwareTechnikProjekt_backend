@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/mapplan")
+@RequestMapping("api/map")
 public class MapRestController {
 
     @Autowired

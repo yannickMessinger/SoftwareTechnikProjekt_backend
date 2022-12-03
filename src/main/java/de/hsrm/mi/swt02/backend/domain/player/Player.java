@@ -9,6 +9,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
 import de.hsrm.mi.swt02.backend.domain.lobby.Lobby;
+import de.hsrm.mi.swt02.backend.domain.map.Map;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,6 +38,9 @@ public class Player {
     
     @OneToMany(mappedBy = "host",cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Lobby> hostedLobbys;
+
+    @OneToMany(mappedBy = "mapOwner",cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Map> mapList;
     
 
     public Player(String userName) {
@@ -83,6 +87,12 @@ public class Player {
         this.hostedLobbys.remove(removeLobby);
     }
 
+    public void addMapToMapList(Map addMap){
+        this.mapList.add(addMap);
+    }
     
+    public void removeMapFromMapList(Map removeMap){
+        this.mapList.remove(removeMap);
+    }
 
 }

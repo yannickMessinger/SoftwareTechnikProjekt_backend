@@ -46,7 +46,11 @@ public class PlayerServiceImpl implements PlayerService {
     public void deletePlayer(long id) {
         Lobby activeLobby = findPlayerById(id).getActiveLobby();
         Player delPlayer = this.findPlayerById(id);
-
+        if (activeLobby == null) {
+            uRepo.deleteById(id);
+            return;
+        }
+        
         for (Player ele : activeLobby.getPlayerList()) {
             if (ele.getActiveLobby().isHostedBy(id)) {
                 ele.setActiveLobby(null);

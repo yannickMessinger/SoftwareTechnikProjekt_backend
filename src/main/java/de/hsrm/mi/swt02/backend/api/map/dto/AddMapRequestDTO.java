@@ -6,5 +6,6 @@ public record AddMapRequestDTO(
         String mapName,
         LocalDate creationDate,
         int sizeX,
-        int sizeY
+        int sizeY,
+        long mapOwnerID
 ) {}
