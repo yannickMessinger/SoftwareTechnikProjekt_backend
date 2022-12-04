@@ -23,7 +23,7 @@ public class MapRestController {
     @Autowired
     MapService mapService;
 
-    @Operation(summary = "Posting a new Map to the DB")
+    @Operation(summary = "Posting a new Map")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Map was created"),
             @ApiResponse(responseCode = "400", description = "User JSON wrong syntax")
@@ -77,11 +77,26 @@ public class MapRestController {
     })
     @GetMapping("/objects/{id}")
     public ResponseEntity<List<GetMapObjectResponseDTO>> getAllMapObjectsFromMap(@PathVariable("id") long id) {
-        List<GetMapObjectResponseDTO> allMapObjectDTOs = new ArrayList<GetMapObjectResponseDTO>(
+        List<GetMapObjectResponseDTO> allMapObjectDTOs = new ArrayList<>(
                 mapService.getMapById(id).getMapObjects()
                         .stream()
                         .map(GetMapObjectResponseDTO::from)
                         .toList());
         return new ResponseEntity<>(allMapObjectDTOs, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Posting a new Map and directly assign to Lobby")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Map was created and assigned to Lobby"),
+            @ApiResponse(responseCode = "400", description = "User JSON wrong syntax")
+    })
+    @PostMapping("/{lobby_id}")
+    public ResponseEntity<Long> postNewMapAndAssignToLobby(
+            @PathVariable("lobby_id") long lobbyId,
+            @RequestBody AddMapRequestDTO addMapRequestDTO) {
+        long mapId = mapService.saveMap(addMapRequestDTO);
+        mapService.assignLobbyToMap(mapId, lobbyId);
+
+        return new ResponseEntity<>(mapId, HttpStatus.OK);
     }
 }

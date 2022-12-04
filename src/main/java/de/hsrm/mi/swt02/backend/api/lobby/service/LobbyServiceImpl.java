@@ -161,6 +161,13 @@ public class LobbyServiceImpl implements LobbyService {
     public long addMap(long lobbyId, long mapId) {
         Lobby lobby = findLobbyById(lobbyId);
         Map map = mapService.getMapById(mapId);
+
+        if(lobby.getMap() != null)
+            lobby.getMap().setLobby(null);
+
+        if(map.getLobby() != null)
+            map.getLobby().setMap(null);
+
         lobby.setMap(map);
         map.setLobby(lobby);
         lobbyRepository.save(lobby);
