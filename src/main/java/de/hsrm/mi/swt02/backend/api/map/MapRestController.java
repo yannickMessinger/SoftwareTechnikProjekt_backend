@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/mapplan")
+@RequestMapping("api/map")
 public class MapRestController {
 
     @Autowired
@@ -47,7 +47,7 @@ public class MapRestController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @Operation(summary = "Get all Mapplans")
+    @Operation(summary = "Get all Maps")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found Maps")
     })
@@ -71,7 +71,7 @@ public class MapRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @Operation(summary = "Get all MapObjects from a specific Mapplan (by Mapplan id)")
+    @Operation(summary = "Get all MapObjects from a specific Map (by Map id)")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Got all MapObjects from Map")
     })
