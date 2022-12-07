@@ -64,7 +64,6 @@ public class PlayerServiceImpl implements PlayerService {
             for (Player player : lobby.getPlayerList()) {
                 player.setActiveLobby(null);
             }
-
         }
 
         findPlayerById(id).setActiveLobby(null);

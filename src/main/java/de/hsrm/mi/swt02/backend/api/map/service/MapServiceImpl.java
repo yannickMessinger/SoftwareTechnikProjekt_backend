@@ -1,6 +1,7 @@
 package de.hsrm.mi.swt02.backend.api.map.service;
 
 
+import de.hsrm.mi.swt02.backend.api.lobby.repository.LobbyRepository;
 import de.hsrm.mi.swt02.backend.api.map.dto.AddMapRequestDTO;
 import de.hsrm.mi.swt02.backend.api.map.repository.MapRepository;
 import de.hsrm.mi.swt02.backend.domain.map.Map;
@@ -16,6 +17,9 @@ public class MapServiceImpl implements MapService {
     @Autowired
     MapRepository mapRepository;
 
+    @Autowired
+    LobbyRepository lobbyRepository;
+
     /**
      * save map Plan
      * @param dto
@@ -27,6 +31,28 @@ public class MapServiceImpl implements MapService {
         map = mapRepository.save(map);
 
         return map.getId();
+    }
+
+    /**
+     * assign new Lobby to map and cut old relations
+     * 
+     */
+    public void assignLobbyToMap(long mapId, long lobbyId) {
+        Map map =  this.getMapById(mapId);
+
+        lobbyRepository.findById(lobbyId).ifPresent(lobby -> {
+            if(lobby.getMap() != null) {
+                lobby.getMap().setLobby(null);
+
+            }
+            if(map.getLobby() != null) {
+                map.getLobby().setMap(null);
+            }
+
+            lobby.setMap(map);
+            map.setLobby(lobby);
+            mapRepository.save(map);
+        });
     }
 
     /**

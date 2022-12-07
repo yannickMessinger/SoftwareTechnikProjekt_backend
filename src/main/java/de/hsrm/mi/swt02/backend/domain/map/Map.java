@@ -3,6 +3,7 @@ package de.hsrm.mi.swt02.backend.domain.map;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import de.hsrm.mi.swt02.backend.domain.lobby.Lobby;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,6 +34,9 @@ public class Map {
 
     private int sizeX;
     private int sizeY;
+
+    @OneToOne(mappedBy = "map")
+    private Lobby lobby;
 
     public Map(
             String mapName,
