@@ -5,6 +5,7 @@ import de.hsrm.mi.swt02.backend.domain.map.Map;
 import java.time.LocalDate;
 
 public record GetMapResponseDTO(
+        long mapID,
         String mapName,
         LocalDate creationDate,
         int sizeX,
@@ -12,6 +13,7 @@ public record GetMapResponseDTO(
 ) {
     public static GetMapResponseDTO from(Map map) {
         return new GetMapResponseDTO(
+                map.getId(),
                 map.getMapName(),
                 map.getCreationDate(),
                 map.getSizeX(),
