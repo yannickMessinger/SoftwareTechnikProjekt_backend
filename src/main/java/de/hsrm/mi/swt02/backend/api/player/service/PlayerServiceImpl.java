@@ -72,8 +72,17 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public Player createPlayer(String userName) {
+    public Player findPlayerByUsernameAndPassword(String username, String password){
+        Optional<Player> player = uRepo.findPlayerByUsernameAndPassword(username, password);
+        if (player.isEmpty()){
+            return null;
+        }
+        return player.get();
+    }
 
-        return uRepo.save(new Player(userName));
+    @Override
+    public Player createPlayer(String userName, String password) {
+
+        return uRepo.save(new Player(userName, password));
     }
 }

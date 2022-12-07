@@ -48,10 +48,29 @@ public class PlayerRestController {
                     implementation = AddPlayerRequestDTO.class,
                     required = true)
             @RequestBody AddPlayerRequestDTO uDTO) {
-        Player u = playerService.createPlayer(uDTO.userName());
+        Player u = playerService.createPlayer(uDTO.userName(), uDTO.password());
 
         return new ResponseEntity<>(u.getId(), HttpStatus.OK);
     }
+
+    @Operation(summary = "Get user by username and password")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "user found"),
+        @ApiResponse(responseCode = "400", description = "user not found")})
+    @PostMapping("/login")
+    public ResponseEntity<GetPlayerResponseDTO> getUser(
+        @Schema(
+            description = "Userlogin", 
+            implementation = AddPlayerRequestDTO.class,
+            required = true)
+        @RequestBody AddPlayerRequestDTO uDto) {
+            Player p = playerService.findPlayerByUsernameAndPassword(uDto.userName(), uDto.password());
+            if (p != null){
+                return new ResponseEntity<>(GetPlayerResponseDTO.from(p), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        }
 
     @Operation(summary = "Get user by ID")
     @ApiResponses(value = {
