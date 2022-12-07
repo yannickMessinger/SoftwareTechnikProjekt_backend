@@ -7,7 +7,8 @@ import org.springframework.stereotype.Service;
 
 import de.hsrm.mi.swt02.backend.api.userlogin.repository.UserloginRepository;
 import de.hsrm.mi.swt02.backend.domain.userlogin.Userlogin;
-
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Service
 public class UserloginServiceImpl implements UserloginService {
     @Autowired
@@ -22,6 +23,9 @@ public class UserloginServiceImpl implements UserloginService {
     @Override
     public Optional<Userlogin> findUserByUsernameAndPassword(String username, String password){
         Optional<Userlogin> user = userRepo.findUserByUsernameAndPassword(username, password);
+        if (user.isEmpty()){
+            log.warn("No User with given ID and Password was found");
+        }
         return user;
     }
 }
