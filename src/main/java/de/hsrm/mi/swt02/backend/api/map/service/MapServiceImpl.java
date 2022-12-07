@@ -33,6 +33,13 @@ public class MapServiceImpl implements MapService {
         return map.getId();
     }
 
+    @Override
+    public Map createNewMap(){
+        Map map = new Map();
+
+        return mapRepository.save(map);
+    }
+
     /**
      * assign new Lobby to map and cut old relations
      * 

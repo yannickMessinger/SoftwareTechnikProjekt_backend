@@ -14,5 +14,6 @@ public interface MapService {
     void deleteMapById(long id);
     List<Map> findAllMaps();
     void assignLobbyToMap(long mapId, long lobbyId);
+    Map createNewMap();
 
 }
