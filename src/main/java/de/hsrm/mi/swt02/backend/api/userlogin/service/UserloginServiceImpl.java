@@ -25,6 +25,7 @@ public class UserloginServiceImpl implements UserloginService {
         Optional<Userlogin> user = userRepo.findUserByUsernameAndPassword(username, password);
         if (user.isEmpty()){
             log.warn("No User with given ID and Password was found");
+            return null;
         }
         return user;
     }

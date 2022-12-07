@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Version;
 
+import org.apache.catalina.User;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,5 +30,8 @@ public class Userlogin {
     public Userlogin(String username, String password){
         this.username = username;
         this.password = password;
+    }
+    public Userlogin(){
+        
     }
 }
