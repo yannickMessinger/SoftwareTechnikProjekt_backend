@@ -1,6 +1,5 @@
 package de.hsrm.mi.swt02.backend.api.map.dto;
 
-import de.hsrm.mi.swt02.backend.domain.lobby.LobbyModeEnum;
 import de.hsrm.mi.swt02.backend.domain.map.Map;
 
 import java.time.LocalDate;

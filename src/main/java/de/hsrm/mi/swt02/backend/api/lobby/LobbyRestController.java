@@ -55,12 +55,7 @@ public class LobbyRestController {
     @PostMapping("")
     public ResponseEntity<Long> postNewLobby(
             @Schema(description = "Lobby Dto",
-                    defaultValue =  "{ " +
-                                    "  lobbyName: Default Lobby," +
-                                    "  lobbyModeEnum: BUILD_MODE," +
-                                    "  numOfPlayers: 2" +
-                                    "  hostID:1 " +
-                                    " }",
+                    implementation = AddLobbyRequestDTO.class,
                     required = true)
             @RequestBody AddLobbyRequestDTO lobbyDTO) {
 
@@ -148,12 +143,7 @@ public class LobbyRestController {
     })
     public ResponseEntity<Long> postNewLobbyAndAssignToMap(
             @Schema(description = "Lobby Dto",
-                    defaultValue =  "{ " +
-                            "  lobbyName: Default Lobby," +
-                            "  lobbyModeEnum: BUILD_MODE," +
-                            "  numOfPlayers: 2" +
-                            "  hostID:1 " +
-                            " }",
+                    implementation = AddLobbyRequestDTO.class,
                     required = true)
             @RequestBody AddLobbyRequestDTO lobbyDTO,
             @PathVariable("map_id") long mapId) {
