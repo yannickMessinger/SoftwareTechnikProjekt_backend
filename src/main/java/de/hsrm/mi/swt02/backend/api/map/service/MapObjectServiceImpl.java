@@ -92,7 +92,7 @@ public class MapObjectServiceImpl implements MapObjectService {
         List <MapObject> map_list = new ArrayList<>();
 
         for(AddMapObjectRequestDTO ele : mapObjects.mapObjects()){
-            map_list.add(new MapObject(ele.objectTypeID(), ele.x(), ele.y(), ele.rotation()));
+            map_list.add(new MapObject(ele.objectTypeId(), ele.x(), ele.y(), ele.rotation()));
         }
 
         for (MapObject ele : map_list){
