@@ -91,21 +91,16 @@ public class MapObjectServiceImpl implements MapObjectService {
 
         Map foundMap = mapService.getMapById(mapId);
 
-        if (mapObjects.mapObjects().isEmpty()) {
-
-            this.deleteAllMapObjectsFromMapById(mapId);
-            mapService.saveEditedMap(foundMap);
-            return 0L;
-        }
-
         this.deleteAllMapObjectsFromMapById(mapId);
 
-        for (AddMapObjectRequestDTO ele : mapObjects.mapObjects()) {
-            MapObject nMapObj = new MapObject(ele.objectTypeId(), ele.x(), ele.y(), ele.rotation());
-            nMapObj.setMap(mapService.getMapById(mapId));
-            foundMap.getMapObjects().add(nMapObj);
-            mapObjRepo.save(nMapObj);
+        if (!mapObjects.mapObjects().isEmpty()) {
+            for (AddMapObjectRequestDTO ele : mapObjects.mapObjects()) {
+                MapObject nMapObj = new MapObject(ele.objectTypeId(), ele.x(), ele.y(), ele.rotation());
+                nMapObj.setMap(mapService.getMapById(mapId));
+                foundMap.getMapObjects().add(nMapObj);
+                mapObjRepo.save(nMapObj);
 
+            }
         }
 
         mapService.saveEditedMap(foundMap);
