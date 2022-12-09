@@ -22,7 +22,7 @@ public class MapServiceImpl implements MapService {
     MapRepository mapRepository;
 
     @Autowired
-    PlayerService playerService;
+    LobbyRepository lobbyRepository;
 
     /**
      * save map Plan
@@ -34,9 +34,6 @@ public class MapServiceImpl implements MapService {
     @Transactional
     public long saveMap(AddMapRequestDTO dto) {
         Map map = new Map(dto.mapName(), dto.creationDate(), dto.sizeX(), dto.sizeY());
-        Player mapOwner = playerService.findPlayerById(dto.mapOwnerID());
-        mapOwner.addMapToMapList(map);
-        map.setMapOwner(mapOwner);
         map = mapRepository.save(map);
 
         return map.getId();
@@ -74,34 +71,8 @@ public class MapServiceImpl implements MapService {
         });
     }
 
-    @Override
-    public Map createNewMap(){
-        Map map = new Map();
 
-        return mapRepository.save(map);
-    }
-
-    /**
-     * assign new Lobby to map and cut old relations
-     * 
-     */
-    public void assignLobbyToMap(long mapId, long lobbyId) {
-        Map map =  this.getMapById(mapId);
-
-        lobbyRepository.findById(lobbyId).ifPresent(lobby -> {
-            if(lobby.getMap() != null) {
-                lobby.getMap().setLobby(null);
-
-            }
-            if(map.getLobby() != null) {
-                map.getLobby().setMap(null);
-            }
-
-            lobby.setMap(map);
-            map.setLobby(lobby);
-            mapRepository.save(map);
-        });
-    }
+   
 
     /**
      * get map by id

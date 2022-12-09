@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import de.hsrm.mi.swt02.backend.domain.lobby.Lobby;
+import de.hsrm.mi.swt02.backend.domain.player.Player;
 import lombok.Getter;
 import lombok.Setter;
 
