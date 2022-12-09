@@ -1,5 +1,6 @@
 package de.hsrm.mi.swt02.backend.api.player;
 
+import de.hsrm.mi.swt02.backend.api.lobby.dtos.AddLobbyRequestDTO;
 import de.hsrm.mi.swt02.backend.api.player.dtos.AddPlayerRequestDTO;
 import de.hsrm.mi.swt02.backend.api.player.dtos.GetPlayerResponseDTO;
 import de.hsrm.mi.swt02.backend.api.player.service.PlayerServiceImpl;
@@ -42,7 +43,10 @@ public class PlayerRestController {
             @ApiResponse(responseCode = "400", description = "User JSON wrong syntax")})
     @PostMapping("")
     public ResponseEntity<Long> postNewPlayer(
-            @Schema(description = "User Dto (userName: '')", required = true)
+            @Schema(
+                    description = "User Dto (userName: '')",
+                    implementation = AddPlayerRequestDTO.class,
+                    required = true)
             @RequestBody AddPlayerRequestDTO uDTO) {
         Player u = playerService.createPlayer(uDTO.userName());
 

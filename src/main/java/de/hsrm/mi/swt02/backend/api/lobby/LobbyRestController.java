@@ -4,6 +4,7 @@ import de.hsrm.mi.swt02.backend.api.lobby.dtos.AddLobbyRequestDTO;
 import de.hsrm.mi.swt02.backend.api.lobby.dtos.GetLobbyResponseDTO;
 import de.hsrm.mi.swt02.backend.api.lobby.service.LobbyServiceImpl;
 import de.hsrm.mi.swt02.backend.api.player.dtos.GetPlayerResponseDTO;
+import de.hsrm.mi.swt02.backend.api.map.dto.AddMapRequestDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -54,12 +55,7 @@ public class LobbyRestController {
     @PostMapping("")
     public ResponseEntity<Long> postNewLobby(
             @Schema(description = "Lobby Dto",
-                    defaultValue =  "{ " +
-                                    "  lobbyName: Default Lobby," +
-                                    "  lobbyModeEnum: BUILD_MODE," +
-                                    "  numOfPlayers: 2" +
-                                    "  hostID:1 " +
-                                    " }",
+                    implementation = AddLobbyRequestDTO.class,
                     required = true)
             @RequestBody AddLobbyRequestDTO lobbyDTO) {
 
@@ -120,4 +116,42 @@ public class LobbyRestController {
                         .toList());
         return new ResponseEntity<>(playerDTOS, HttpStatus.OK);
     }
+
+    @Operation(summary = "Assign present map to lobby")
+    @PostMapping("/{lobby_id}/{map_id}")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Assign new map to lobby successfully"
+            )
+    })
+    public ResponseEntity<Long> assignMapToLobby(
+            @PathVariable("lobby_id") long lobbyId,
+            @PathVariable("map_id") long mapId
+    ) {
+        lobbyService.addMap(lobbyId, mapId);
+        return new ResponseEntity<>(mapId, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Post new Lobby and assign Map to the posted Lobby")
+    @PostMapping("/map/{map_id}")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "New Lobby posted and successfully assigned to map"
+            )
+    })
+    public ResponseEntity<Long> postNewLobbyAndAssignToMap(
+            @Schema(description = "Lobby Dto",
+                    implementation = AddLobbyRequestDTO.class,
+                    required = true)
+            @RequestBody AddLobbyRequestDTO lobbyDTO,
+            @PathVariable("map_id") long mapId) {
+
+        long lobbyId = lobbyService.createLobby(lobbyDTO.lobbyName(), lobbyDTO.lobbyModeEnum(), lobbyDTO.numOfPlayers(), lobbyDTO.hostID());
+        lobbyService.addMap(lobbyId, mapId);
+        return new ResponseEntity<>(lobbyId, HttpStatus.OK);
+    }
+
+
 }

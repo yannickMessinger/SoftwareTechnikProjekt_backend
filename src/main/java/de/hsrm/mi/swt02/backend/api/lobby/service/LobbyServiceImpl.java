@@ -1,8 +1,9 @@
 package de.hsrm.mi.swt02.backend.api.lobby.service;
 
 import de.hsrm.mi.swt02.backend.api.lobby.repository.LobbyRepository;
+import de.hsrm.mi.swt02.backend.api.map.service.MapService;
+import de.hsrm.mi.swt02.backend.domain.map.Map;
 import de.hsrm.mi.swt02.backend.domain.player.Player;
-import lombok.extern.java.Log;
 import de.hsrm.mi.swt02.backend.api.player.service.PlayerService;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,9 @@ public class LobbyServiceImpl implements LobbyService {
 
     @Autowired
     private PlayerService playerService;
+
+    @Autowired
+    private MapService mapService;
 
     @Override
     @Transactional
@@ -73,17 +77,19 @@ public class LobbyServiceImpl implements LobbyService {
     @Override
     @Transactional
     public long createLobby(String lobbyName, LobbyModeEnum lobbyMode, int numOfPlayers, long hostID) {
-
+        //todo: wenn bereits exisitierende map mit gegeben wird per id, erst per mapservice finden und setzen!
         Lobby createLobby = new Lobby(lobbyName, numOfPlayers, lobbyMode);
-
-        // DTO aus Frontend anpassen und PlayerID mitschicken der Lobby hosted um Host
-        // korrekt zu setzen
+        createLobby = lobbyRepository.save(createLobby);
 
         Player host = playerService.findPlayerById(hostID);
         host.AddHostToHostedLobbyList(createLobby);
         createLobby.setHost(host);
 
-        return lobbyRepository.save(createLobby).getId();
+        Map test = mapService.createNewMap();
+        mapService.assignLobbyToMap(test.getId(), createLobby.getId());
+
+
+        return createLobby.getId();
     }
 
     @Override
@@ -143,5 +149,30 @@ public class LobbyServiceImpl implements LobbyService {
     @Override
     public List<Player> findAllPlayersFromLobby(long lobbyId) {
         return this.findLobbyById(lobbyId).getPlayerList();
+    }
+
+    /**
+     * adds an available map to a lobby, both found by the id
+     *
+     * @param lobbyId id of lobby
+     * @param mapId id of map
+     * @return id of map
+     */
+    @Override
+    @Transactional
+    public long addMap(long lobbyId, long mapId) {
+        Lobby lobby = findLobbyById(lobbyId);
+        Map map = mapService.getMapById(mapId);
+
+        if(lobby.getMap() != null)
+            lobby.getMap().setLobby(null);
+
+        if(map.getLobby() != null)
+            map.getLobby().setMap(null);
+
+        lobby.setMap(map);
+        map.setLobby(lobby);
+        lobbyRepository.save(lobby);
+        return map.getId();
     }
 }

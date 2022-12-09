@@ -5,6 +5,7 @@ import java.util.List;
 
 import de.hsrm.mi.swt02.backend.api.map.service.MapObjectServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,12 @@ public class MapObjectRestController {
             @ApiResponse(responseCode = "200", description = "new MapObjects are created")
     })
     @PostMapping("/{map_id}")
-    public ResponseEntity<Long> postMapObject(@RequestBody AddMapObjectsRequestDTO mapObjects, @PathVariable("map_id") long mapId){
+    public ResponseEntity<Long> postMapObject(
+            @Schema(description = "MapDto",
+                    implementation = AddMapObjectsRequestDTO.class,
+                    required = true)
+            @RequestBody AddMapObjectsRequestDTO mapObjects,
+            @PathVariable("map_id") long mapId){
 
         return new ResponseEntity<>(mapObjectService.createMapObject(mapObjects, mapId), HttpStatus.OK);
     }

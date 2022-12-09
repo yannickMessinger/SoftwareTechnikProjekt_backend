@@ -21,7 +21,7 @@ public class MapObjectType {
     @Version
     private long version;
 
-    private long objectTypeID;
+    private long objectTypeId;
     private String objectName;
     private String img;
     private ObjectTypeEnum type;
@@ -30,8 +30,8 @@ public class MapObjectType {
     public MapObjectType() {
     }
 
-    public MapObjectType(long objectTypeID, String objectName, String img, ObjectTypeEnum type, boolean rotatable) {
-        this.objectTypeID = objectTypeID;
+    public MapObjectType(long objectTypeId, String objectName, String img, ObjectTypeEnum type, boolean rotatable) {
+        this.objectTypeId = objectTypeId;
         this.objectName = objectName;
         this.img = img;
         this.type = type;
