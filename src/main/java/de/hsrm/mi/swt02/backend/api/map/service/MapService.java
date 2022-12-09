@@ -13,5 +13,8 @@ public interface MapService {
     Map getMapById(long id);
     void deleteMapById(long id);
     List<Map> findAllMaps();
+    void assignLobbyToMap(long mapId, long lobbyId);
+    Map createNewMap();
+    void saveEditedMap(Map map);
 
 }

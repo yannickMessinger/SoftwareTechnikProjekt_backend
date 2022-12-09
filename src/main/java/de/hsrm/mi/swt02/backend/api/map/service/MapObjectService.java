@@ -13,4 +13,5 @@ public interface MapObjectService {
     MapObject getMapObjectById(long id);
     void deleteMapObjectById(long id);
     Long createMapObject(AddMapObjectsRequestDTO mapObjects, long mapId);
+    void deleteAllMapObjectsFromMapById(long id);
 }
