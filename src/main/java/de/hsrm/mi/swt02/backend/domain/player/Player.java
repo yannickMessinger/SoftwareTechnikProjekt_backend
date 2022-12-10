@@ -29,6 +29,7 @@ public class Player {
     private long version;
 
     private String userName;
+    private String password;
 
 
     @ManyToOne(cascade = CascadeType.REMOVE)
@@ -39,8 +40,9 @@ public class Player {
     private List<Lobby> hostedLobbys;
     
 
-    public Player(String userName) {
+    public Player(String userName, String password) {
         this.userName = userName;
+        this.password = password;
         this.hostedLobbys = new ArrayList<Lobby>();
     }
 
@@ -82,7 +84,5 @@ public class Player {
     public void removeLobbyFromHostedLobbyList(Lobby removeLobby){
         this.hostedLobbys.remove(removeLobby);
     }
-
-    
 
 }

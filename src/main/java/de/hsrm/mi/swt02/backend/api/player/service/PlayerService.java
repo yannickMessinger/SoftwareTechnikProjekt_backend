@@ -9,5 +9,6 @@ public interface PlayerService {
     List<Player> findAllPlayers();
     Player findPlayerById(long id);
     void deletePlayer(long id);
-    Player createPlayer(String userName);
+    Player createPlayer(String userName, String password);
+    Player findPlayerByUsernameAndPassword(String username, String password);
 }

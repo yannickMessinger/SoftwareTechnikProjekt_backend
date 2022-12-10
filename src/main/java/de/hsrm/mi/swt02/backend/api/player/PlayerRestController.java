@@ -41,6 +41,7 @@ public class PlayerRestController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User was created"),
             @ApiResponse(responseCode = "400", description = "User JSON wrong syntax")})
+    @CrossOrigin(origins = "http://127.0.0.1:5173")
     @PostMapping("")
     public ResponseEntity<Long> postNewPlayer(
             @Schema(
@@ -48,10 +49,30 @@ public class PlayerRestController {
                     implementation = AddPlayerRequestDTO.class,
                     required = true)
             @RequestBody AddPlayerRequestDTO uDTO) {
-        Player u = playerService.createPlayer(uDTO.userName());
+        Player u = playerService.createPlayer(uDTO.userName(), uDTO.password());
 
         return new ResponseEntity<>(u.getId(), HttpStatus.OK);
     }
+
+    @Operation(summary = "Get user by username and password")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "user found"),
+        @ApiResponse(responseCode = "400", description = "user not found")})
+    @CrossOrigin(origins = "http://127.0.0.1:5173")
+    @PostMapping("/login")
+    public ResponseEntity<GetPlayerResponseDTO> getUser(
+        @Schema(
+            description = "Userlogin", 
+            implementation = AddPlayerRequestDTO.class,
+            required = true)
+        @RequestBody AddPlayerRequestDTO uDto) {
+            Player p = playerService.findPlayerByUsernameAndPassword(uDto.userName(), uDto.password());
+            if (p != null){
+                return new ResponseEntity<>(GetPlayerResponseDTO.from(p), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        }
 
     @Operation(summary = "Get user by ID")
     @ApiResponses(value = {
