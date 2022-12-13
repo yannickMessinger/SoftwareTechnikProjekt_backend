@@ -6,9 +6,13 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Controller
 public class EditorController {
+
+    Logger logger = LoggerFactory.getLogger(EditorController.class);
 
     @MessageMapping("/editor.sendMessage")
     @SendTo("/topic/public")
@@ -18,9 +22,9 @@ public class EditorController {
 
     @MessageMapping("/editor.create")
     @SendTo("/topic/public")
-    public EditorMessage create(@Payload EditorMessage editorMessage,
-                                      SimpMessageHeaderAccessor headerAccessor) {
-        headerAccessor.getSessionAttributes().put("username", editorMessage.getAuthor());
+    public EditorMessage create(EditorMessage editorMessage) {
+        logger.info("create message received");
+        // headerAccessor.getSessionAttributes().put("username", editorMessage.getAuthor());
         return editorMessage;
     }
 
