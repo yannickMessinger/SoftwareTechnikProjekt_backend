@@ -29,7 +29,7 @@ public class Map {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate creationDate;
 
-    @OneToMany(mappedBy = "map", orphanRemoval = true)
+    @OneToMany(mappedBy = "map", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<MapObject> mapObjects;
 
     private int sizeX;

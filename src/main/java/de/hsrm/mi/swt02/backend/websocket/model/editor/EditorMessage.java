@@ -1,6 +1,6 @@
 package de.hsrm.mi.swt02.backend.websocket.model.editor;
 
-import de.hsrm.mi.swt02.backend.domain.map.MapObject;
+import de.hsrm.mi.swt02.backend.api.map.dto.AddMapObjectRequestDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +9,7 @@ import lombok.Setter;
 public class EditorMessage {
     private long id;
     private MessageType type;
-    public MapObject content;
+    public AddMapObjectRequestDTO content;
     private String author;
 
     public enum MessageType {

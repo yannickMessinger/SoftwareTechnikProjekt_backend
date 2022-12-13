@@ -2,6 +2,7 @@ package de.hsrm.mi.swt02.backend.api.map.service;
 
 import java.util.List;
 
+import de.hsrm.mi.swt02.backend.api.map.dto.AddMapObjectRequestDTO;
 import de.hsrm.mi.swt02.backend.api.map.dto.AddMapObjectsRequestDTO;
 import de.hsrm.mi.swt02.backend.domain.map.MapObject;
 
@@ -13,4 +14,5 @@ public interface MapObjectService {
     MapObject getMapObjectById(long id);
     void deleteMapObjectById(long id);
     Long createMapObject(AddMapObjectsRequestDTO mapObjects, long mapId);
+    void addNewMapObjectFromBroker(AddMapObjectRequestDTO mapObjects, long id);
 }
