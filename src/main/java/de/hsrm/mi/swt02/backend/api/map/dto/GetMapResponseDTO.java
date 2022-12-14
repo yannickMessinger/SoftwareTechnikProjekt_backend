@@ -10,6 +10,7 @@ public record GetMapResponseDTO(
         LocalDate creationDate,
         int sizeX,
         int sizeY
+        
 ) {
     public static GetMapResponseDTO from(Map map) {
         return new GetMapResponseDTO(
@@ -18,6 +19,7 @@ public record GetMapResponseDTO(
                 map.getCreationDate(),
                 map.getSizeX(),
                 map.getSizeY()
+                
         );
     }
 }

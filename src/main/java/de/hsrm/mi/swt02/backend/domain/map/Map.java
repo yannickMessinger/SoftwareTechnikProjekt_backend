@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import de.hsrm.mi.swt02.backend.domain.lobby.Lobby;
+import de.hsrm.mi.swt02.backend.domain.player.Player;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,8 +30,11 @@ public class Map {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate creationDate;
 
-    @OneToMany(mappedBy = "map", orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "map",cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<MapObject> mapObjects;
+
+    @ManyToOne
+    private Player mapOwner;
 
     private int sizeX;
     private int sizeY;
