@@ -77,7 +77,7 @@ public class Player {
 
 
     public boolean isHost(Lobby lobby) {
-        return lobby.getHostID() == this.id;
+        return lobby.getHostId() == this.id;
     }
 
     

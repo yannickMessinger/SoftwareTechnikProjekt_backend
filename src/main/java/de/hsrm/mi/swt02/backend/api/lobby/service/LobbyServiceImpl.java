@@ -76,12 +76,12 @@ public class LobbyServiceImpl implements LobbyService {
 
     @Override
     @Transactional
-    public long createLobby(String lobbyName, LobbyModeEnum lobbyMode, int numOfPlayers, long hostID) {
+    public long createLobby(String lobbyName, LobbyModeEnum lobbyMode, int numOfPlayers, long hostId) {
         //todo: wenn bereits exisitierende map mit gegeben wird per id, erst per mapservice finden und setzen!
         Lobby createLobby = new Lobby(lobbyName, numOfPlayers, lobbyMode);
         createLobby = lobbyRepository.save(createLobby);
 
-        Player host = playerService.findPlayerById(hostID);
+        Player host = playerService.findPlayerById(hostId);
         host.AddHostToHostedLobbyList(createLobby);
         createLobby.setHost(host);
 
