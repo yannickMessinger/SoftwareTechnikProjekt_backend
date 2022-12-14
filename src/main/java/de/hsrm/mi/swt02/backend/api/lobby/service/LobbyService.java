@@ -13,7 +13,7 @@ public interface LobbyService {
     List<Lobby> findAllLobbys();
     Lobby findLobbyById(long id);
     void deleteLobby(long id);
-    long createLobby(String lobbyName, LobbyModeEnum lobbyMode, int numOfPlayers, long hostID);
+    long createLobby(String lobbyName, LobbyModeEnum lobbyMode, int numOfPlayers, long hostId);
     void updateLobby(long id);
     void addPlayerToLobby(long lobbyId, long playerId);
     void removePlayerFromLobby(long lobbyId, long playerId);
