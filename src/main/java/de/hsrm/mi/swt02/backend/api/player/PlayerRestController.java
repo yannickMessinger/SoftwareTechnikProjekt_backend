@@ -41,7 +41,6 @@ public class PlayerRestController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User was created"),
             @ApiResponse(responseCode = "400", description = "User JSON wrong syntax")})
-    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("")
     public ResponseEntity<Long> postNewPlayer(
             @Schema(
@@ -58,7 +57,6 @@ public class PlayerRestController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "user found"),
         @ApiResponse(responseCode = "400", description = "user not found")})
-    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/login")
     public ResponseEntity<GetPlayerResponseDTO> getUser(
         @Schema(
