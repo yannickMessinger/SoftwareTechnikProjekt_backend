@@ -1,6 +1,5 @@
 package de.hsrm.mi.swt02.backend.api.map.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -119,22 +118,56 @@ public class MapObjectServiceImpl implements MapObjectService {
     }
 
     /**
-     * Added a new MapObjekt to the right Map and save in database that comes from Message Broker.
+     * Add a new MapObjekt to the right Map and save in database that comes from Message Broker.
      * If MapObject has a field that already exist, it will be deleted.
-     * ToDo: assign MapObject to the right Map.
+     *
      * @param mapObjectDTO - came from Broker (create) channel
      */
+
     @Override
-    public void addNewMapObjectFromBroker(AddMapObjectRequestDTO mapObjectDTO, long id) {
-        Map map = mapService.getMapById(id);
+    public void addNewMapObjectFromBroker(AddMapObjectRequestDTO mapObjectDTO, long mapId) {
+        Map map = mapService.getMapById(mapId);
         List<MapObject> mapObjectList = map.getMapObjects();
-        mapObjectList.stream()
-                .filter(c -> c.getX() == mapObjectDTO.x() && c.getY() == mapObjectDTO.y())
-                .findFirst()
+        this.findMapObjectByXandY(mapObjectList, mapObjectDTO)
                 .ifPresent(mapObject -> mapObjRepo.delete(mapObject));
         MapObject mapObject = new MapObject(mapObjectDTO.objectTypeId(), mapObjectDTO.x(), mapObjectDTO.y(), mapObjectDTO.rotation());
         mapObjectList.add(mapObject);
         mapObject.setMap(map);
         mapObjRepo.save(mapObject);
+    }
+
+    /**
+     * Delete a MapObject that comes from Message Broker.
+     *
+     * @param mapObjectDTO - came from Broker (delete) channel
+     */
+    @Override
+    public void deleteMapObjectFromBroker(AddMapObjectRequestDTO mapObjectDTO, long mapId) {
+        Map map = mapService.getMapById(mapId);
+        List<MapObject> mapObjectList = map.getMapObjects();
+        this.findMapObjectByXandY(mapObjectList, mapObjectDTO)
+                .ifPresent(mapObject -> mapObjRepo.delete(mapObject));
+    }
+
+    /**
+     * Update a new MapObjekt that comes from Message Broker (rotation).
+     *
+     * @param mapObjectDTO - came from Broker (update) channel
+     */
+    @Override
+    public void updateMapObjectFromBroker(AddMapObjectRequestDTO mapObjectDTO, long mapId) {
+        Map map = mapService.getMapById(mapId);
+        List<MapObject> mapObjectList = map.getMapObjects();
+        this.findMapObjectByXandY(mapObjectList, mapObjectDTO)
+                .ifPresent(mapObject -> {
+                    mapObject.setRotation(mapObjectDTO.rotation());
+                    mapObjRepo.save(mapObject);
+                });
+    }
+
+    private Optional<MapObject> findMapObjectByXandY(List<MapObject> mapObjectList, AddMapObjectRequestDTO mapObjectDTO) {
+        return mapObjectList.stream()
+                .filter(c -> c.getX() == mapObjectDTO.x() && c.getY() == mapObjectDTO.y())
+                .findFirst();
     }
 }
