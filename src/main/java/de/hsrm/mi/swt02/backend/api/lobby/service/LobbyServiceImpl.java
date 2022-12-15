@@ -85,6 +85,7 @@ public class LobbyServiceImpl implements LobbyService {
         host.AddHostToHostedLobbyList(createLobby);
         createLobby.setHost(host);
 
+        
         Map test = mapService.createNewMap();
         mapService.assignLobbyToMap(test.getId(), createLobby.getId());
 

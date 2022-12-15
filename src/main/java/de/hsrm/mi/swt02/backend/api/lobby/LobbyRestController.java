@@ -59,7 +59,7 @@ public class LobbyRestController {
                     required = true)
             @RequestBody AddLobbyRequestDTO lobbyDTO) {
 
-        return new ResponseEntity<>(lobbyService.createLobby(lobbyDTO.lobbyName(), lobbyDTO.lobbyModeEnum(), lobbyDTO.numOfPlayers(), lobbyDTO.hostID()), HttpStatus.OK);
+        return new ResponseEntity<>(lobbyService.createLobby(lobbyDTO.lobbyName(), lobbyDTO.lobbyModeEnum(), lobbyDTO.numOfPlayers(), lobbyDTO.hostId()), HttpStatus.OK);
 
     }
 
@@ -148,7 +148,7 @@ public class LobbyRestController {
             @RequestBody AddLobbyRequestDTO lobbyDTO,
             @PathVariable("map_id") long mapId) {
 
-        long lobbyId = lobbyService.createLobby(lobbyDTO.lobbyName(), lobbyDTO.lobbyModeEnum(), lobbyDTO.numOfPlayers(), lobbyDTO.hostID());
+        long lobbyId = lobbyService.createLobby(lobbyDTO.lobbyName(), lobbyDTO.lobbyModeEnum(), lobbyDTO.numOfPlayers(), lobbyDTO.hostId());
         lobbyService.addMap(lobbyId, mapId);
         return new ResponseEntity<>(lobbyId, HttpStatus.OK);
     }

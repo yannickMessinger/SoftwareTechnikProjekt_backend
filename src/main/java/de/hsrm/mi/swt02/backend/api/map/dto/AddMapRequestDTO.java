@@ -7,5 +7,5 @@ public record AddMapRequestDTO(
         LocalDate creationDate,
         int sizeX,
         int sizeY,
-        long mapOwnerID
+        long mapOwnerId
 ) {}
