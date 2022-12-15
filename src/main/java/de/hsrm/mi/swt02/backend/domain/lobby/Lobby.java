@@ -79,7 +79,7 @@ public class Lobby {
         this.host = host;
     }
 
-    public long getHostID() {
+    public long getHostId() {
         return this.host.getId();
     }
 
