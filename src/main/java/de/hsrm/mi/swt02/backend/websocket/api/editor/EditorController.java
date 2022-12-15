@@ -19,7 +19,7 @@ public class EditorController {
     MapObjectService mapObjectService;
 
     @MessageMapping("/editor.create")
-    @SendTo("/topic/public")
+    @SendTo("/topic/editor")
     public EditorMessage create(EditorMessage editorMessage) {
         log.info("create message received");
         mapObjectService.addNewMapObjectFromBroker(editorMessage.content, editorMessage.getId());
@@ -28,7 +28,7 @@ public class EditorController {
     }
 
     @MessageMapping("/editor.delete")
-    @SendTo("/topic/public")
+    @SendTo("/topic/editor")
     public EditorMessage delete(EditorMessage editorMessage) {
 
         log.info("delete message received");
@@ -38,7 +38,7 @@ public class EditorController {
     }
 
     @MessageMapping("/editor.update")
-    @SendTo("/topic/public")
+    @SendTo("/topic/editor")
     public EditorMessage update(@Payload EditorMessage editorMessage) {
 
         log.info("update message received");
