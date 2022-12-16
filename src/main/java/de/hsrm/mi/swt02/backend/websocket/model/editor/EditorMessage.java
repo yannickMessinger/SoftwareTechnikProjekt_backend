@@ -15,6 +15,7 @@ public class EditorMessage {
     public enum MessageType {
         CREATE,
         DELETE,
-        UPDATE
+        UPDATE,
+        RESET
     }
 }

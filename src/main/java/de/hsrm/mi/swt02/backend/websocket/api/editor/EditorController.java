@@ -46,4 +46,12 @@ public class EditorController {
         //headerAccessor.getSessionAttributes().put("username", editorMessage.getAuthor());
         return editorMessage;
     }
+
+    @MessageMapping("/editor.reset")
+    @SendTo("/topic/editor")
+    public EditorMessage reset(EditorMessage editorMessage) {
+        log.info("reset message received");
+        mapObjectService.deleteAllMapObjectsFromMapById(editorMessage.getId());
+        return editorMessage;
+    }
 }
