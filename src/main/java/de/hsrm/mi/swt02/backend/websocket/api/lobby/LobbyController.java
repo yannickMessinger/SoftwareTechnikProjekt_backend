@@ -49,7 +49,8 @@ public class LobbyController {
     @MessageMapping("/lobby.switchMode")
     @SendTo("/topic/public")
     public LobbyMessage switchMode(LobbyMessage lobbyMessage) {
-        // handle mode switch here
+        // TODO: Validierung ob User host ist und überhaupt berechtigung hat um mode zu ändern!
+        lobbyService.updateLobbyModeBroker(lobbyMessage.lobbyContent.lobbyId(), lobbyMessage.lobbyContent.lobbyModeEnum());
         return lobbyMessage;
     }
 }

@@ -178,4 +178,24 @@ public class LobbyServiceImpl implements LobbyService {
         lobbyRepository.save(lobby);
         return map.getId();
     }
+
+    @Override
+    @Transactional
+    public void updateLobbyModeBroker(long id, LobbyModeEnum lobbyMode) {
+       Lobby updateLobby = this.findLobbyById(id);
+       updateLobby.setLobbyMode(lobbyMode);
+       this.saveEditedLobby(updateLobby);
+      
+        
+    }
+
+    @Override
+    @Transactional
+    public void saveEditedLobby(Lobby lobby) {
+       this.lobbyRepository.save(lobby);
+        
+    }
+
+
+    
 }

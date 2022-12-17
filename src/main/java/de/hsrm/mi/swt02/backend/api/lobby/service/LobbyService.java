@@ -19,4 +19,6 @@ public interface LobbyService {
     void removePlayerFromLobby(long lobbyId, long playerId);
     List<Player> findAllPlayersFromLobby(long lobbyId);
     long addMap(long id, long mapId);
+    void updateLobbyModeBroker(long id, LobbyModeEnum lobbyMode);
+    void saveEditedLobby(Lobby lobby);
 }
