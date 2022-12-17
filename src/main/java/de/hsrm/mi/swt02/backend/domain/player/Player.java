@@ -30,6 +30,7 @@ public class Player {
     private long version;
 
     private String userName;
+    private String password;
 
 
     @ManyToOne(cascade = CascadeType.REMOVE)
@@ -41,10 +42,11 @@ public class Player {
 
     @OneToMany(mappedBy = "mapOwner",cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Map> mapList;
-    
 
-    public Player(String userName) {
+
+    public Player(String userName, String password) {
         this.userName = userName;
+        this.password = password;
         this.hostedLobbys = new ArrayList<Lobby>();
     }
 
@@ -75,7 +77,7 @@ public class Player {
 
 
     public boolean isHost(Lobby lobby) {
-        return lobby.getHostID() == this.id;
+        return lobby.getHostId() == this.id;
     }
 
     
@@ -90,7 +92,7 @@ public class Player {
     public void addMapToMapList(Map addMap){
         this.mapList.add(addMap);
     }
-    
+
     public void removeMapFromMapList(Map removeMap){
         this.mapList.remove(removeMap);
     }

@@ -78,8 +78,8 @@ public class PlayerRestControllerTest {
     @Test
     void getAllPlayersTest() throws Exception {
         //Setup
-        Player marc = playerService.createPlayer("Marc");
-        Player yannick = playerService.createPlayer("Yannick");
+        Player marc = playerService.createPlayer("Marc", "password");
+        Player yannick = playerService.createPlayer("Yannick", "password");
 
         //get all Users
         mockmvc.perform(
@@ -100,7 +100,7 @@ public class PlayerRestControllerTest {
     @Test
     void getPlayerWithId() throws Exception {
         //Setup
-        Player marc = playerService.createPlayer("marc");
+        Player marc = playerService.createPlayer("marc", "password");
 
         //get user with ID
         mockmvc.perform(
@@ -119,7 +119,7 @@ public class PlayerRestControllerTest {
     @Test
     void deletePlayerWithId() throws Exception {
         //Setup
-        Player marc = playerService.createPlayer("marc");
+        Player marc = playerService.createPlayer("marc", "password");
 
         //delete user with ID
         mockmvc.perform(

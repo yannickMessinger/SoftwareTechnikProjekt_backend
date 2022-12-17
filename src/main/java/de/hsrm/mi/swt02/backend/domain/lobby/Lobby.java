@@ -79,7 +79,7 @@ public class Lobby {
         this.host = host;
     }
 
-    public long getHostID() {
+    public long getHostId() {
         return this.host.getId();
     }
 
@@ -135,7 +135,7 @@ public class Lobby {
     }
 
 
-    public boolean isHostedBy(long possiblehostID){
-        return this.host.getId() == possiblehostID;
+    public boolean isHostedBy(long possiblehostId){
+        return this.host.getId() == possiblehostId;
     }
 }

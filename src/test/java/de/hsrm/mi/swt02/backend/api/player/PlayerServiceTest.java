@@ -30,7 +30,7 @@ public class PlayerServiceTest {
         List<Player> playerList = new ArrayList<>();
 
         for (var name : List.of("Yannick, Marc, Lena, Hans, Flo")) {
-            Player player = new Player(name);
+            Player player = new Player(name, "password");
             player = playerRepository.save(player);
             playerList.add(player);
         }
@@ -48,10 +48,10 @@ public class PlayerServiceTest {
         //create player with Service
         playerRepository.deleteAll();
 
-        Player yannick = playerService.createPlayer("Yannick");
-        Player marc = playerService.createPlayer("Marc");
-        Player lena = playerService.createPlayer("Lena");
-        Player hans = playerService.createPlayer("Hans");
+        Player yannick = playerService.createPlayer("Yannick", "password");
+        Player marc = playerService.createPlayer("Marc", "password");
+        Player lena = playerService.createPlayer("Lena", "password");
+        Player hans = playerService.createPlayer("Hans", "password");
 
         //test
         assertThat(playerRepository.count()).isEqualTo(4);
