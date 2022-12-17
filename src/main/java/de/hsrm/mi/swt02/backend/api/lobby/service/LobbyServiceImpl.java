@@ -88,6 +88,8 @@ public class LobbyServiceImpl implements LobbyService {
         
         Map test = mapService.createNewMap();
         mapService.assignLobbyToMap(test.getId(), createLobby.getId());
+        test.setMapOwner(host);
+        mapService.saveEditedMap(test);
 
 
         return createLobby.getId();
