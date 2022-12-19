@@ -9,5 +9,5 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface PlayerRepository extends JpaRepository<Player, Long> {
     @Query("select p from Player p where p.userName=?1 and p.password=?2")
-    public Optional<Player> findPlayerByUsernameAndPassword(String userName, String password);
+    Optional<Player> findPlayerByUsernameAndPassword(String userName, String password);
 }
