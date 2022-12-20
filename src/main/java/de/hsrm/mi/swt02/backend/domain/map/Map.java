@@ -30,7 +30,7 @@ public class Map {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate creationDate;
 
-    @OneToMany(mappedBy = "map",cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "map",cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<MapObject> mapObjects;
 
     @ManyToOne
