@@ -1,10 +1,9 @@
 package de.hsrm.mi.swt02.backend.api.lobby;
 
-import de.hsrm.mi.swt02.backend.api.lobby.dtos.AddLobbyRequestDTO;
-import de.hsrm.mi.swt02.backend.api.lobby.dtos.GetLobbyResponseDTO;
+import de.hsrm.mi.swt02.backend.api.lobby.dto.AddLobbyRequestDTO;
+import de.hsrm.mi.swt02.backend.api.lobby.dto.GetLobbyResponseDTO;
 import de.hsrm.mi.swt02.backend.api.lobby.service.LobbyServiceImpl;
-import de.hsrm.mi.swt02.backend.api.player.dtos.GetPlayerResponseDTO;
-import de.hsrm.mi.swt02.backend.api.map.dto.AddMapRequestDTO;
+import de.hsrm.mi.swt02.backend.api.player.dto.GetPlayerResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -60,7 +59,6 @@ public class LobbyRestController {
             @RequestBody AddLobbyRequestDTO lobbyDTO) {
 
         return new ResponseEntity<>(lobbyService.createLobby(lobbyDTO.lobbyName(), lobbyDTO.lobbyModeEnum(), lobbyDTO.numOfPlayers(), lobbyDTO.hostId()), HttpStatus.OK);
-
     }
 
     @Operation(summary = "Delete Lobby by ID")

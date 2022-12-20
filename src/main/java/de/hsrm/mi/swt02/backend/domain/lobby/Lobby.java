@@ -37,7 +37,6 @@ public class Lobby {
     @OneToOne
     private Map map;
 
-
     public Lobby() {
         this.lobbyName = "";
         this.numOfPlayers = 0;
