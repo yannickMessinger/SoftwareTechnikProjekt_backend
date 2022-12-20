@@ -3,8 +3,11 @@ package de.hsrm.mi.swt02.backend.api.lobby;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.hsrm.mi.swt02.backend.api.lobby.repository.LobbyRepository;
 import de.hsrm.mi.swt02.backend.api.lobby.service.LobbyService;
+import de.hsrm.mi.swt02.backend.api.player.repository.PlayerRepository;
 import de.hsrm.mi.swt02.backend.domain.lobby.Lobby;
 import de.hsrm.mi.swt02.backend.domain.lobby.LobbyModeEnum;
+import de.hsrm.mi.swt02.backend.domain.player.Player;
+
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.annotation.Testable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +37,9 @@ public class LobbyRestControllerTest {
 
     @Autowired
     private LobbyRepository lobbyRepository;
+
+    @Autowired
+    private PlayerRepository playerRepository;
 
     @Test
     void PreTest() {
@@ -109,6 +115,9 @@ public class LobbyRestControllerTest {
 
         // setup
         ObjectMapper mapper = new ObjectMapper();
+        Player host = new Player("Testhost","123");
+        playerRepository.save(host);
+        
         Lobby testLobby = new Lobby("TestLobby", 3, LobbyModeEnum.PLAY_MODE);
         long testLobbyID = lobbyService.createLobby("TestLobby", LobbyModeEnum.PLAY_MODE, 3, 1);
 
