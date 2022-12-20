@@ -39,7 +39,7 @@ public class LobbyController {
     }
 
     @MessageMapping("/lobby.join")
-    @SendTo("/topic/public")
+    @SendTo("/topic/lobby")
     public LobbyMessage join(LobbyMessage lobbyMessage) {
         logger.info("create message received");
         lobbyService.addPlayerToLobby(lobbyMessage.lobbyContent.lobbyId(), lobbyMessage.playerContent.userId());
@@ -47,7 +47,7 @@ public class LobbyController {
     }
 
     @MessageMapping("/lobby.switchMode")
-    @SendTo("/topic/public")
+    @SendTo("/topic/lobby")
     public LobbyMessage switchMode(LobbyMessage lobbyMessage) {
         // TODO: Validierung ob User host ist und überhaupt berechtigung hat um mode zu ändern!
         lobbyService.updateLobbyModeBroker(lobbyMessage.lobbyContent.lobbyId(), lobbyMessage.lobbyContent.lobbyModeEnum());
