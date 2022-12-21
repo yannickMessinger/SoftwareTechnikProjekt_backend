@@ -1,6 +1,5 @@
 package de.hsrm.mi.swt02.backend.api.player;
 
-import de.hsrm.mi.swt02.backend.api.lobby.dtos.AddLobbyRequestDTO;
 import de.hsrm.mi.swt02.backend.api.player.dtos.AddPlayerRequestDTO;
 import de.hsrm.mi.swt02.backend.api.player.dtos.GetPlayerResponseDTO;
 import de.hsrm.mi.swt02.backend.api.player.service.PlayerServiceImpl;
@@ -48,6 +47,13 @@ public class PlayerRestController {
                     implementation = AddPlayerRequestDTO.class,
                     required = true)
             @RequestBody AddPlayerRequestDTO uDTO) {
+        if (isBlankString(uDTO.userName()) || isBlankString(uDTO.password())) {
+            return new ResponseEntity<>(-1L, HttpStatus.BAD_REQUEST);
+        }
+        if (containsUsername(playerService.findAllPlayers(), uDTO.userName())) {
+            return new ResponseEntity<>(-2L, HttpStatus.BAD_REQUEST);
+        }
+
         Player u = playerService.createPlayer(uDTO.userName(), uDTO.password());
 
         return new ResponseEntity<>(u.getId(), HttpStatus.OK);
@@ -94,5 +100,13 @@ public class PlayerRestController {
             @PathVariable("id") long id) {
 
         playerService.deletePlayer(id);
+    }
+
+    private boolean isBlankString (String string) {
+        return string == null || string.isBlank() || string.isEmpty();
+    }
+
+    public boolean containsUsername(final List<Player> list, final String name){
+        return list.stream().anyMatch(o -> o.getUserName().equals(name));
     }
 }
