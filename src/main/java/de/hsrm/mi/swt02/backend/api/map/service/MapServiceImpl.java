@@ -67,6 +67,7 @@ public class MapServiceImpl implements MapService {
 
             lobby.setMap(map);
             map.setLobby(lobby);
+            //map.setMapOwner(lobby.getHost());
             mapRepository.save(map);
         });
     }
