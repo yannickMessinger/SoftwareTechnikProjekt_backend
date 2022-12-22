@@ -3,6 +3,8 @@ package de.hsrm.mi.swt02.backend.websocket.api.chat;
 import de.hsrm.mi.swt02.backend.websocket.model.chat.ChatMessage;
 import de.hsrm.mi.swt02.backend.websocket.model.chat.ChatMessage.MessageType;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -28,13 +30,11 @@ public class ChatController {
         return chatMessage;
     }
 
-    @MessageMapping("/chat.lobbyChat")
-    @SendTo("/topic/chat")
-    public ChatMessage lobbyChat(@Payload ChatMessage chatMessage) {
-        log.info("lobby specific message received");
-        chatMessage.setType(MessageType.LOBBYMSG);
-        return chatMessage;
-    }
 
+    @MessageMapping("/chat.lobbyChat/{lobbyId}")
+    @SendTo("/topic/chat/lobby/{lobbyId}")
+    public ChatMessage lobbyChat(@DestinationVariable("lobbyId") String lobbyId ,@Payload ChatMessage lobbyChatMessage) {
+        return lobbyChatMessage;
+    }
     
 }
