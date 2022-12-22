@@ -1,6 +1,7 @@
 package de.hsrm.mi.swt02.backend.websocket.api.chat;
 
 import de.hsrm.mi.swt02.backend.websocket.model.chat.ChatMessage;
+import de.hsrm.mi.swt02.backend.websocket.model.chat.ChatMessage.MessageType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -26,4 +27,14 @@ public class ChatController {
         headerAccessor.getSessionAttributes().put("username", chatMessage.getAuthor());
         return chatMessage;
     }
+
+    @MessageMapping("/chat.lobbyChat")
+    @SendTo("/topic/chat")
+    public ChatMessage lobbyChat(@Payload ChatMessage chatMessage) {
+        log.info("lobby specific message received");
+        chatMessage.setType(MessageType.LOBBYMSG);
+        return chatMessage;
+    }
+
+    
 }
