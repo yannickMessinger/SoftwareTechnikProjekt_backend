@@ -27,7 +27,7 @@ public class MapObject {
     private int rotation;
     @ManyToOne
     private Map map;
-    @OneToMany(mappedBy = "mapObject", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "mapObject", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<GameAsset> gameAssets;
 
     public MapObject() {
