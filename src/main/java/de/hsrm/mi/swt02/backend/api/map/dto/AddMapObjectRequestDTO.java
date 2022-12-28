@@ -1,4 +1,5 @@
 package de.hsrm.mi.swt02.backend.api.map.dto;
+
 import java.util.List;
 
 public record AddMapObjectRequestDTO(
@@ -6,5 +7,5 @@ public record AddMapObjectRequestDTO(
         int x,
         int y,
         int rotation,
-        List game_assets
+        List<AddGameAssetRequestDTO> gameAssetDTOs
 ) {}

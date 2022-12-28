@@ -2,6 +2,7 @@ package de.hsrm.mi.swt02.backend.api.map.service;
 
 import java.util.List;
 
+import de.hsrm.mi.swt02.backend.api.map.dto.AddGameAssetRequestDTO;
 import de.hsrm.mi.swt02.backend.api.map.dto.AddMapObjectRequestDTO;
 import de.hsrm.mi.swt02.backend.api.map.dto.AddMapObjectsRequestDTO;
 import de.hsrm.mi.swt02.backend.domain.map.MapObject;
@@ -18,4 +19,7 @@ public interface MapObjectService {
     void addNewMapObjectFromBroker(AddMapObjectRequestDTO mapObjectDTO, long mapId);
     void deleteMapObjectFromBroker(AddMapObjectRequestDTO mapObjectDTO, long mapId);
     void updateMapObjectFromBroker(AddMapObjectRequestDTO mapObjectDTO, long mapId);
+    void addNewGameAssetToMapObjectFromBroker(AddGameAssetRequestDTO gameAssetDTO, long mapObjectId);
+    void deleteNewGameAssetToMapObjectFromBroker(AddGameAssetRequestDTO gameAssetDTO, long mapObjectId);
+    void updateNewGameAssetToMapObjectFromBroker(AddGameAssetRequestDTO gameAssetDTO, long mapObjectId);
 }

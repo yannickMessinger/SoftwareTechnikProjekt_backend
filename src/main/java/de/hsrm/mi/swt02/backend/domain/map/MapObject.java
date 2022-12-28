@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -15,22 +16,19 @@ public class MapObject {
     @Id
     @GeneratedValue
     private long id;
-
     @Version
     private long version;
-
     private long objectTypeId;
     private int x;
     private int y;
-
     /**
      * rotation * 90° (0-3)
      */
     private int rotation;
-
     @ManyToOne
     private Map map;
-
+    @OneToMany(mappedBy = "mapObject", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<GameAsset> gameAssets;
 
     public MapObject() {
     }

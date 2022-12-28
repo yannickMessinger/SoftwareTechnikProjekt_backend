@@ -5,8 +5,11 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import de.hsrm.mi.swt02.backend.api.map.dto.AddGameAssetRequestDTO;
 import de.hsrm.mi.swt02.backend.api.map.dto.AddMapObjectsRequestDTO;
+import de.hsrm.mi.swt02.backend.api.map.repository.GameAssetRepository;
 import de.hsrm.mi.swt02.backend.api.map.repository.MapObjectRepository;
+import de.hsrm.mi.swt02.backend.domain.map.GameAsset;
 import de.hsrm.mi.swt02.backend.domain.map.Map;
 import de.hsrm.mi.swt02.backend.domain.map.MapObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,9 @@ public class MapObjectServiceImpl implements MapObjectService {
 
     @Autowired
     private MapService mapService;
+
+    @Autowired
+    private GameAssetRepository gameAssetRepo;
 
     /**
      * @return list containing all MapObjects of repository.
@@ -163,6 +169,25 @@ public class MapObjectServiceImpl implements MapObjectService {
                     mapObject.setRotation(mapObjectDTO.rotation());
                     mapObjRepo.save(mapObject);
                 });
+    }
+
+    @Override
+    public void addNewGameAssetToMapObjectFromBroker(AddGameAssetRequestDTO gameAssetDTO, long mapObjectId) {
+        GameAsset gameAsset = new GameAsset(gameAssetDTO.objectTypeId(), gameAssetDTO.x(), gameAssetDTO.y(), gameAssetDTO.rotation(), gameAssetDTO.texture());
+        MapObject mapObject = this.getMapObjectById(mapObjectId);
+        mapObject.getGameAssets().add(gameAsset);
+        gameAsset.setMapObject(mapObject);
+        gameAssetRepo.save(gameAsset);
+    }
+
+    @Override
+    public void deleteNewGameAssetToMapObjectFromBroker(AddGameAssetRequestDTO gameAssetDTO, long mapObjectId) {
+
+    }
+
+    @Override
+    public void updateNewGameAssetToMapObjectFromBroker(AddGameAssetRequestDTO gameAssetDTO, long mapObjectId) {
+
     }
 
     private Optional<MapObject> findMapObjectByXandY(List<MapObject> mapObjectList, AddMapObjectRequestDTO mapObjectDTO) {
