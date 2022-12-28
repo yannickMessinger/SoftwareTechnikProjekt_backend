@@ -31,6 +31,10 @@ public class MapObjectType {
     private String texture;
     private String model3d;
     
+    public MapObjectType() {
+        
+    }
+
     public MapObjectType(long objectTypeId, long groupId, ObjectTypeEnum type, int rotation, String name,
             String texture, String model3d) {
         this.objectTypeId = objectTypeId;

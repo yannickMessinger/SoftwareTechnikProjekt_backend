@@ -20,8 +20,12 @@ public class MapObjectTypeServiceImpl implements MapObjectTypeService {
 
     @Override
     public List<MapObjectType> findAllMapObjectType() {
-        // TODO Auto-generated method stub
-        return null;
+        return mapConstRepo.findAll();
+    }
+
+    @Override
+    public MapObjectType findMapObjectTypeById(long id) {
+        return mapConstRepo.findById(id).get();
     }
 
 }
