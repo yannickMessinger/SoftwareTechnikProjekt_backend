@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import de.hsrm.mi.swt02.backend.api.map.dto.AddMapObjectsRequestDTO;
 import de.hsrm.mi.swt02.backend.api.map.dto.GetMapObjectResponseDTO;
+import de.hsrm.mi.swt02.backend.api.map.dto.GetMapObjectTypeResponseDTO;
 
 @RestController
 @RequestMapping("api/mapobject")
@@ -79,5 +80,11 @@ public class MapObjectRestController {
         mapObjectService.deleteMapObjectById(id);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get list of all placeable MapObjects")
+    @GetMapping("/list")
+    public ResponseEntity<List<GetMapObjectTypeResponseDTO>> getMapObjectList() {
+        return null;
     }
 }

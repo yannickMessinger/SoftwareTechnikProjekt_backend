@@ -4,10 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Version;
-import java.util.Objects;
 
 @Entity
 @Setter
@@ -16,37 +17,80 @@ public class MapObjectType {
 
     @Id
     @GeneratedValue
-    private long id;
+    private long objectTypeId;
 
     @Version
     private long version;
 
-    private long objectTypeId;
-    private String objectName;
-    private String img;
+    private long groupId;
+    
+    @Enumerated(EnumType.STRING)
     private ObjectTypeEnum type;
-
-
-    public MapObjectType() {
-    }
-
-    public MapObjectType(long objectTypeId, String objectName, String img, ObjectTypeEnum type, boolean rotatable) {
+    private int rotation;
+    private String name;
+    private String texture;
+    private String model3d;
+    
+    public MapObjectType(long objectTypeId, long groupId, ObjectTypeEnum type, int rotation, String name,
+            String texture, String model3d) {
         this.objectTypeId = objectTypeId;
-        this.objectName = objectName;
-        this.img = img;
+        this.groupId = groupId;
         this.type = type;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MapObjectType that = (MapObjectType) o;
-        return id == that.id && version == that.version;
+        this.rotation = rotation;
+        this.name = name;
+        this.texture = texture;
+        this.model3d = model3d;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, version);
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (int) (version ^ (version >>> 32));
+        result = prime * result + (int) (objectTypeId ^ (objectTypeId >>> 32));
+        result = prime * result + (int) (groupId ^ (groupId >>> 32));
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        result = prime * result + rotation;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((texture == null) ? 0 : texture.hashCode());
+        result = prime * result + ((model3d == null) ? 0 : model3d.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        MapObjectType other = (MapObjectType) obj;
+        if (version != other.version)
+            return false;
+        if (objectTypeId != other.objectTypeId)
+            return false;
+        if (groupId != other.groupId)
+            return false;
+        if (type != other.type)
+            return false;
+        if (rotation != other.rotation)
+            return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        if (texture == null) {
+            if (other.texture != null)
+                return false;
+        } else if (!texture.equals(other.texture))
+            return false;
+        if (model3d == null) {
+            if (other.model3d != null)
+                return false;
+        } else if (!model3d.equals(other.model3d))
+            return false;
+        return true;
     }
 }
