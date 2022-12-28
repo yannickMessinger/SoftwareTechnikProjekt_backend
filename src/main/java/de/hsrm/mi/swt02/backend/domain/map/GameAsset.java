@@ -16,8 +16,8 @@ public class GameAsset {
     @Version
     private long version;
     private int objectTypeId;
-    private int x;
-    private int y;
+    private double x;
+    private double y;
     private int rotation;
     private String texture;
     @ManyToOne
@@ -26,7 +26,7 @@ public class GameAsset {
     public GameAsset() {
     }
 
-    public GameAsset(int objectTypeId, int x, int y, int rotation, String texture) {
+    public GameAsset(int objectTypeId, double x, double y, int rotation, String texture) {
         this.objectTypeId = objectTypeId;
         this.x = x;
         this.y = y;

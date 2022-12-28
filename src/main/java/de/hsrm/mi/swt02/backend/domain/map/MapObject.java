@@ -2,6 +2,8 @@ package de.hsrm.mi.swt02.backend.domain.map;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
@@ -16,6 +18,7 @@ public class MapObject {
     @Id
     @GeneratedValue
     private long id;
+
     @Version
     private long version;
     private long objectTypeId;
@@ -25,14 +28,16 @@ public class MapObject {
      * rotation * 90° (0-3)
      */
     private int rotation;
+
     @ManyToOne
     private Map map;
+
     @OneToMany(mappedBy = "mapObject", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<GameAsset> gameAssets;
 
     public MapObject() {
     }
-
 
     public MapObject(long objectTypeId, int x, int y, int rotation) {
         this.objectTypeId = objectTypeId;

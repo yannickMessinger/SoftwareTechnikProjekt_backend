@@ -160,34 +160,25 @@ public class MapObjectServiceImpl implements MapObjectService {
      *
      * @param mapObjectDTO - came from Broker (update) channel
      */
-    @Override
     public void updateMapObjectFromBroker(AddMapObjectRequestDTO mapObjectDTO, long mapId) {
         Map map = mapService.getMapById(mapId);
         List<MapObject> mapObjectList = map.getMapObjects();
         this.findMapObjectByXandY(mapObjectList, mapObjectDTO)
                 .ifPresent(mapObject -> {
                     mapObject.setRotation(mapObjectDTO.rotation());
+                    if (!mapObjectDTO.game_assets().isEmpty()) {
+                        this.addNewGameAssetToMapObject(mapObjectDTO.game_assets(), mapObject);
+                    }
                     mapObjRepo.save(mapObject);
                 });
     }
 
-    @Override
-    public void addNewGameAssetToMapObjectFromBroker(AddGameAssetRequestDTO gameAssetDTO, long mapObjectId) {
-        GameAsset gameAsset = new GameAsset(gameAssetDTO.objectTypeId(), gameAssetDTO.x(), gameAssetDTO.y(), gameAssetDTO.rotation(), gameAssetDTO.texture());
-        MapObject mapObject = this.getMapObjectById(mapObjectId);
+    private void addNewGameAssetToMapObject(List<AddGameAssetRequestDTO> gameAssetDTOs, MapObject mapObject) {
+        AddGameAssetRequestDTO lastDto = gameAssetDTOs.get(gameAssetDTOs.size() - 1);
+        GameAsset gameAsset = new GameAsset(lastDto.objectTypeId(), lastDto.x(), lastDto.y(), lastDto.rotation(), lastDto.texture());
         mapObject.getGameAssets().add(gameAsset);
         gameAsset.setMapObject(mapObject);
         gameAssetRepo.save(gameAsset);
-    }
-
-    @Override
-    public void deleteNewGameAssetToMapObjectFromBroker(AddGameAssetRequestDTO gameAssetDTO, long mapObjectId) {
-
-    }
-
-    @Override
-    public void updateNewGameAssetToMapObjectFromBroker(AddGameAssetRequestDTO gameAssetDTO, long mapObjectId) {
-
     }
 
     private Optional<MapObject> findMapObjectByXandY(List<MapObject> mapObjectList, AddMapObjectRequestDTO mapObjectDTO) {

@@ -19,7 +19,5 @@ public interface MapObjectService {
     void addNewMapObjectFromBroker(AddMapObjectRequestDTO mapObjectDTO, long mapId);
     void deleteMapObjectFromBroker(AddMapObjectRequestDTO mapObjectDTO, long mapId);
     void updateMapObjectFromBroker(AddMapObjectRequestDTO mapObjectDTO, long mapId);
-    void addNewGameAssetToMapObjectFromBroker(AddGameAssetRequestDTO gameAssetDTO, long mapObjectId);
-    void deleteNewGameAssetToMapObjectFromBroker(AddGameAssetRequestDTO gameAssetDTO, long mapObjectId);
-    void updateNewGameAssetToMapObjectFromBroker(AddGameAssetRequestDTO gameAssetDTO, long mapObjectId);
+
 }
