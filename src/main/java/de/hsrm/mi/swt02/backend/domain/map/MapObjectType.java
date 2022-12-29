@@ -21,7 +21,12 @@ public class MapObjectType {
 
     @Version
     private long version;
-
+    /*
+     * groupId values meaning
+     * 0 = street-element
+     * 1 = building
+     * 3 = vehicle
+     */
     private long groupId;
     
     @Enumerated(EnumType.STRING)
