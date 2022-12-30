@@ -2,7 +2,6 @@ package de.hsrm.mi.swt02.backend.api.map.service;
 
 import java.util.List;
 
-import de.hsrm.mi.swt02.backend.api.map.dto.AddGameAssetRequestDTO;
 import de.hsrm.mi.swt02.backend.api.map.dto.AddMapObjectRequestDTO;
 import de.hsrm.mi.swt02.backend.api.map.dto.AddMapObjectsRequestDTO;
 import de.hsrm.mi.swt02.backend.domain.map.MapObject;
