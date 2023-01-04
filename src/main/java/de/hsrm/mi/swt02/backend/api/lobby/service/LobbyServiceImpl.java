@@ -85,8 +85,11 @@ public class LobbyServiceImpl implements LobbyService {
         host.AddHostToHostedLobbyList(createLobby);
         createLobby.setHost(host);
 
+        
         Map test = mapService.createNewMap();
         mapService.assignLobbyToMap(test.getId(), createLobby.getId());
+        test.setMapOwner(host);
+        mapService.saveEditedMap(test);
 
 
         return createLobby.getId();
@@ -175,4 +178,24 @@ public class LobbyServiceImpl implements LobbyService {
         lobbyRepository.save(lobby);
         return map.getId();
     }
+
+    @Override
+    @Transactional
+    public void updateLobbyModeBroker(long id, LobbyModeEnum lobbyMode) {
+       Lobby updateLobby = this.findLobbyById(id);
+       updateLobby.setLobbyMode(lobbyMode);
+       this.saveEditedLobby(updateLobby);
+      
+        
+    }
+
+    @Override
+    @Transactional
+    public void saveEditedLobby(Lobby lobby) {
+       this.lobbyRepository.save(lobby);
+        
+    }
+
+
+    
 }

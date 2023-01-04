@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hsrm.mi.swt02.backend.api.map.service.MapObjectServiceImpl;
+import de.hsrm.mi.swt02.backend.api.map.service.MapObjectTypeServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import de.hsrm.mi.swt02.backend.api.map.dto.AddMapObjectsRequestDTO;
 import de.hsrm.mi.swt02.backend.api.map.dto.GetMapObjectResponseDTO;
+import de.hsrm.mi.swt02.backend.api.map.dto.GetMapObjectTypeResponseDTO;
 
 @RestController
 @RequestMapping("api/mapobject")
@@ -29,6 +31,9 @@ public class MapObjectRestController {
 
     @Autowired
     private MapObjectServiceImpl mapObjectService;
+
+    @Autowired
+    private MapObjectTypeServiceImpl mapObjectTypeService;
 
     @Operation(summary = "Get all mapObjects")
     @ApiResponses(value = {
@@ -79,5 +84,17 @@ public class MapObjectRestController {
         mapObjectService.deleteMapObjectById(id);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get list of all placeable MapObjects")
+    @GetMapping("/list")
+    public ResponseEntity<List<GetMapObjectTypeResponseDTO>> getMapObjectList() {
+        List<GetMapObjectTypeResponseDTO> allMapObjectTypeDTOs = new ArrayList<GetMapObjectTypeResponseDTO>(
+            mapObjectTypeService.findAllMapObjectType()
+            .stream()
+            .map(GetMapObjectTypeResponseDTO::from)
+            .toList()
+        );
+        return new ResponseEntity<>(allMapObjectTypeDTOs, HttpStatus.OK);
     }
 }
