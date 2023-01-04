@@ -37,7 +37,6 @@ public class MapObjectType {
     private String model3d;
     
     public MapObjectType() {
-        
     }
 
     public MapObjectType(long objectTypeId, long groupId, ObjectTypeEnum type, int rotation, String name,
@@ -96,10 +95,7 @@ public class MapObjectType {
         } else if (!texture.equals(other.texture))
             return false;
         if (model3d == null) {
-            if (other.model3d != null)
-                return false;
-        } else if (!model3d.equals(other.model3d))
-            return false;
-        return true;
+            return other.model3d == null;
+        } else return model3d.equals(other.model3d);
     }
 }

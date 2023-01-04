@@ -18,12 +18,19 @@ public class PlayerPosition {
 
     @Version
     private long version;
-    @NotNull
     private double posX;
-    @NotNull
     private double posY;
-    @OneToOne(mappedBy = "playerPosition")
+    @OneToOne(cascade = CascadeType.ALL)
     private Player player;
+
+    public PlayerPosition(Player player, double posX, double posY) {
+        this.posX = posX;
+        this.posY = posY;
+        this.player = player;
+    }
+
+    public PlayerPosition() {
+    }
 
     @Override
     public String toString() {

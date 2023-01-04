@@ -20,23 +20,16 @@ public class Player {
     @Id
     @GeneratedValue
     private long id;
-
     @Version
     private long version;
-
     private String userName;
     private String password;
-
     @OneToOne(mappedBy = "player")
     PlayerPosition playerPosition;
-
     @ManyToOne(cascade = CascadeType.REMOVE)
     private Lobby activeLobby;
-
-    
     @OneToMany(mappedBy = "host",cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Lobby> hostedLobbys;
-
     @OneToMany(mappedBy = "mapOwner",cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Map> mapList;
 

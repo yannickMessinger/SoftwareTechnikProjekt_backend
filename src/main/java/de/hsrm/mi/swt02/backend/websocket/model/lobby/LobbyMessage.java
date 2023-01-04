@@ -1,7 +1,7 @@
 package de.hsrm.mi.swt02.backend.websocket.model.lobby;
 
-import de.hsrm.mi.swt02.backend.api.lobby.dtos.GetLobbyResponseDTO;
-import de.hsrm.mi.swt02.backend.api.player.dtos.GetPlayerResponseDTO;
+import de.hsrm.mi.swt02.backend.api.lobby.dto.GetLobbyResponseDTO;
+import de.hsrm.mi.swt02.backend.api.player.dto.GetPlayerResponseDTO;
 import lombok.Getter;
 import lombok.Setter;
 

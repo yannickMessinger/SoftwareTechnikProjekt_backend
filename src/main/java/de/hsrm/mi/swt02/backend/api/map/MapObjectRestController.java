@@ -27,7 +27,6 @@ import de.hsrm.mi.swt02.backend.api.map.dto.GetMapObjectTypeResponseDTO;
 @RestController
 @RequestMapping("api/mapobject")
 public class MapObjectRestController {
-    
 
     @Autowired
     private MapObjectServiceImpl mapObjectService;
