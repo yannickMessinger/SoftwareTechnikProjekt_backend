@@ -50,7 +50,7 @@ public class PositionRestController {
         return new ResponseEntity<>(playerPositions, HttpStatus.OK);
     }
 
-    @Operation(summary = "Get PlayerPosition by ID")
+    @Operation(summary = "Delete PlayerPosition by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found Position")})
     @DeleteMapping("/{id}")
@@ -68,8 +68,9 @@ public class PositionRestController {
             @RequestBody AddPlayerPositionDTO playerPositionDTO,
             @Schema(description = "Map ID")
             @PathVariable("id") long id) {
-        int x = 0;
-        int y = 0;
+        double x = 0;
+        double y = 0;
+        double rotation = 0;
         if (playerPositionDTO.x() == 0 || playerPositionDTO.y() == 0) {
             MapObject mapObject = getRandomMapObject(id);
             if (mapObject != null) {
@@ -81,13 +82,15 @@ public class PositionRestController {
         } else {
             x = playerPositionDTO.x();
             y = playerPositionDTO.y();
+            rotation = playerPositionDTO.rotation();
         }
         var player = playerService.findPlayerById(playerPositionDTO.playerID());
         return new ResponseEntity<>(
                 positionService.createPosition(
                         player,
                         x,
-                        y
+                        y,
+                        rotation
                 ),
                 HttpStatus.OK
         );

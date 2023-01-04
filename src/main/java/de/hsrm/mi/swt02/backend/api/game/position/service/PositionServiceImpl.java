@@ -44,28 +44,30 @@ public class PositionServiceImpl implements PositionService{
      */
     @Override
     @Transactional
-    public long createPosition(Player player, int x, int y) {
-        PlayerPosition playerPosition = new PlayerPosition(player, x, y);
+    public long createPosition(Player player, double x, double y, double rotation) {
+        PlayerPosition playerPosition = new PlayerPosition(player, x, y, rotation);
         player.setPlayerPosition(playerPosition);
         playerRepository.save(player);
         return positionRepository.save(playerPosition).getId();
     }
 
     /**
-     * @param playerId Player ID to be updated
+     * @param playerPositionId Player ID to be updated
      * @param x Coordinate of Player on 3d world
      * @param y Coordinate of Player on 3d world
+     * @param rotation Rotation of Player on 3d world
      */
     @Override
     @Transactional
-    public void savePosition(long playerId, int x, int y) {
-        Optional<PlayerPosition> optionalPlayerPosition = positionRepository.findById(playerId);
+    public void savePosition(long playerPositionId, double x, double y, double rotation) {
+        Optional<PlayerPosition> optionalPlayerPosition = positionRepository.findById(playerPositionId);
         if (optionalPlayerPosition.isPresent()) {
             var playerPosition = optionalPlayerPosition.get();
             playerPosition.setPosX(x);
             playerPosition.setPosY(y);
+            playerPosition.setRotation(rotation);
             positionRepository.save(playerPosition);
         } else
-            log.info("PlayerPosition:" + playerId + " not found");
+            log.info("PlayerPosition:" + playerPositionId + " not found");
     }
 }
