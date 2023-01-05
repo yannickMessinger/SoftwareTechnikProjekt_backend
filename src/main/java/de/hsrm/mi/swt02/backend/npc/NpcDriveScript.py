@@ -8,9 +8,15 @@ class NpcDriveScript():
         self.streetRotation = streetRotation
         self.carRotation = carRotation
         self.streetId = streetId
+        print(self.x_coord)
+        print(self.z_coord)
+        print(self.streetRotation)
+        print(self.carRotation)
+        print(self.streetId)
+        
        
     def drive(self):
-       
+        print("script drive")
         if self.carRotation == 0:
             self.z_coord += 1
         elif self.carRotation == 1:
@@ -64,6 +70,13 @@ class NpcDriveScript():
             self.carRotation = 0
         elif(self.carRotation < 0):
             self.carRotation = 3
+
+    def retX(self):
+        print("retX")
+        return self.x_coord
+    
+
+print("Marc stinkt nicht viel")
 
 
 
