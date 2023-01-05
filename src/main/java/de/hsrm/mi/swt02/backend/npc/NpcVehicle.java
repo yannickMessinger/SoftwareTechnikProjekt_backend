@@ -4,10 +4,16 @@ import org.python.util.PythonInterpreter;
 
 public class NpcVehicle {
     
-		PythonInterpreter pyInterp = new PythonInterpreter();
+		PythonInterpreter pyInterp;
+        
 
-        public void printHello(){
-            pyInterp.exec("print('Hello Python World!')");
+        public NpcVehicle(){
+            this.pyInterp =  new PythonInterpreter();
+        }
+
+        public void print(){
+            pyInterp.exec("print('Hello Florian World, uffbasse!')");
+            
         }
 		
 		  

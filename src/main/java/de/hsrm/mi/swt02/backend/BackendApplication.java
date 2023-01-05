@@ -15,7 +15,7 @@ public class BackendApplication {
 
 		NpcVehicle npc = new NpcVehicle();
 
-		npc.printHello();
+		npc.print();
 		
 	}
 
