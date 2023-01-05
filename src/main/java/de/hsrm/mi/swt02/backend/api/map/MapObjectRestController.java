@@ -3,6 +3,7 @@ package de.hsrm.mi.swt02.backend.api.map;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hsrm.mi.swt02.backend.api.map.dto.AddPedestrianRequestDTO;
 import de.hsrm.mi.swt02.backend.api.map.service.MapObjectServiceImpl;
 import de.hsrm.mi.swt02.backend.api.map.service.MapObjectTypeServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -71,6 +72,19 @@ public class MapObjectRestController {
             @PathVariable("map_id") long mapId){
 
         return new ResponseEntity<>(mapObjectService.createMapObject(mapObjects, mapId), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Post amount of pedestrian to map (by id)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "pedestrians are created")
+    })
+    @PostMapping("/pedestrian/{map_id}")
+    public ResponseEntity<Long> postPedestrian(
+            @RequestBody AddPedestrianRequestDTO pedestrianDTO,
+            @PathVariable("map_id") long mapId
+    ) {
+        mapObjectService.generatePedestrians(pedestrianDTO.pedestrianAmount(), mapId);
+        return null;
     }
 
 

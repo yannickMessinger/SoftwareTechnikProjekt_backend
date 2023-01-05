@@ -5,4 +5,5 @@ INSERT INTO MAP_OBJECT_TYPE (OBJECT_TYPE_ID, GROUP_ID, MODEL3D, NAME, ROTATION, 
 (3, 1, '/../../../src/assets/3D_Models/Building/house_high.gltf', 'Großes Gebäude', 0, '/img/streetplaner/buildings/BigBuilding.png', 'BUILDING', 0),
 (4, 1, '/../../../src/assets/3D_Models/Building/house.gltf', 'Gebäude', 0, '/img/streetplaner/buildings/Building.png', 'BUILDING', 0),
 (5, 1, '/../../../src/assets/3D_Models/Building/shop.gltf', 'Supermarkt', 0, '/img/streetplaner/buildings/Supermarkt.png', 'BUILDING', 0),
-(6, 1, '/../../../src/assets/3D_Models/Building/stadium.gltf', 'Stadion', 0, '/img/streetplaner/buildings/Stadium.png', 'BUILDING', 0);
+(6, 1, '/../../../src/assets/3D_Models/Building/stadium.gltf', 'Stadion', 0, '/img/streetplaner/buildings/Stadium.png', 'BUILDING', 0),
+(7, 3, '/../../../src/assets/3D_Models/Pedestrians/pedestrianBlondeBlack.gltf', 'Fussgänger', 0, '/img/streetplaner/pedestrian/Pedestrian1.png', 'PEDESTRIAN', 0);

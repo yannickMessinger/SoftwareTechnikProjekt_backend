@@ -19,4 +19,5 @@ public interface MapObjectService {
     void addNewMapObjectFromBroker(AddMapObjectRequestDTO mapObjectDTO, long mapId);
     void deleteMapObjectFromBroker(AddMapObjectRequestDTO mapObjectDTO, long mapId);
     void updateMapObjectFromBroker(AddMapObjectRequestDTO mapObjectDTO, long mapId);
+    List<MapObject> generatePedestrians(int amount, long mapId);
 }
