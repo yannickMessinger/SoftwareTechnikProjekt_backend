@@ -1,7 +1,7 @@
 package de.hsrm.mi.swt02.backend.api.player;
 
-import de.hsrm.mi.swt02.backend.api.player.dtos.AddPlayerRequestDTO;
-import de.hsrm.mi.swt02.backend.api.player.dtos.GetPlayerResponseDTO;
+import de.hsrm.mi.swt02.backend.api.player.dto.AddPlayerRequestDTO;
+import de.hsrm.mi.swt02.backend.api.player.dto.GetPlayerResponseDTO;
 import de.hsrm.mi.swt02.backend.api.player.service.PlayerServiceImpl;
 import de.hsrm.mi.swt02.backend.domain.player.Player;
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,8 +44,7 @@ public class PlayerRestController {
     public ResponseEntity<Long> postNewPlayer(
             @Schema(
                     description = "User Dto (userName: '')",
-                    implementation = AddPlayerRequestDTO.class,
-                    required = true)
+                    implementation = AddPlayerRequestDTO.class)
             @RequestBody AddPlayerRequestDTO uDTO) {
         if (isBlankString(uDTO.userName()) || isBlankString(uDTO.password())) {
             return new ResponseEntity<>(-1L, HttpStatus.BAD_REQUEST);
@@ -67,8 +66,7 @@ public class PlayerRestController {
     public ResponseEntity<GetPlayerResponseDTO> getUser(
         @Schema(
             description = "Userlogin", 
-            implementation = AddPlayerRequestDTO.class,
-            required = true)
+            implementation = AddPlayerRequestDTO.class)
         @RequestBody AddPlayerRequestDTO uDto) {
             Player p = playerService.findPlayerByUsernameAndPassword(uDto.userName(), uDto.password());
             if (p != null){
@@ -84,7 +82,7 @@ public class PlayerRestController {
             @ApiResponse(responseCode = "500", description = "User was not found and threw Exception internally")})
     @GetMapping("/{id}")
     public ResponseEntity<GetPlayerResponseDTO> getPlayer(
-            @Schema(description = "User ID", defaultValue = "1", required = true)
+            @Schema(description = "User ID", defaultValue = "1")
             @PathVariable("id") long id) {
         Player player = playerService.findPlayerById(id);
         return new ResponseEntity<>(GetPlayerResponseDTO.from(player), HttpStatus.OK);
@@ -96,7 +94,7 @@ public class PlayerRestController {
             @ApiResponse(responseCode = "500", description = "User was not found and threw Exception internally")})
     @DeleteMapping("/{id}")
     public void delPlayer(
-            @Schema(description = "User ID", defaultValue = "1", required = true)
+            @Schema(description = "User ID", defaultValue = "1")
             @PathVariable("id") long id) {
 
         playerService.deletePlayer(id);

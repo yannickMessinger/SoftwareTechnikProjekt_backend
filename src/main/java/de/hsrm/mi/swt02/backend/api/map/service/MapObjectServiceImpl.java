@@ -195,6 +195,14 @@ public class MapObjectServiceImpl implements MapObjectService {
         mapObject.getGameAssets().clear();
     }
 
+    /**
+     * @param id Map ID
+     * @return All MapObjects from Map
+     */
+    @Override
+    public List<MapObject> getAllMapObjectsFromMap(long id) {
+        return mapService.getMapById(id).getMapObjects();
+    }
     private Optional<MapObject> findMapObjectByXandY(List<MapObject> mapObjectList, AddMapObjectRequestDTO mapObjectDTO) {
         return mapObjectList.stream()
                 .filter(c -> c.getX() == mapObjectDTO.x() && c.getY() == mapObjectDTO.y())

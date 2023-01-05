@@ -1,13 +1,8 @@
 package de.hsrm.mi.swt02.backend.domain.player;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Version;
+import javax.persistence.*;
 
+import de.hsrm.mi.swt02.backend.domain.game.position.PlayerPosition;
 import de.hsrm.mi.swt02.backend.domain.lobby.Lobby;
 import de.hsrm.mi.swt02.backend.domain.map.Map;
 import lombok.Getter;
@@ -25,21 +20,16 @@ public class Player {
     @Id
     @GeneratedValue
     private long id;
-
     @Version
     private long version;
-
     private String userName;
     private String password;
-
-
+    @OneToOne(mappedBy = "player")
+    PlayerPosition playerPosition;
     @ManyToOne(cascade = CascadeType.REMOVE)
     private Lobby activeLobby;
-
-    
     @OneToMany(mappedBy = "host",cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Lobby> hostedLobbys;
-
     @OneToMany(mappedBy = "mapOwner",cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Map> mapList;
 
