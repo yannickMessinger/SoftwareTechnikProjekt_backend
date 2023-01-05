@@ -14,9 +14,10 @@ public class BackendApplication {
 		SpringApplication.run(BackendApplication.class, args);
 
 		NpcVehicle npc = new NpcVehicle();
+		NpcVehicle npc2 = npc.initNpcScript();
 
 		npc.print();
-		
+	
 	}
 
 }
