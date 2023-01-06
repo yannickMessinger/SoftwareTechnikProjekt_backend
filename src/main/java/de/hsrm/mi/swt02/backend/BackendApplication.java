@@ -1,7 +1,6 @@
 package de.hsrm.mi.swt02.backend;
 
-import org.python.core.PyObject;
-import org.python.util.PythonInterpreter;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -14,9 +13,12 @@ public class BackendApplication {
 		
 		SpringApplication.run(BackendApplication.class, args);
 		
+		/* 
 		NpcVehicle npc = new NpcVehicle();
 		npc.setNpcParams(0, 1, 1, 1, 0);
 		npc.calcNextMapEle();
+		
+
 		
 		npc.setNpcParams(0, 2, 1, 1, 1);
 		npc.calcNextMapEle();
@@ -38,6 +40,7 @@ public class BackendApplication {
 
 		npc.setNpcParams(0, 0, 0, 0, 1);
 		npc.calcNextMapEle();
+		*/
 	}
 
 }

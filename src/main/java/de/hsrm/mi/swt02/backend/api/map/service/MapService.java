@@ -16,5 +16,6 @@ public interface MapService {
     void assignLobbyToMap(long mapId, long lobbyId);
     Map createNewMap();
     void saveEditedMap(Map map);
+    void initNpc(long id);
 
 }

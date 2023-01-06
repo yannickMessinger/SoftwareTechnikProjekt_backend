@@ -77,6 +77,16 @@ class NpcDriveScript():
         elif(self.carRotation < 0):
             self.carRotation = 3
 
+    def getCarRot(self):
+       
+        return self.carRotation
+
+    def getXCoord(self):
+        return self.x_coord
+
+    def getZCoord(self):
+        return self.z_coord
+
     
 
 

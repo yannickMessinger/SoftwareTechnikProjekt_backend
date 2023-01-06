@@ -5,7 +5,9 @@ import de.hsrm.mi.swt02.backend.api.map.dto.AddMapRequestDTO;
 import de.hsrm.mi.swt02.backend.api.map.repository.MapRepository;
 import de.hsrm.mi.swt02.backend.api.player.service.PlayerService;
 import de.hsrm.mi.swt02.backend.domain.map.Map;
+import de.hsrm.mi.swt02.backend.domain.map.MapObject;
 import de.hsrm.mi.swt02.backend.domain.player.Player;
+import de.hsrm.mi.swt02.backend.npc.NpcVehicle;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -129,6 +131,29 @@ public class MapServiceImpl implements MapService {
     @Transactional
     public void saveEditedMap(Map map) {
         mapRepository.save(map);
+        
+    }
+
+    @Override
+    public void initNpc(long id) {
+        
+
+        int carRot = 0;
+        int newX = 0;
+        int newZ = 0;
+        NpcVehicle npc = new NpcVehicle();
+        Map map = this.getMapById(id);
+        List<MapObject> list = map.getMapObjects();
+      
+
+        for(int i = 0; i < list.size(); i++){
+            npc.setNpcParams(newX, newZ, list.get(i).getRotation(), carRot, list.get(i).getObjectTypeId());
+            npc.calcNextMapEle();
+            carRot = npc.retCarRot();
+            newX = npc.retXCoord();
+            newZ = npc.retZCoord();
+        }
+        
         
     }
 

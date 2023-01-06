@@ -4,6 +4,7 @@ import de.hsrm.mi.swt02.backend.api.map.dto.GetMapObjectResponseDTO;
 import de.hsrm.mi.swt02.backend.api.map.dto.AddMapRequestDTO;
 import de.hsrm.mi.swt02.backend.api.map.dto.GetMapResponseDTO;
 import de.hsrm.mi.swt02.backend.api.map.service.MapService;
+import de.hsrm.mi.swt02.backend.npc.NpcVehicle;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -83,6 +84,17 @@ public class MapRestController {
                         .map(GetMapObjectResponseDTO::from)
                         .toList());
         return new ResponseEntity<>(allMapObjectDTOs, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Tests npc script")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "init npc test")
+    })
+    @GetMapping("/npc/{id}")
+    public ResponseEntity<HttpStatus> testNPCMap(@PathVariable("id") long id) {
+        mapService.initNpc(id);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Operation(summary = "Posting a new Map and directly assign to Lobby")
