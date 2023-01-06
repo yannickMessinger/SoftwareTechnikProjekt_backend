@@ -210,14 +210,20 @@ public class MapObjectServiceImpl implements MapObjectService {
         Map map = mapService.getMapById(mapId);
         List<MapObject> pedestrians = new ArrayList<>();
         for (int i = 0; i < amount; i++) {
-            int x = (int) (Math.random() * maxX);
-            int y = (int) (Math.random() * maxY);
-            pedestrians.add(new MapObject(7, x, y, 0));
+            int x = generateRandomInt(0, maxX);
+            int y = generateRandomInt(0, maxY);
+            int objectTypeId = generateRandomInt(7, 16);
+            pedestrians.add(new MapObject(objectTypeId, x, y, 0));
             pedestrians.get(i).setMap(map);
             map.getMapObjects().add(pedestrians.get(i));
             mapObjRepo.save(pedestrians.get(i));
         }
         mapService.saveEditedMap(map);
         return pedestrians;
+    }
+
+    private int generateRandomInt(int min, int max) {
+        int range = (max - min) + 1;
+        return (int) (Math.random() * range + min);
     }
 }
