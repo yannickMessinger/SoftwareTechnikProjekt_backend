@@ -13,11 +13,31 @@ public class BackendApplication {
 	public static void main(String[] args) {
 		
 		SpringApplication.run(BackendApplication.class, args);
+		
+		NpcVehicle npc = new NpcVehicle();
+		npc.setNpcParams(0, 1, 1, 1, 0);
+		npc.calcNextMapEle();
+		
+		npc.setNpcParams(0, 2, 1, 1, 1);
+		npc.calcNextMapEle();
 
-		NpcVehicle npc = new NpcVehicle(1,2,0,1,2);
-		//npc.initNpcScript();
-		//npc.createNpcObj(1,2,0,1,2);
-		 
+		npc.setNpcParams(1, 2, 2, 2, 0);
+		npc.calcNextMapEle();
+
+		npc.setNpcParams(2, 2, 2, 2, 1);
+		npc.calcNextMapEle();
+
+		npc.setNpcParams(2, 1, 3, 3, 0);
+		npc.calcNextMapEle();
+
+		npc.setNpcParams(2, 0, 3, 3, 1);
+		npc.calcNextMapEle();
+
+		npc.setNpcParams(1, 0, 0, 0, 0);
+		npc.calcNextMapEle();
+
+		npc.setNpcParams(0, 0, 0, 0, 1);
+		npc.calcNextMapEle();
 	}
 
 }

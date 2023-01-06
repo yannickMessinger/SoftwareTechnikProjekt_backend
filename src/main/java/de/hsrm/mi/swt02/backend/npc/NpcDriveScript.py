@@ -8,24 +8,29 @@ class NpcDriveScript():
         self.streetRotation = streetRotation
         self.carRotation = carRotation
         self.streetId = streetId
-        print(self.x_coord)
-        print(self.z_coord)
-        print(self.streetRotation)
-        print(self.carRotation)
-        print(self.streetId)
+        print('x_coord: {}'.format(self.x_coord))
+        print('z_coord: {}'.format(self.z_coord))
+        print('streetRotation: {}'.format(self.streetRotation))
+        print('carRotation: {}'.format(self.carRotation))
+        print('streetId: {}'.format(self.streetId))
+        
         
        
     def drive(self):
         print("script drive")
         if self.carRotation == 0:
-            self.z_coord += 1
-        elif self.carRotation == 1:
-            self.x_coord += 1
-        elif self.carRotation == 2:
-            self.z_coord -= 1
-        elif self.carRotation == 3:
             self.x_coord -= 1
+        elif self.carRotation == 1:
+            self.z_coord += 1
+        elif self.carRotation == 2:
+            self.x_coord += 1
+        elif self.carRotation == 3:
+            self.z_coord -= 1
         
+        print('NEW car rotation: {}'.format(self.carRotation))
+        print('NEW x_coord: {}'.format(self.x_coord))
+        print('NEW z_coord: {}'.format(self.z_coord))
+        print("\n")
 
     def intersectionStreet(self):
         num = random.randint(-1,1)
@@ -38,6 +43,7 @@ class NpcDriveScript():
         self.drive()
 
     def curveStreet(self):
+        print("curve")
         if self.streetRotation == 0:
             if self.carRotation == 0:
                 self.carRotation += 1
@@ -71,12 +77,7 @@ class NpcDriveScript():
         elif(self.carRotation < 0):
             self.carRotation = 3
 
-    def retX(self):
-        print("retX")
-        return self.x_coord
     
-
-print("Marc stinkt nicht viel")
 
 
 
