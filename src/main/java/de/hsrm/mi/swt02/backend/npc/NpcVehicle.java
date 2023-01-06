@@ -35,6 +35,8 @@ public class NpcVehicle {
         } else if (pyInterp.get("streetId").asInt() == 1) {
             pyInterp.exec("script.curveStreet()");
 
+        } else if(pyInterp.get("streetId").asInt() == 2){
+            pyInterp.exec("script.intersectionStreet()");
         }
 
         pyInterp.exec("newCarRot = script.getCarRot()");
