@@ -23,11 +23,12 @@ public class NpcVehicle {
         pyInterp.set("newXCoord", new PyInteger(-1));
         pyInterp.set("newZCoord", new PyInteger(-1));
 
-        pyInterp.exec("script = NpcDriveScript(x, z, streetR, carR, streetId)");
+       
 
     }
 
     public void calcNextMapEle() {
+        pyInterp.exec("script = NpcDriveScript(x, z, streetR, carR, streetId)");
 
         if (pyInterp.get("streetId").asInt() == 0) {
             pyInterp.exec("script.drive()");
