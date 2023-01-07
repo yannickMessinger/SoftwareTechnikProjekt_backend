@@ -139,19 +139,37 @@ public class MapServiceImpl implements MapService {
         
 
         int carRot = 0;
-        int newX = 0;
-        int newZ = 0;
+        //int newX = 0;
+        //int newZ = 0;
         NpcVehicle npc = new NpcVehicle();
         Map map = this.getMapById(id);
         List<MapObject> list = map.getMapObjects();
+
+        //MapObject startEle = new MapObject();
+        MapObject currentEle = new MapObject();
+        MapObject nextEle = new MapObject();
+        
+        for (MapObject ele : list){
+            if(!ele.getGameAssets().isEmpty()){
+                carRot = ele.getGameAssets().get(0).getRotation();
+                currentEle = ele;
+            }
+           
+        }
+
+
       
 
         for(int i = 0; i < list.size(); i++){
-            npc.setNpcParams(newX, newZ, list.get(i).getRotation(), carRot, list.get(i).getObjectTypeId());
+            npc.setNpcParams(currentEle.getX(), currentEle.getY(),currentEle.getRotation(), carRot, currentEle.getObjectTypeId());
             npc.calcNextMapEle();
+            nextEle = list.stream()
+                        .filter(mapObj -> mapObj.getX() == npc.retXCoord() &&  mapObj.getY() == npc.retZCoord())
+                        .findFirst().get();
+            
+            currentEle = nextEle;          
             carRot = npc.retCarRot();
-            newX = npc.retXCoord();
-            newZ = npc.retZCoord();
+            
         }
         
         
