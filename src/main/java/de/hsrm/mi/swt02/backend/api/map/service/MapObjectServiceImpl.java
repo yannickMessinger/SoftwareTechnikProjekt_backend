@@ -5,8 +5,11 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import de.hsrm.mi.swt02.backend.api.map.dto.GameAssetDTO;
 import de.hsrm.mi.swt02.backend.api.map.dto.AddMapObjectsRequestDTO;
+import de.hsrm.mi.swt02.backend.api.map.repository.GameAssetRepository;
 import de.hsrm.mi.swt02.backend.api.map.repository.MapObjectRepository;
+import de.hsrm.mi.swt02.backend.domain.map.GameAsset;
 import de.hsrm.mi.swt02.backend.domain.map.Map;
 import de.hsrm.mi.swt02.backend.domain.map.MapObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,9 @@ public class MapObjectServiceImpl implements MapObjectService {
     @Autowired
     private MapService mapService;
 
+    @Autowired
+    private GameAssetRepository gameAssetRepo;
+
     /**
      * @return list containing all MapObjects of repository.
      */
@@ -45,7 +51,7 @@ public class MapObjectServiceImpl implements MapObjectService {
 
     /**
      * gets single MapObject by the handed id
-     * 
+     *
      * @param id id to look for the correct object
      * @return returns MapObject if found
      */
@@ -64,7 +70,7 @@ public class MapObjectServiceImpl implements MapObjectService {
     /**
      * deletes single MapObject by the given id and delete MapObject from
      * MapObjectList in Map
-     * 
+     *
      * @param id id of the MapObject to be deleted.
      */
     @Override
@@ -76,7 +82,7 @@ public class MapObjectServiceImpl implements MapObjectService {
 
     /**
      * adds incoming MapObjects from frontend to the repository.
-     * 
+     *
      * @param mapObjects initial converting from JSON to regular java object from
      *                   incoming Request Body in corresponding REST Controller,
      *                   every Entity is saved individually.
@@ -117,6 +123,7 @@ public class MapObjectServiceImpl implements MapObjectService {
         }
     }
 
+
     /**
      * Add a new MapObjekt to the right Map and save in database that comes from Message Broker.
      * If MapObject has a field that already exist, it will be deleted.
@@ -125,6 +132,7 @@ public class MapObjectServiceImpl implements MapObjectService {
      */
 
     @Override
+    @Transactional
     public void addNewMapObjectFromBroker(AddMapObjectRequestDTO mapObjectDTO, long mapId) {
         Map map = mapService.getMapById(mapId);
         List<MapObject> mapObjectList = map.getMapObjects();
@@ -142,6 +150,7 @@ public class MapObjectServiceImpl implements MapObjectService {
      * @param mapObjectDTO - came from Broker (delete) channel
      */
     @Override
+    @Transactional
     public void deleteMapObjectFromBroker(AddMapObjectRequestDTO mapObjectDTO, long mapId) {
         Map map = mapService.getMapById(mapId);
         List<MapObject> mapObjectList = map.getMapObjects();
@@ -154,15 +163,36 @@ public class MapObjectServiceImpl implements MapObjectService {
      *
      * @param mapObjectDTO - came from Broker (update) channel
      */
-    @Override
+    @Transactional
     public void updateMapObjectFromBroker(AddMapObjectRequestDTO mapObjectDTO, long mapId) {
         Map map = mapService.getMapById(mapId);
         List<MapObject> mapObjectList = map.getMapObjects();
         this.findMapObjectByXandY(mapObjectList, mapObjectDTO)
                 .ifPresent(mapObject -> {
                     mapObject.setRotation(mapObjectDTO.rotation());
+                    if (!mapObjectDTO.game_assets().isEmpty()) {
+                        this.addNewGameAssetToMapObject(mapObjectDTO.game_assets(), mapObject);
+                    }
                     mapObjRepo.save(mapObject);
                 });
+    }
+
+    private void addNewGameAssetToMapObject(List<GameAssetDTO> gameAssetDTOs, MapObject mapObject) {
+        deleteOldGameAssetsFromMapObject(mapObject);
+        gameAssetDTOs.forEach(ele -> {
+            GameAsset gameAsset = new GameAsset(ele.objectTypeId(), ele.x(), ele.y(), ele.rotation(), ele.texture());
+            mapObject.getGameAssets().add(gameAsset);
+            gameAsset.setMapObject(mapObject);
+            gameAssetRepo.save(gameAsset);
+        });
+    }
+
+    private void deleteOldGameAssetsFromMapObject(MapObject mapObject) {
+        mapObject.getGameAssets().forEach(ele -> {
+            ele.setMapObject(null);
+            gameAssetRepo.delete(ele);
+        });
+        mapObject.getGameAssets().clear();
     }
 
     /**
