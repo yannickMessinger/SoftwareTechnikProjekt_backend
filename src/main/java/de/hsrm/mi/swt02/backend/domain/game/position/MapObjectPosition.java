@@ -12,6 +12,7 @@ import java.util.Objects;
 @Entity
 public class MapObjectPosition {
     @Id
+    @GeneratedValue
     private long id;
 
     @Version
