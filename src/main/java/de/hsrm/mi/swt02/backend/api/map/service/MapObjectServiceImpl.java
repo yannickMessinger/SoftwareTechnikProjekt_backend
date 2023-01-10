@@ -6,8 +6,8 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import de.hsrm.mi.swt02.backend.api.game.position.service.PositionService;
 import de.hsrm.mi.swt02.backend.api.map.dto.AddMapObjectsRequestDTO;
-import de.hsrm.mi.swt02.backend.api.map.dto.GetMapObjectResponseDTO;
 import de.hsrm.mi.swt02.backend.api.map.repository.MapObjectRepository;
 import de.hsrm.mi.swt02.backend.domain.map.Map;
 import de.hsrm.mi.swt02.backend.domain.map.MapObject;
@@ -28,6 +28,9 @@ public class MapObjectServiceImpl implements MapObjectService {
 
     @Autowired
     private MapService mapService;
+
+    @Autowired
+    private PositionService positionService;
 
     /**
      * @return list containing all MapObjects of repository.
@@ -200,23 +203,25 @@ public class MapObjectServiceImpl implements MapObjectService {
         int x = map.getSizeX();
         int y = map.getSizeY();
         if(streetObjects.size() > amount) {
-            return generatePedestrian(amount, x, y, mapId);
+            return createPedestrians(amount, x, y, mapId);
         } else {
-            return generatePedestrian(streetObjects.size(), x, y, mapId);
+            return createPedestrians(streetObjects.size(), x, y, mapId);
         }
     }
 
-    private List<MapObject> generatePedestrian(int amount, int maxX, int maxY, long mapId) {
+    private List<MapObject> createPedestrians(int amount, int maxX, int maxY, long mapId) {
         Map map = mapService.getMapById(mapId);
         List<MapObject> pedestrians = new ArrayList<>();
         for (int i = 0; i < amount; i++) {
             int x = generateRandomInt(0, maxX);
             int y = generateRandomInt(0, maxY);
             int objectTypeId = generateRandomInt(7, 16);
-            pedestrians.add(new MapObject(objectTypeId, x, y, 0));
-            pedestrians.get(i).setMap(map);
-            map.getMapObjects().add(pedestrians.get(i));
-            mapObjRepo.save(pedestrians.get(i));
+            MapObject newPedestrian = new MapObject(objectTypeId, x, y, 0);
+            newPedestrian.setMap(map);
+            mapObjRepo.save(newPedestrian);
+            positionService.createPosition(newPedestrian, x, y, 0);
+            map.getMapObjects().add(newPedestrian);
+            pedestrians.add(newPedestrian);
         }
         mapService.saveEditedMap(map);
         return pedestrians;
