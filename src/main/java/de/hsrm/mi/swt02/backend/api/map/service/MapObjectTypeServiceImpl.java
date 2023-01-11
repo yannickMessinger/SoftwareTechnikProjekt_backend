@@ -28,7 +28,7 @@ public class MapObjectTypeServiceImpl implements MapObjectTypeService {
 
     @Override
     /*
-     * returns the MapObjectsType by objectTypeId
+     * returns the MapObjectsType by objectId
      */
     public MapObjectType findMapObjectTypeById(long id) {
         return mapConstRepo.findById(id).get();

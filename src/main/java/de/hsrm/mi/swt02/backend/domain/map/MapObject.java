@@ -1,6 +1,6 @@
 package de.hsrm.mi.swt02.backend.domain.map;
 
-import de.hsrm.mi.swt02.backend.domain.game.position.MapObjectPosition;
+import de.hsrm.mi.swt02.backend.domain.position.ObjectPosition;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,9 +31,6 @@ public class MapObject {
 
     @ManyToOne
     private Map map;
-
-    @OneToOne(mappedBy = "mapObject")
-    MapObjectPosition mapObjectPosition;
 
     public MapObject() {
     }

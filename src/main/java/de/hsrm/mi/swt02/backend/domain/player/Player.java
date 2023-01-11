@@ -2,9 +2,9 @@ package de.hsrm.mi.swt02.backend.domain.player;
 
 import javax.persistence.*;
 
-import de.hsrm.mi.swt02.backend.domain.game.position.PlayerPosition;
 import de.hsrm.mi.swt02.backend.domain.lobby.Lobby;
 import de.hsrm.mi.swt02.backend.domain.map.Map;
+import de.hsrm.mi.swt02.backend.domain.position.ObjectPosition;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,8 +24,6 @@ public class Player {
     private long version;
     private String userName;
     private String password;
-    @OneToOne(mappedBy = "player")
-    PlayerPosition playerPosition;
     @ManyToOne(cascade = CascadeType.REMOVE)
     private Lobby activeLobby;
     @OneToMany(mappedBy = "host",cascade = CascadeType.REMOVE, orphanRemoval = true)

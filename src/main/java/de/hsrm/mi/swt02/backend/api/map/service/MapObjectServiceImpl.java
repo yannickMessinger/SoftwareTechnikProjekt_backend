@@ -59,11 +59,7 @@ public class MapObjectServiceImpl implements MapObjectService {
     public MapObject getMapObjectById(long id) {
         Optional<MapObject> foundMapObj = mapObjRepo.findById(id);
 
-        if (foundMapObj.isEmpty()) {
-            // logger
-        }
-
-        return foundMapObj.orElseThrow();
+        return foundMapObj.orElse(null);
     }
 
     /**
@@ -97,19 +93,20 @@ public class MapObjectServiceImpl implements MapObjectService {
 
         this.deleteAllMapObjectsFromMapById(mapId);
 
+        long returnValue = 0L;
+
         if (!mapObjects.mapObjects().isEmpty()) {
             for (AddMapObjectRequestDTO ele : mapObjects.mapObjects()) {
                 MapObject nMapObj = new MapObject(ele.objectTypeId(), ele.x(), ele.y(), ele.rotation());
                 nMapObj.setMap(mapService.getMapById(mapId));
                 foundMap.getMapObjects().add(nMapObj);
-                mapObjRepo.save(nMapObj);
-
+                returnValue = mapObjRepo.save(nMapObj).getId();
             }
         }
 
         mapService.saveEditedMap(foundMap);
 
-        return 0L;
+        return returnValue;
     }
 
     @Override
@@ -228,7 +225,7 @@ public class MapObjectServiceImpl implements MapObjectService {
             MapObject newPedestrian = new MapObject(objectTypeId, x, y, 0);
             newPedestrian.setMap(map);
             mapObjRepo.save(newPedestrian);
-            positionService.createPosition(newPedestrian, x, y, 0);
+            positionService.createPosition(newPedestrian.getId(), x, y, 0);
             map.getMapObjects().add(newPedestrian);
             pedestrians.add(newPedestrian);
         }
