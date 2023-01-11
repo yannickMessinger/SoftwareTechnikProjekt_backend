@@ -195,18 +195,27 @@ public class MapObjectServiceImpl implements MapObjectService {
         Map map = mapService.getMapById(mapId);
         List<MapObject> allObjects = new ArrayList<>(map.getMapObjects());
         List<MapObject> streetObjects = new ArrayList<>();
+        List<MapObject> presentPedestrians = new ArrayList<>();
         for(MapObject o: allObjects) {
             if (o.getObjectTypeId() == 0 || o.getObjectTypeId() == 1 || o.getObjectTypeId() == 2) {
                 streetObjects.add(o);
+            } else if (o.getObjectTypeId() >= 7 && o.getObjectTypeId() <= 16) {
+                presentPedestrians.add(o);
             }
         }
-        int x = map.getSizeX();
-        int y = map.getSizeY();
-        if(streetObjects.size() > amount) {
-            return createPedestrians(amount, x, y, mapId);
-        } else {
-            return createPedestrians(streetObjects.size(), x, y, mapId);
+        int numberToGenerate = amount - presentPedestrians.size();
+        if (numberToGenerate > 0 ) {
+            int x = map.getSizeX();
+            int y = map.getSizeY();
+            return createPedestrians(numberToGenerate, x, y, mapId);
+        } else if (numberToGenerate < 0) {
+            for (int i=0; i>numberToGenerate; i--) {
+                // delete pedestrians here
+                return null;
+            }
         }
+
+        return presentPedestrians;
     }
 
     private List<MapObject> createPedestrians(int amount, int maxX, int maxY, long mapId) {
