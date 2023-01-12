@@ -11,6 +11,7 @@ import de.hsrm.mi.swt02.backend.api.map.dto.AddMapObjectsRequestDTO;
 import de.hsrm.mi.swt02.backend.api.map.repository.MapObjectRepository;
 import de.hsrm.mi.swt02.backend.domain.map.Map;
 import de.hsrm.mi.swt02.backend.domain.map.MapObject;
+import de.hsrm.mi.swt02.backend.domain.position.ObjectPosition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -194,7 +195,7 @@ public class MapObjectServiceImpl implements MapObjectService {
         List<MapObject> streetObjects = new ArrayList<>();
         List<MapObject> presentPedestrians = new ArrayList<>();
         for(MapObject o: allObjects) {
-            if (o.getObjectTypeId() == 0 || o.getObjectTypeId() == 1 || o.getObjectTypeId() == 2) {
+            if (o.getObjectTypeId() >= 0 && o.getObjectTypeId() <= 2) {
                 streetObjects.add(o);
             } else if (o.getObjectTypeId() >= 7 && o.getObjectTypeId() <= 16) {
                 presentPedestrians.add(o);
@@ -202,30 +203,53 @@ public class MapObjectServiceImpl implements MapObjectService {
         }
         int numberToGenerate = amount - presentPedestrians.size();
         if (numberToGenerate > 0 ) {
-            int x = map.getSizeX();
-            int y = map.getSizeY();
-            return createPedestrians(numberToGenerate, x, y, mapId);
+            return createPedestrians(numberToGenerate, mapId, streetObjects);
         } else if (numberToGenerate < 0) {
-            for (int i=0; i>numberToGenerate; i--) {
-                // delete pedestrians here
-                return null;
+            numberToGenerate *= -1;
+            List<ObjectPosition> allPositions = positionService.findAllPositions();
+            List<ObjectPosition> pedestrianPositions = findAllPedestrianPositions(allPositions);
+            for (int i=0; i<numberToGenerate; i++) {
+                ObjectPosition posToDelete = pedestrianPositions.get(i);
+                presentPedestrians.remove(mapObjRepo.findById(posToDelete.getId()));
+                mapObjRepo.deleteById(posToDelete.getMapObjectId());
+                positionService.deletePosition(posToDelete.getId());
             }
         }
-
         return presentPedestrians;
     }
 
-    private List<MapObject> createPedestrians(int amount, int maxX, int maxY, long mapId) {
+    private List<ObjectPosition> findAllPedestrianPositions (List<ObjectPosition> allPositions) {
+        List<ObjectPosition> pedestrians = new ArrayList<>();
+        for (ObjectPosition o: allPositions) {
+            MapObject mapObject = mapObjRepo.findById(o.getMapObjectId()).orElseThrow();
+            if (mapObject.getObjectTypeId() >= 7 && mapObject.getObjectTypeId() <= 16) {
+                pedestrians.add(o);
+            }
+        }
+        return pedestrians;
+    }
+
+    private List<MapObject> createPedestrians(int amount, long mapId, List<MapObject> streets) {
         Map map = mapService.getMapById(mapId);
         List<MapObject> pedestrians = new ArrayList<>();
         for (int i = 0; i < amount; i++) {
-            int x = generateRandomInt(0, maxX);
-            int y = generateRandomInt(0, maxY);
             int objectTypeId = generateRandomInt(7, 16);
-            MapObject newPedestrian = new MapObject(objectTypeId, x, y, 0);
+            int randomIndex = generateRandomInt(0, streets.size() - 1);
+            int x = streets.get(randomIndex).getX();
+            int y = streets.get(randomIndex).getY();
+            MapObject newPedestrian = new MapObject(objectTypeId, x, y, streets.get(randomIndex).getRotation());
             newPedestrian.setMap(map);
             mapObjRepo.save(newPedestrian);
-            positionService.createPosition(newPedestrian.getId(), x, y, 0);
+            double posX = x;
+            double posY = y;
+            if (streets.get(randomIndex).getRotation() % 2 == 0) {
+                posX += (double) generateRandomInt(1,9)/10;
+                posY += generateRandomInt(0,1) == 1 ? 0.1 : 0.9;
+            } else {
+                posX += generateRandomInt(0,1) == 1 ? 0.1 : 0.9;
+                posY += (double) generateRandomInt(1,9)/10;
+            }
+            positionService.createPosition(newPedestrian.getId(), posX, posY, streets.get(randomIndex).getRotation());
             map.getMapObjects().add(newPedestrian);
             pedestrians.add(newPedestrian);
         }
