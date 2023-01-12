@@ -86,17 +86,6 @@ public class MapRestController {
         return new ResponseEntity<>(allMapObjectDTOs, HttpStatus.OK);
     }
 
-    @Operation(summary = "Tests npc script")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "init npc test")
-    })
-    @GetMapping("/npc/{id}")
-    public ResponseEntity<HttpStatus> testNPCMap(@PathVariable("id") long id) {
-        mapService.initNpc(id);
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
     @Operation(summary = "Posting a new Map and directly assign to Lobby")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Map was created and assigned to Lobby"),

@@ -43,9 +43,7 @@ public class NpcVehicle {
         pyInterp.exec("newCarRot = script.getCarRot()");
         pyInterp.exec("newXCoord = script. getXCoord()");
         pyInterp.exec("newZCoord = script. getZCoord()");
-        // PyInteger rot = (PyInteger) pyInterp.get("newCarRot");
-
-        // System.out.println("neue Rotation: " + rot.asInt());
+       
 
     }
 

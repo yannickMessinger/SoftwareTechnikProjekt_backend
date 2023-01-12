@@ -4,9 +4,11 @@ import de.hsrm.mi.swt02.backend.api.lobby.repository.LobbyRepository;
 import de.hsrm.mi.swt02.backend.api.map.dto.AddMapRequestDTO;
 import de.hsrm.mi.swt02.backend.api.map.repository.MapRepository;
 import de.hsrm.mi.swt02.backend.api.player.service.PlayerService;
+import de.hsrm.mi.swt02.backend.domain.map.GameAsset;
 import de.hsrm.mi.swt02.backend.domain.map.Map;
 import de.hsrm.mi.swt02.backend.domain.map.MapObject;
 import de.hsrm.mi.swt02.backend.domain.player.Player;
+import de.hsrm.mi.swt02.backend.npc.NpcInfo;
 import de.hsrm.mi.swt02.backend.npc.NpcVehicle;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,9 +137,30 @@ public class MapServiceImpl implements MapService {
     }
 
     @Override
-    public void initNpc(long id) {
-        
+    public NpcInfo initNpc(long mapId, long npcId, int npcPosX, int npcPosY, int npcRot) {
+        NpcVehicle npc = new NpcVehicle();
+        Map map = this.getMapById(mapId);
+        List<MapObject> list = map.getMapObjects();
+        MapObject nextEle = new MapObject();
+        MapObject currentMapObject = list.stream()
+        .filter(mapObj -> mapObj.getX() == npcPosX &&  mapObj.getY() == npcPosY)
+        .findFirst().get();
 
+        //Todo: neue Car Rotation von Scriptberechnung noch zurückgeben, in AssetArray setzen und im FE ziehen 
+        
+        npc.setNpcParams(currentMapObject.getX(), currentMapObject.getY(),currentMapObject.getRotation(), npcRot, currentMapObject.getObjectTypeId());
+            npc.calcNextMapEle();
+            nextEle = list.stream()
+                        .filter(mapObj -> mapObj.getX() == npc.retXCoord() &&  mapObj.getY() == npc.retZCoord())
+                        .findFirst().get();
+
+        
+        
+        
+        
+        return new NpcInfo(nextEle.getObjectTypeId(), nextEle.getX(), nextEle.getY(), nextEle.getRotation(), npc.retCarRot());
+
+        /* 
         int carRot = 0;
         //int newX = 0;
         //int newZ = 0;
@@ -171,6 +194,8 @@ public class MapServiceImpl implements MapService {
             carRot = npc.retCarRot();
             
         }
+
+        */
         
         
     }
