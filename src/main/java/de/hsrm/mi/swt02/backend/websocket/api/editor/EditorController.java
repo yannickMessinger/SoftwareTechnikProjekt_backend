@@ -23,7 +23,6 @@ public class EditorController {
     public EditorMessage create(EditorMessage editorMessage) {
         log.info("create message received");
         mapObjectService.addNewMapObjectFromBroker(editorMessage.content, editorMessage.getId());
-        // headerAccessor.getSessionAttributes().put("username", editorMessage.getAuthor());
         return editorMessage;
     }
 
@@ -33,17 +32,15 @@ public class EditorController {
 
         log.info("delete message received");
         mapObjectService.deleteMapObjectFromBroker(editorMessage.content, editorMessage.getId());
-        //headerAccessor.getSessionAttributes().put("username", editorMessage.getAuthor());
         return editorMessage;
     }
 
     @MessageMapping("/editor.update")
     @SendTo("/topic/editor")
-    public EditorMessage update(@Payload EditorMessage editorMessage) {
+    public EditorMessage update(EditorMessage editorMessage) {
 
         log.info("update message received");
         mapObjectService.updateMapObjectFromBroker(editorMessage.content, editorMessage.getId());
-        //headerAccessor.getSessionAttributes().put("username", editorMessage.getAuthor());
         return editorMessage;
     }
 
