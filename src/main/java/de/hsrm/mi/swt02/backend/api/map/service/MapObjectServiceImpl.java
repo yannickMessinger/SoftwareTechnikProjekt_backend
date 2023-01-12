@@ -198,9 +198,10 @@ public class MapObjectServiceImpl implements MapObjectService {
         List<MapObject> streetObjects = new ArrayList<>();
         List<MapObject> presentPedestrians = new ArrayList<>();
         for(MapObject o: allObjects) {
-            if (o.getObjectTypeId() >= 0 && o.getObjectTypeId() <= 2) {
+            long groupId = mapObjectTypeService.findMapObjectTypeById(o.getObjectTypeId()).getGroupId();
+            if (groupId == 0) {
                 streetObjects.add(o);
-            } else if (o.getObjectTypeId() >= 7 && o.getObjectTypeId() <= 16) {
+            } else if (groupId == 4) {
                 presentPedestrians.add(o);
             }
         }
