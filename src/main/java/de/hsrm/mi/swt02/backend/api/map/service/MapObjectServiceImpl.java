@@ -33,6 +33,9 @@ public class MapObjectServiceImpl implements MapObjectService {
     @Autowired
     private PositionService positionService;
 
+    @Autowired
+    private MapObjectTypeService mapObjectTypeService;
+
     /**
      * @return list containing all MapObjects of repository.
      */
@@ -203,7 +206,9 @@ public class MapObjectServiceImpl implements MapObjectService {
         }
         int numberToGenerate = amount - presentPedestrians.size();
         if (numberToGenerate > 0 ) {
-            return createPedestrians(numberToGenerate, mapId, streetObjects);
+            if (streetObjects.size() != 0) {
+                return createPedestrians(numberToGenerate, mapId, streetObjects);
+            }
         } else if (numberToGenerate < 0) {
             numberToGenerate *= -1;
             List<ObjectPosition> allPositions = positionService.findAllPositions();
@@ -222,7 +227,8 @@ public class MapObjectServiceImpl implements MapObjectService {
         List<ObjectPosition> pedestrians = new ArrayList<>();
         for (ObjectPosition o: allPositions) {
             MapObject mapObject = mapObjRepo.findById(o.getMapObjectId()).orElseThrow();
-            if (mapObject.getObjectTypeId() >= 7 && mapObject.getObjectTypeId() <= 16) {
+            long groupid = mapObjectTypeService.findMapObjectTypeById(mapObject.getObjectTypeId()).getGroupId();
+            if (groupid == 4) {
                 pedestrians.add(o);
             }
         }
