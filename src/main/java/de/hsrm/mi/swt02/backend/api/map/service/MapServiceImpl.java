@@ -136,66 +136,15 @@ public class MapServiceImpl implements MapService {
         
     }
 
+    //Triggers Python Script 
     @Override
     public NpcInfo initNpc(long mapId, long npcId, int npcPosX, int npcPosY, int npcRot) {
         NpcVehicle npc = new NpcVehicle();
-        Map map = this.getMapById(mapId);
-        List<MapObject> list = map.getMapObjects();
-        MapObject nextEle = new MapObject();
-        MapObject currentMapObject = list.stream()
-        .filter(mapObj -> mapObj.getX() == npcPosX &&  mapObj.getY() == npcPosY)
-        .findFirst().get();
+        List<MapObject> list = this.getMapById(mapId).getMapObjects();
+        npc.setNpcParams(list,npcPosX, npcPosY, npcRot);
+       
+        return npc.calcNextMapEle();
 
-        //Todo: neue Car Rotation von Scriptberechnung noch zurückgeben, in AssetArray setzen und im FE ziehen 
-        
-        npc.setNpcParams(currentMapObject.getX(), currentMapObject.getY(),currentMapObject.getRotation(), npcRot, currentMapObject.getObjectTypeId());
-            npc.calcNextMapEle();
-            nextEle = list.stream()
-                        .filter(mapObj -> mapObj.getX() == npc.retXCoord() &&  mapObj.getY() == npc.retZCoord())
-                        .findFirst().get();
-
-        
-        
-        
-        
-        return new NpcInfo(nextEle.getObjectTypeId(), nextEle.getX(), nextEle.getY(), nextEle.getRotation(), npc.retCarRot());
-
-        /* 
-        int carRot = 0;
-        //int newX = 0;
-        //int newZ = 0;
-        NpcVehicle npc = new NpcVehicle();
-        Map map = this.getMapById(id);
-        List<MapObject> list = map.getMapObjects();
-
-        //MapObject startEle = new MapObject();
-        MapObject currentEle = new MapObject();
-        MapObject nextEle = new MapObject();
-        
-        for (MapObject ele : list){
-            if(!ele.getGameAssets().isEmpty()){
-                carRot = ele.getGameAssets().get(0).getRotation();
-                currentEle = ele;
-            }
-           
-        }
-
-
-      
-
-        for(int i = 0; i < list.size(); i++){
-            npc.setNpcParams(currentEle.getX(), currentEle.getY(),currentEle.getRotation(), carRot, currentEle.getObjectTypeId());
-            npc.calcNextMapEle();
-            nextEle = list.stream()
-                        .filter(mapObj -> mapObj.getX() == npc.retXCoord() &&  mapObj.getY() == npc.retZCoord())
-                        .findFirst().get();
-            
-            currentEle = nextEle;          
-            carRot = npc.retCarRot();
-            
-        }
-
-        */
         
         
     }

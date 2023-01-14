@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 
 import de.hsrm.mi.swt02.backend.api.map.service.MapService;
 import de.hsrm.mi.swt02.backend.npc.NpcInfo;
+import de.hsrm.mi.swt02.backend.npc.NpcInfoResponseDTO;
 import de.hsrm.mi.swt02.backend.websocket.model.npc.NpcMessage;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,12 +23,12 @@ public class NpcController {
     @SendTo("/topic/npc")
     public NpcMessage updatePos(NpcMessage npcMessage) {
 
-        log.info("update Position message received");
-        log.info(String.valueOf(npcMessage.npcContent.npcId()));
-
-        //mapid noch hardcoded
+        log.info("update Position NpcID: " + String.valueOf(npcMessage.npcContent.npcId()));
+      
+        //mapid still hardcoded
         NpcInfo info = mapService.initNpc(3, npcMessage.npcContent.npcId(), npcMessage.npcContent.npcPosX(), npcMessage.npcContent.npcPosZ(), npcMessage.npcContent.npcRotation());
-        
+        npcMessage.setNextMapEleInfo(NpcInfoResponseDTO.from(info));
+
         return npcMessage;
     }
 }
