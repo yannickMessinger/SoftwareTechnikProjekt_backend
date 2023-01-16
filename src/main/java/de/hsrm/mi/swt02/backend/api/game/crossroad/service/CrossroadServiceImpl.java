@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import de.hsrm.mi.swt02.backend.api.game.trafficLight.service.TrafficLightService;
-import de.hsrm.mi.swt02.backend.api.game.trafficLight.service.TrafficLightServiceImpl;
 import de.hsrm.mi.swt02.backend.domain.game.trafficLight.TrafficLight;
 
 import java.util.ArrayList;
@@ -35,8 +34,7 @@ public class CrossroadServiceImpl implements CrossroadService {
                 tls.start();
             });
             t.start();
-            threads.add(t);
-             
+            threads.add(t);    
         }
     }
 
@@ -51,7 +49,7 @@ public class CrossroadServiceImpl implements CrossroadService {
     @Override
     public List<TrafficLight> createTrafficLights(int numberOfTrafficLights) {
         for(int i = 0; i < numberOfTrafficLights; i++){
-            trafficLights.add(tls.createTrafficLight());
+            trafficLights.add(tls.createTrafficLight(new TrafficLight()));
         }
         return trafficLights;
         

@@ -12,7 +12,6 @@ import de.hsrm.mi.swt02.backend.domain.game.trafficLight.TrafficLight;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Testable
@@ -23,18 +22,10 @@ public class CrossroadServiceTest {
     private CrossroadService crossroadService;
 
     @Test
-    public void startTest() throws InterruptedException {
-        crossroadService.createTrafficLights(4);
-        crossroadService.start();
-        TimeUnit.SECONDS.sleep(1);
-        crossroadService.stop();
-    }
-
-    @Test
-    public void testCurrentState() throws InterruptedException {
+    public void TrafficLightState() throws InterruptedException {
         TrafficLight tl = crossroadService.createTrafficLights(1).get(0);
         crossroadService.start();
-        TimeUnit.SECONDS.sleep(8);
+        TimeUnit.SECONDS.sleep(9);
         assertEquals(Light.YELLOW, tl.getCurrentState());
         TimeUnit.SECONDS.sleep(2);
         assertEquals(Light.RED, tl.getCurrentState());
@@ -42,11 +33,61 @@ public class CrossroadServiceTest {
         assertEquals(Light.REDYELLOW, tl.getCurrentState());
         TimeUnit.SECONDS.sleep(2);
         assertEquals(Light.GREEN, tl.getCurrentState());
-        
+        crossroadService.stop();   
+    }
+
+    @Test
+    public void CloseThreadsAfterStop() throws InterruptedException {
+        TrafficLight tl = crossroadService.createTrafficLights(1).get(0);
+        crossroadService.start();
         List<Thread> tList = crossroadService.stop();
         for(Thread t : tList ){
             assertTrue(t.isInterrupted());
-            t.getState().compareTo(Thread.State.TERMINATED); //Besser als isInterrupteed()?
         }
+    }
+
+    @Test
+    public void EmptyTrafficLightList() throws InterruptedException {
+        crossroadService.start();
+        List<Thread> tList = crossroadService.stop();
+        for(Thread t : tList ){
+            assertTrue(t.isInterrupted());
+        }
+    }
+
+    @Test
+    public void MultipleTrafficLightState() throws InterruptedException {
+        List<TrafficLight> tl = crossroadService.createTrafficLights(2);
+        crossroadService.start();
+
+        TimeUnit.SECONDS.sleep(9);
+        for(TrafficLight l : tl){
+            assertEquals(Light.YELLOW, l.getCurrentState());
+        }
+        TimeUnit.SECONDS.sleep(2);
+        for(TrafficLight l : tl){
+            assertEquals(Light.RED, l.getCurrentState());
+        }
+        TimeUnit.SECONDS.sleep(10);
+        for(TrafficLight l : tl){
+            assertEquals(Light.REDYELLOW, l.getCurrentState());
+        }
+        TimeUnit.SECONDS.sleep(2);
+        for(TrafficLight l : tl){
+            assertEquals(Light.GREEN, l.getCurrentState());
+        }
+        crossroadService.stop();   
+    }
+
+    @Test
+    public void test() throws InterruptedException {
+        crossroadService.createTrafficLights(4);
+        crossroadService.start();
+
+        /* crossroadService.start(); */
+        TimeUnit.SECONDS.sleep(60);
+
+        crossroadService.stop();
+
     }
 }

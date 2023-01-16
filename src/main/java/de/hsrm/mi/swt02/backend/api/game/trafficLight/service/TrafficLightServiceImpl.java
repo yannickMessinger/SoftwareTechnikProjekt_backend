@@ -18,44 +18,47 @@ public class TrafficLightServiceImpl implements TrafficLightService{
         while (!Thread.currentThread().isInterrupted()) {
             switch (tl.getCurrentState()) {
                 case GREEN:
-                    logger.info("Now I am green");
+                    logger.info(tl.toString());
                     try {
                         //Thread.currentThread(); //Vlt den Thread zum schlafen legen
-                        //Thread.sleep(8000);
-                        TimeUnit.SECONDS.sleep(8);
+                        Thread.sleep(8000);
+                        //TimeUnit.SECONDS.sleep(8);
                         tl.setCurrentState(Light.YELLOW);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        /* e.printStackTrace(); */
                         Thread.currentThread().interrupt();
                     }
                     break;
                 case YELLOW:
-                    logger.info("Now I am green yellow");
+                    logger.info(tl.toString());
                     try {
-                        TimeUnit.SECONDS.sleep(2);
+                        Thread.sleep(2000);
+                        //TimeUnit.SECONDS.sleep(2);
                         tl.setCurrentState(Light.RED);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        /* e.printStackTrace(); */
                         Thread.currentThread().interrupt();
                     }
                     break;
                 case RED:
-                    logger.info("Now I am red");
+                    logger.info(tl.toString());
                     try {
-                        TimeUnit.SECONDS.sleep(10);
+                        Thread.sleep(10000);
+                        //TimeUnit.SECONDS.sleep(10);
                         tl.setCurrentState(Light.REDYELLOW);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        /* e.printStackTrace(); */
                         Thread.currentThread().interrupt();
                     }
                     break;
                 case REDYELLOW:
-                    logger.info("Now I am red yellow");
+                    logger.info(tl.toString());
                     try {
-                        TimeUnit.SECONDS.sleep(2);
+                        Thread.sleep(2000);
+                        //TimeUnit.SECONDS.sleep(2);
                         tl.setCurrentState(Light.GREEN);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        /* e.printStackTrace(); */
                         Thread.currentThread().interrupt();
                     }
                     break;
@@ -64,8 +67,8 @@ public class TrafficLightServiceImpl implements TrafficLightService{
     }
 
     @Override
-    public TrafficLight createTrafficLight() {
-        tl = new TrafficLight();
-        return tl;
+    public TrafficLight createTrafficLight(TrafficLight tl) {
+        this.tl = tl;
+        return this.tl;
     }
 }
