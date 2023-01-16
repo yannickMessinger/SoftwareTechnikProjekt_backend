@@ -4,7 +4,6 @@ package de.hsrm.mi.swt02.backend.api.game.crossroad;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.annotation.Testable;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import de.hsrm.mi.swt02.backend.api.game.crossroad.service.CrossroadService;
 import de.hsrm.mi.swt02.backend.api.game.crossroad.service.CrossroadServiceImpl;
@@ -17,17 +16,33 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+    Test class for the {@link CrossroadService} class.
+    This class tests the functionality of the {@link CrossroadService} class by creating instances of the class,
+    creating and manipulating traffic lights, and asserting the expected behavior.
+*/
 @Testable
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CrossroadServiceTest {
 
     private CrossroadService crossroadService;
 
+    /**
+     * This method is called before each test and creates a new instance of the {@link CrossroadService} class.
+     */
     @BeforeEach
     public void startUp(){
         crossroadService = new CrossroadServiceImpl();
     }
 
+    /**
+     * Test method for the traffic light state.
+     * 
+     * This method creates a traffic light, starts the crossroad service, and asserts that the state of the
+     * traffic light changes as expected.
+     *
+     * @throws InterruptedException
+     */
     @Test
     public void TrafficLightState() throws InterruptedException {
         TrafficLightService tl = crossroadService.createTrafficLights(1).get(0);
@@ -43,6 +58,10 @@ public class CrossroadServiceTest {
         crossroadService.stop();   
     }
 
+    /**
+     * This method tests if the thread is closed after calling the stop method.
+     * @throws InterruptedException
+    */
     @Test
     public void CloseThreadAfterStop() throws InterruptedException {
         TrafficLightService tl = crossroadService.createTrafficLights(1).get(0);
@@ -51,6 +70,10 @@ public class CrossroadServiceTest {
         assertTrue(t.isInterrupted());
     }
 
+    /**
+     * This method tests the case where the traffic light list is empty.
+     * @throws InterruptedException
+    */
     @Test
     public void EmptyTrafficLightList() throws InterruptedException {
         crossroadService.start();
@@ -58,6 +81,10 @@ public class CrossroadServiceTest {
         assertTrue(t.isInterrupted());
     }
 
+    /**
+     * This method tests the functionality of multiple traffic lights on one crossroad.
+     * @throws InterruptedException
+    */
     @Test
     public void MultipleTrafficLightState() throws InterruptedException {
         List<TrafficLightService> tl = crossroadService.createTrafficLights(2);
@@ -82,6 +109,10 @@ public class CrossroadServiceTest {
         crossroadService.stop();   
     }
 
+    /**
+     * This method tests the functionality of multiple crossroads.
+     * @throws InterruptedException
+    */
     @Test
     public void MultipleCrossroads() throws InterruptedException {
         CrossroadService crossroadService = new CrossroadServiceImpl();

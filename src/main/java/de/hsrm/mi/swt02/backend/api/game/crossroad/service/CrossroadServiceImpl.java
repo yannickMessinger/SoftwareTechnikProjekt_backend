@@ -14,6 +14,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * The implementation of the {@link CrossroadService} interface. This service handles the creation and management 
+ * of traffic lights at a crossroad.
+*/
 @Service
 public class CrossroadServiceImpl implements CrossroadService {
     private List<TrafficLightService> tls;
@@ -21,12 +25,18 @@ public class CrossroadServiceImpl implements CrossroadService {
     private boolean tlArrangement;
     private Logger logger = LoggerFactory.getLogger(CrossroadServiceImpl.class);
 
+    /**
+     * Constructor for creating an instance of the CrossroadServiceImpl.
+     */
     public CrossroadServiceImpl(){
         tls = new ArrayList<>();
         tlArrangement = false;
     }
 
-    
+    /**
+     * This method starts the thread that handles the change of states of the traffic lights at the crossroad.
+     * 
+     */
     @Override
     public void start() {
         logger.info("Crossroad is started");
@@ -36,12 +46,24 @@ public class CrossroadServiceImpl implements CrossroadService {
         t.start();
     }
 
+    /**
+     * This method stops the thread that handles the change of states of the traffic lights at the crossroad.
+     * 
+     * @return the thread that was interrupted.
+     */
     @Override
     public Thread stop() {
         t.interrupt();
         return t;
     }
 
+    /**
+     * This method creates a number of traffic lights at the crossroad.
+     * 
+     * @param numberOfTrafficLights the number of traffic lights to be created.
+     * 
+     * @return a list of the created traffic light services.
+     */
     @Override
     public List<TrafficLightService> createTrafficLights(int numberOfTrafficLights) {
         for(int i = 0; i < numberOfTrafficLights; i++){
@@ -53,6 +75,10 @@ public class CrossroadServiceImpl implements CrossroadService {
         return tls;   
     }
 
+    /**
+     * This method changes the state of all traffic lights at the crossroad.
+     * 
+     */
     @Override
     public void changeStates() {
         boolean toggle = false;
@@ -75,8 +101,12 @@ public class CrossroadServiceImpl implements CrossroadService {
             
         }
     }
-    
 
+    /**
+     * This method returns the thread that handles the change of states of the traffic lights at the crossroad.
+     * 
+     * @return the thread that handles the change of states of the traffic lights.
+     */
     @Override
     public Thread getThread() {
         return t;
