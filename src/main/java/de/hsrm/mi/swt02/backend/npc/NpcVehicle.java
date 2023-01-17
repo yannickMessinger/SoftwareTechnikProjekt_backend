@@ -1,15 +1,12 @@
 package de.hsrm.mi.swt02.backend.npc;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
+
+
 
 import org.python.core.PyInteger;
 import org.python.core.PyLong;
-import org.python.core.PyObject;
 import org.python.util.PythonInterpreter;
 
 import de.hsrm.mi.swt02.backend.domain.map.MapObject;
@@ -26,11 +23,6 @@ public class NpcVehicle {
     MapObject nextUpperMapObj;
     MapObject nextMapObject;
 
-
-    /**
-     * current X and Y coordinates of current map element on which npc car is placed on and 
-     * current rotation of npc car. npcPosX, npcPosY and npcRot maybe not necessary....
-     */
     private int npcRot;
     private NpcInfo info;
    
@@ -44,18 +36,37 @@ public class NpcVehicle {
     
     }
 
-    public void setNpcParams(List<MapObject> list, int npcPosX, int npcPosY, int npcRot) {
-        //npcPosX, npcPosY and npcRot maybe not necessary....
+    /**
+     * 
+     * @param list list with all MapElements from current map, gets handed in from MapImpl Service when NpcVehicle Class is instaniated
+     * @param currMapEleX X Coordinate of the current MapElement that the Npc Vehicle that requested the script is currently positioned on
+     * @param currMapEleY Y Coordinate of the current MapElement that the Npc Vehicle that requested the script is currently positioned on
+     * @param npcRot current rotation of the Npc Car that requested the script 
+     */
+    public void setNpcParams(List<MapObject> list, int currMapEleX, int currMapEleY, int npcRot) {
+        
         
         this.list = list;
         this.npcRot = npcRot;
 
+        /**
+         * finds the current Map Object based on the given X and Y coordinates from the Npc Vehicle Update Request. Sets the "currentMapObject" object to filter result. 
+        */
         this.currentMapObject = this.list.stream()
-            .filter(mapObj -> mapObj.getX() == npcPosX && mapObj.getY() == npcPosY)
+            .filter(mapObj -> mapObj.getX() == currMapEleX && mapObj.getY() == currMapEleY)
             .findFirst().get();
 
+        /**
+         * Method call to determine MapObject that is directly "above" the Npc Vehicle, depending on the orientation of the Npc Vehicle
+         * result is assigned to "nextUpperMapObj" object.
+         */
         this.nextUpperMapObj = findNextUpperMapObj();
 
+
+        /**
+         * preparation for Python Script call. Initializes all necessary values. Calculates the X and Y coordinates of the next Map Element, based on
+         * the street orientation and NpcVehicle orientation of the "nextUpperMapObj" object. 
+         */
         this.setScriptParams(nextUpperMapObj.getX(), nextUpperMapObj.getY(), nextUpperMapObj.getRotation(),
                 this.npcRot, nextUpperMapObj.getObjectTypeId());
     }
@@ -71,34 +82,31 @@ public class NpcVehicle {
         pyInterp.set("newCarRot", new PyInteger(-1));
         pyInterp.set("newXCoord", new PyInteger(-1));
         pyInterp.set("newZCoord", new PyInteger(-1));
-//        PyObject jyMapEleClass = pyInterp.get("MapEle");
-//        PyObject nextUpperMapEle = jyMapEleClass.__call__(
-//            new PyInteger(this.nextUpperMapObj.getX()),
-//            new PyInteger(this.nextUpperMapObj.getY()),
-//            new PyInteger(this.nextUpperMapObj.getRotation()),
-//            new PyLong(this.nextUpperMapObj.getObjectTypeId())
-//        );
-//        pyInterp.set("nextUpperMapEle", nextUpperMapEle);
+
     }
 
     //triggers python script, outputs the coordinates of next map ele and new npc car rotation
     public NpcInfo calcNextMapEle() {
         pyInterp.exec("script = NpcDriveScript(x, z, streetR, carR, objectTypeId)");
-//        pyInterp.exec("script.setNextUpperMapEle(nextUpperMapEle)");
-        /**
-         * Script is run twice because it is always starting from the current Map Element. In first iteration it outputs the
-         * x and y coordinates (those are savend in NpcInfo object) of the new Map Element. 
-         * New Map element is searched in list and script is run a second time to calculate the new 
-         * Npc Car rotation (new NpcCar rotation is also saved in NpcInfo Object).
-         */
+
+            /**
+             * Determines if the map Element that was handed to the script is straight or curved. Than correct calculation method is executed in script.
+             */
             pyInterp.exec("script.determineDrivingDirection()");
 
-            pyInterp.exec("currentCarRot = script.getCurrentCarRotation()");
-            pyInterp.exec("newCarRot = script.getNewCarRotation()");
 
+            pyInterp.exec("currentCarRot = script.getCurrentCarRotation()");
+
+            /**
+             * new X and Y coordinates of the following Map Object, based on the "nextUpperMapObj" object and the new rotation that the Npc Vehicle must rotate to.
+             */
+            pyInterp.exec("newCarRot = script.getNewCarRotation()");
             pyInterp.exec("newXCoord = script.getNextUpperMapEleX()");
             pyInterp.exec("newZCoord = script.getNextUpperMapEleZ()");
 
+            /**
+             * trys to find the new MapObject with the previously calculated X and Y coordinates. If not found it is set to currentMap object.
+             */
             try {
                 this.nextMapObject = this.list.stream()
                         .filter(mapObj -> mapObj.getX() == this.pyInterp.get("newXCoord").asInt()
@@ -108,17 +116,23 @@ public class NpcVehicle {
                 this.nextMapObject = this.currentMapObject;
             }
 
+            //sets info into NpcInfo object and returns value, is than transferred back to frontend.
             this.info.setCurrentMapObject(this.nextUpperMapObj);
             this.info.setNextUpperMapObject(this.nextMapObject);
             this.info.setNewGameAssetRotation(this.pyInterp.get("newCarRot").asInt());
         this.pyInterp.close();
 
-        //return NpcInfo Object with coordinates of new MapEle and new Npc Car rotation
+        
         return this.info;
 
     }
 
 
+    /**
+     * 
+     * @return MapObject that is directly "above" the Npc Vehicle, depending on the orientation of the Npc Vehicle
+     *         result is assigned to "nextUpperMapObj" object
+     */
     public MapObject findNextUpperMapObj(){
         
         switch(this.npcRot) {

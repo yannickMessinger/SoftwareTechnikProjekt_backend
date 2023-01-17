@@ -1,5 +1,7 @@
-import random
+#Script to calculate the coordinates of the next Map Element, based on rotation of street Element and rotation of Npc Vehicle
 
+
+import random
 class NpcDriveScript():
 
     def __init__(self, x,z, streetRotation, carRotation, objectTypeId):
@@ -15,6 +17,7 @@ class NpcDriveScript():
         print('carRotation: {}'.format(self.currentCarRotation))
         print('streetId: {}'.format(self.currentMapEle.objectTypeId))
 
+    #determines if MapElement contains straight, curve or intersection and exectues driving calculation 
     def determineDrivingDirection(self):
         if self.currentMapEle.objectTypeId == 0:
             self.drive()
@@ -23,7 +26,9 @@ class NpcDriveScript():
         elif self.currentMapEle.objectTypeId == 2:
             self.intersectionStreet()
 
-       
+    #determines the new x and y(z) coordinates of next MapElem, depending on the car car rotation.
+    #gets executed directly if mapElement contains straight. 
+    # if MapElement contained a curve,curve algorithm gets exucuted first than drive() method gets called.
     def drive(self):
         print("script drive")
         if self.newCarRotation == 0:
@@ -44,6 +49,7 @@ class NpcDriveScript():
         print('NEW z_coord: {}'.format(self.nextUpperMapEle.z_coord))
         print("\n")
 
+    #determines car rotation if MapElement contained an intersection. Turn direction determined randomly.
     def intersectionStreet(self):
         num = random.randint(-1,1)
         self.currentCarRotation += num
@@ -54,6 +60,7 @@ class NpcDriveScript():
 
         self.drive()
 
+    #determines correct car rotation, if MapElement contained a curve
     def curveStreet(self):
         print("curve")
         if self.currentMapEle.streetRotation == 0:
