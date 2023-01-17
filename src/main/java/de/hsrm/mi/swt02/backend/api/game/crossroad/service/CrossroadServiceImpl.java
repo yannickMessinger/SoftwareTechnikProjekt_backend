@@ -30,7 +30,7 @@ public class CrossroadServiceImpl implements CrossroadService {
     private TrafficLightService tls;
     private Thread t;
     @Autowired
-    private SimpMessagingTemplate messaging;
+    private SimpMessagingTemplate messaging; //Autwired funktioniert nicht
     private Logger logger = LoggerFactory.getLogger(CrossroadServiceImpl.class);
 
     /**
@@ -117,9 +117,9 @@ public class CrossroadServiceImpl implements CrossroadService {
                 for (TrafficLight tl : cr.getTrafficLights()) {
                     tls.setTrafficLight(tl);
                     tls.changeCurrentState();
-                    tlMap.put(tl.getId(), tl.getCurrentState())
+                    tlMap.put(tl.getId(), tl.getCurrentState());
                 }
-                messaging.convertAndSend("/", new CrossroadMessage(0, tlMap));
+                //messaging.convertAndSend("/", new CrossroadMessage(0, tlMap));
             } catch (InterruptedException e) {
                 logger.info("Thread interrupted. Ending changeStates() method");
                 Thread.currentThread().interrupt();
