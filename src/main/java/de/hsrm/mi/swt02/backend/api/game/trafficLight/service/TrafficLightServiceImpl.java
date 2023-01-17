@@ -16,6 +16,12 @@ public class TrafficLightServiceImpl implements TrafficLightService{
     private TrafficLight tl;
     private Logger logger = LoggerFactory.getLogger(TrafficLightServiceImpl.class);
     
+
+    /**
+     * Constructor for creating an instance of the TrafficLightServiceImpl.
+     */
+    public TrafficLightServiceImpl(){}
+
     /**
      * Constructor for creating an instance of the TrafficLightServiceImpl.
      * 
@@ -67,5 +73,15 @@ public class TrafficLightServiceImpl implements TrafficLightService{
     @Override
     public Light getCurrentState() {
         return tl.getCurrentState();
+    }
+
+    /**
+     * Sets the TrafficLight object in the Crossroad
+     *
+     * @param tl the TrafficLight object to be set in the Crossroad
+     */
+    @Override
+    public void setTrafficLight(TrafficLight tl) {
+        this.tl = tl;
     }
 }

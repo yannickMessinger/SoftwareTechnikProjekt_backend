@@ -1,6 +1,7 @@
 package de.hsrm.mi.swt02.backend.api.game.trafficLight.service;
 
 import de.hsrm.mi.swt02.backend.domain.game.trafficLight.Light;
+import de.hsrm.mi.swt02.backend.domain.game.trafficLight.TrafficLight;
 
 /**
     The interface for a service that handles the management of a traffic light.
@@ -26,4 +27,12 @@ public interface TrafficLightService {
      * @return the current state of the traffic light.
      */
     public Light getCurrentState();
+
+    /**
+     * Sets the TrafficLight object in the Crossroad
+     *
+     * @param tl the TrafficLight object to be set in the Crossroad
+     */
+
+    public void setTrafficLight(TrafficLight tl);
 }
