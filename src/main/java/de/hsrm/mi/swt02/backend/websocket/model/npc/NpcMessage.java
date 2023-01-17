@@ -15,7 +15,7 @@ public class NpcMessage {
     private MessageType type;
 
     public enum MessageType {
-        POSITION_UPDATE
+        POSITION_UPDATE, NEW_POSITION_RECEIVED
     }
 
 }
