@@ -8,6 +8,8 @@ import java.util.List;
 import org.python.core.PyInteger;
 import org.python.core.PyLong;
 import org.python.util.PythonInterpreter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.hsrm.mi.swt02.backend.domain.map.MapObject;
 import lombok.Getter;
@@ -16,6 +18,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class NpcVehicle {
+    Logger logger = LoggerFactory.getLogger(NpcVehicle.class);
 
     PythonInterpreter pyInterp;
     private List<MapObject> list;
@@ -60,7 +63,13 @@ public class NpcVehicle {
          * Method call to determine MapObject that is directly "above" the Npc Vehicle, depending on the orientation of the Npc Vehicle
          * result is assigned to "nextUpperMapObj" object.
          */
-        this.nextUpperMapObj = findNextUpperMapObj();
+        try{
+            this.nextUpperMapObj = findNextUpperMapObj();
+        }catch(Exception e){
+            logger.error("kein nächstes upperMap Ele gefunden!!");
+            this.nextUpperMapObj = this.currentMapObject;
+        }
+       
 
 
         /**
@@ -133,7 +142,7 @@ public class NpcVehicle {
      * @return MapObject that is directly "above" the Npc Vehicle, depending on the orientation of the Npc Vehicle
      *         result is assigned to "nextUpperMapObj" object
      */
-    public MapObject findNextUpperMapObj(){
+    public MapObject findNextUpperMapObj() throws Exception{
         
         switch(this.npcRot) {
             case 0: 
