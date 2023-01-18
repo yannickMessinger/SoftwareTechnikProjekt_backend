@@ -3,7 +3,10 @@ package de.hsrm.mi.swt02.backend.api.map.service;
 import de.hsrm.mi.swt02.backend.api.lobby.repository.LobbyRepository;
 import de.hsrm.mi.swt02.backend.api.map.dto.AddMapRequestDTO;
 import de.hsrm.mi.swt02.backend.api.map.repository.MapRepository;
+import de.hsrm.mi.swt02.backend.api.player.repository.PlayerRepository;
 import de.hsrm.mi.swt02.backend.domain.map.Map;
+import de.hsrm.mi.swt02.backend.domain.player.Player;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +14,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class MapServiceImpl implements MapService {
 
@@ -19,6 +23,9 @@ public class MapServiceImpl implements MapService {
 
     @Autowired
     LobbyRepository lobbyRepository;
+
+    @Autowired
+    PlayerRepository playerRepository;
 
     /**
      * save map Plan
@@ -30,6 +37,13 @@ public class MapServiceImpl implements MapService {
     @Transactional
     public long saveMap(AddMapRequestDTO dto) {
         Map map = new Map(dto.mapName(), dto.creationDate(), dto.sizeX(), dto.sizeY());
+        if (dto.mapOwnerId() != 0L) {
+            Optional<Player> playerOptional = playerRepository.findById(dto.mapOwnerId());
+            if (playerOptional.isPresent()) {
+                map.setMapOwner(playerOptional.get());
+            } else
+                log.info("Player not found: "+ dto.mapOwnerId());
+        }
         map = mapRepository.save(map);
 
         return map.getId();
