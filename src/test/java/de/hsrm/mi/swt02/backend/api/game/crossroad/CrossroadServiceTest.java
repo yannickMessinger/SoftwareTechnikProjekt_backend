@@ -21,8 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
-    Test class for the {@link crs} class.
-    This class tests the functionality of the {@link crs} class by creating instances of the class,
+    Test class for the {@link CrossroadService} class.
+    This class tests the functionality of the {@link CrossroadService} class by creating instances of the class,
     creating and manipulating traffic lights, and asserting the expected behavior.
 */
 @Testable
@@ -33,7 +33,7 @@ public class CrossroadServiceTest {
     private CrossroadService crs;
 
     /**
-     * This method is called before each test and creates a new instance of the {@link crs} class.
+     * This method is called before each test and creates a new instance of the {@link CrossroadService} class.
      */
     @BeforeEach
     public void startUp(){
