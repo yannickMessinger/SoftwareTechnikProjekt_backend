@@ -35,8 +35,8 @@ public class PositionController{
         return positionMessage;
     }
 
-    @MessageMapping("/editor.update")
-    @SendTo("/topic/editor")
+    @MessageMapping("/position.update")
+    @SendTo("/topic/position")
     public PositionMessage update(@Payload PositionMessage positionMessage) {
 
         log.info("update message received");
