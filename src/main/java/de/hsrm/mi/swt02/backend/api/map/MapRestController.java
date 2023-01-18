@@ -1,9 +1,11 @@
 package de.hsrm.mi.swt02.backend.api.map;
 
+import de.hsrm.mi.swt02.backend.api.map.dto.GetMapObjectByPlayerIdDTO;
 import de.hsrm.mi.swt02.backend.api.map.dto.GetMapObjectResponseDTO;
 import de.hsrm.mi.swt02.backend.api.map.dto.AddMapRequestDTO;
 import de.hsrm.mi.swt02.backend.api.map.dto.GetMapResponseDTO;
 import de.hsrm.mi.swt02.backend.api.map.service.MapService;
+import de.hsrm.mi.swt02.backend.domain.map.Map;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -98,5 +100,16 @@ public class MapRestController {
         mapService.assignLobbyToMap(mapId, lobbyId);
 
         return new ResponseEntity<>(mapId, HttpStatus.OK);
+    }
+
+    @GetMapping("/player/{id}")
+    public ResponseEntity<List<GetMapObjectByPlayerIdDTO>> getAllMapsFilteredByPlayerId(
+            @PathVariable("id") long playerId) {
+        List<Map> playerMaps = mapService.findAllMapsFromPlayer(playerId);
+        List<GetMapObjectByPlayerIdDTO> playerMapDTOs = new ArrayList<>(
+                playerMaps.stream()
+                        .map(GetMapObjectByPlayerIdDTO::from)
+                        .toList());
+        return new ResponseEntity<>(playerMapDTOs, HttpStatus.OK);
     }
 }
