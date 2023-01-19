@@ -1,10 +1,12 @@
 package de.hsrm.mi.swt02.backend.domain.map;
 
-import de.hsrm.mi.swt02.backend.domain.position.ObjectPosition;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -19,11 +21,9 @@ public class MapObject {
 
     @Version
     private long version;
-
     private long objectTypeId;
     private int x;
     private int y;
-
     /**
      * rotation * 90° (0-3)
      */
@@ -32,9 +32,12 @@ public class MapObject {
     @ManyToOne
     private Map map;
 
+    @OneToMany(mappedBy = "mapObject", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<GameAsset> gameAssets;
+
     public MapObject() {
     }
-
 
     public MapObject(long objectTypeId, int x, int y, int rotation) {
         this.objectTypeId = objectTypeId;
