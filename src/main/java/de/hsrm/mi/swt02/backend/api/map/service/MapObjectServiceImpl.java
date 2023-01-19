@@ -170,6 +170,7 @@ public class MapObjectServiceImpl implements MapObjectService {
         this.findMapObjectByXandY(mapObjectList, mapObjectDTO)
                 .ifPresent(mapObject -> {
                     mapObject.setRotation(mapObjectDTO.rotation());
+                    deleteOldGameAssetsFromMapObject(mapObject);
                     if (!mapObjectDTO.game_assets().isEmpty()) {
                         this.addNewGameAssetToMapObject(mapObjectDTO.game_assets(), mapObject);
                     }
@@ -178,9 +179,8 @@ public class MapObjectServiceImpl implements MapObjectService {
     }
 
     private void addNewGameAssetToMapObject(List<GameAssetDTO> gameAssetDTOs, MapObject mapObject) {
-        deleteOldGameAssetsFromMapObject(mapObject);
         gameAssetDTOs.forEach(ele -> {
-            GameAsset gameAsset = new GameAsset(ele.objectTypeId(), ele.x(), ele.y(), ele.rotation(), ele.texture());
+            GameAsset gameAsset = new GameAsset(ele.objectTypeId(), ele.x(), ele.y(), ele.rotation(), ele.texture(), ele.userId());
             mapObject.getGameAssets().add(gameAsset);
             gameAsset.setMapObject(mapObject);
             gameAssetRepo.save(gameAsset);
