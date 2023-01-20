@@ -37,7 +37,6 @@ public class Lobby {
     @OneToOne
     private Map map;
 
-
     public Lobby() {
         this.lobbyName = "";
         this.numOfPlayers = 0;
@@ -121,11 +120,8 @@ public class Lobby {
         if (lobbyMode != other.lobbyMode)
             return false;
         if (playerList == null) {
-            if (other.playerList != null)
-                return false;
-        } else if (!playerList.equals(other.playerList))
-            return false;
-        return true;
+            return other.playerList == null;
+        } else return playerList.equals(other.playerList);
     }
 
 

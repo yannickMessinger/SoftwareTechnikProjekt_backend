@@ -1,4 +1,4 @@
-package de.hsrm.mi.swt02.backend.api.player.dtos;
+package de.hsrm.mi.swt02.backend.api.player.dto;
 
 import de.hsrm.mi.swt02.backend.domain.player.Player;
 
