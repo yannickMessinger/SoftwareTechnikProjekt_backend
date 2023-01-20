@@ -3,6 +3,7 @@ package de.hsrm.mi.swt02.backend.api.map.dto;
 import de.hsrm.mi.swt02.backend.domain.map.MapObject;
 
 public record GetMapObjectResponseDTO(
+        long objectId,
         long objectTypeId,
         int x,
         int y,
@@ -10,6 +11,7 @@ public record GetMapObjectResponseDTO(
 ){
     public static GetMapObjectResponseDTO from (MapObject s) {
         return new GetMapObjectResponseDTO(
+                s.getId(),
                 s.getObjectTypeId(),
                 s.getX(),
                 s.getY(),
