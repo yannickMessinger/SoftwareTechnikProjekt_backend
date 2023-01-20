@@ -76,8 +76,8 @@ public class NpcVehicle {
          * preparation for Python Script call. Initializes all necessary values. Calculates the X and Y coordinates of the next Map Element, based on
          * the street orientation and NpcVehicle orientation of the "nextUpperMapObj" object. 
          */
-        this.setScriptParams(currentMapObject.getX(), currentMapObject.getY(), currentMapObject.getRotation(),
-                this.npcRot, currentMapObject.getObjectTypeId());
+        this.setScriptParams(nextUpperMapObj.getX(), nextUpperMapObj.getY(), nextUpperMapObj.getRotation(),
+                this.npcRot, nextUpperMapObj.getObjectTypeId());
     }
 
     //updates / sets parameters that the python script is using to calculate the x ad y coordinates of the next new Map Element
@@ -126,7 +126,7 @@ public class NpcVehicle {
             }
 
             //sets info into NpcInfo object and returns value, is than transferred back to frontend.
-            this.info.setCurrentMapObject(this.currentMapObject);
+            this.info.setCurrentMapObject(this.nextUpperMapObj);
             this.info.setNextUpperMapObject(this.nextMapObject);
             this.info.setNewGameAssetRotation(this.pyInterp.get("newCarRot").asInt());
         this.pyInterp.close();
