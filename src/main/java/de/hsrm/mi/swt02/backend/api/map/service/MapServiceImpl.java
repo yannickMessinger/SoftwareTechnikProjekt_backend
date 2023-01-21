@@ -141,7 +141,7 @@ public class MapServiceImpl implements MapService {
     public NpcInfo initNpc(long mapId, long npcId, int npcPosX, int npcPosY, int npcRot) {
         NpcVehicle npc = new NpcVehicle();
         List<MapObject> list = this.getMapById(mapId).getMapObjects();
-        npc.setNpcParams(list,npcPosX, npcPosY, npcRot);
+        npc.setNpcParams(list,npcPosX, npcPosY, npcRot, npcId);
        
         return npc.calcNextMapEle();
 
