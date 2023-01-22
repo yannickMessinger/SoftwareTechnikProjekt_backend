@@ -1,6 +1,6 @@
 package de.hsrm.mi.swt02.backend.websocket.api.npc;
 
-import de.hsrm.mi.swt02.backend.npc.NpcInfoDTO;
+import de.hsrm.mi.swt02.backend.npc.NpcInfoRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -24,15 +24,15 @@ public class NpcController {
     @SendTo("/topic/npc")
     public NpcMessage updatePos(NpcMessage npcMessage) {
         NpcMessage npcMessageResponse = new NpcMessage();
-        log.info("update Position NpcID: " + String.valueOf(npcMessage.npcContent.npcId()));
+        log.info("update Position NpcID: " + String.valueOf(npcMessage.npcInfoRequestDTO.npcId()));
       
         //mapid still hardcoded
-        NpcInfo info = mapService.initNpc(3, npcMessage.npcContent.npcId(), npcMessage.npcContent.currentMapObject().getX(), npcMessage.npcContent.currentMapObject().getY(), npcMessage.npcContent.npcRotation());
+        NpcInfo info = mapService.initNpc(3, npcMessage.npcInfoRequestDTO.npcId(), npcMessage.npcInfoRequestDTO.currentMapObject().getX(), npcMessage.npcInfoRequestDTO.currentMapObject().getY(), npcMessage.npcInfoRequestDTO.npcRotation());
         NpcInfoResponseDTO infoDTO = NpcInfoResponseDTO.from(info);
-        npcMessageResponse.setNextMapEleInfo(infoDTO);
+        npcMessageResponse.setNpcInfoResponseDTO(infoDTO);
         // npcMessageResponse.setNextMapEleInfo(NpcInfoResponseDTO.from(info));
         npcMessageResponse.setType(NpcMessage.MessageType.NEW_POSITION_RECEIVED);
-        npcMessageResponse.setNpcContent(new NpcInfoDTO(npcMessage.npcContent.npcId(), -1, null, null));
+       
         return npcMessageResponse;
     }
 }

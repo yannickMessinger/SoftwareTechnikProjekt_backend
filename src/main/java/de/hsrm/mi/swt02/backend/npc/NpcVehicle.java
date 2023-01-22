@@ -28,6 +28,7 @@ public class NpcVehicle {
 
     private int npcRot;
     private NpcInfo info;
+    private long npcId;
    
 
     public NpcVehicle() {
@@ -46,11 +47,12 @@ public class NpcVehicle {
      * @param currMapEleY Y Coordinate of the current MapElement that the Npc Vehicle that requested the script is currently positioned on
      * @param npcRot current rotation of the Npc Car that requested the script 
      */
-    public void setNpcParams(List<MapObject> list, int currMapEleX, int currMapEleY, int npcRot) {
+    public void setNpcParams(List<MapObject> list, int currMapEleX, int currMapEleY, int npcRot, long npcId) {
         
         
         this.list = list;
         this.npcRot = npcRot;
+        this.npcId = npcId;
 
         /**
          * finds the current Map Object based on the given X and Y coordinates from the Npc Vehicle Update Request. Sets the "currentMapObject" object to filter result. 
@@ -63,11 +65,13 @@ public class NpcVehicle {
          * Method call to determine MapObject that is directly "above" the Npc Vehicle, depending on the orientation of the Npc Vehicle
          * result is assigned to "nextUpperMapObj" object.
          */
-        try{
+        
+          //eig macht das doch auch das script.... 
+         try{
             this.nextUpperMapObj = findNextUpperMapObj();
         }catch(Exception e){
             logger.error("kein nächstes upperMap Ele gefunden!!");
-            this.nextUpperMapObj = this.currentMapObject;
+           
         }
        
 
@@ -122,12 +126,14 @@ public class NpcVehicle {
                                 && mapObj.getY() == this.pyInterp.get("newZCoord").asInt())
                         .findFirst().get();
             } catch (Exception e) {
-                this.nextMapObject = this.currentMapObject;
+                logger.error("Fehler nach script, kein nächstes map ele!");
+                
             }
 
             //sets info into NpcInfo object and returns value, is than transferred back to frontend.
-            this.info.setCurrentMapObject(this.nextUpperMapObj);
-            this.info.setNextUpperMapObject(this.nextMapObject);
+            //this.info.setCurrentMapObject(this.nextUpperMapObj);
+            this.info.setNpcId(this.npcId);
+            this.info.setNextUpperMapObject(this.nextUpperMapObj);
             this.info.setNewGameAssetRotation(this.pyInterp.get("newCarRot").asInt());
         this.pyInterp.close();
 
