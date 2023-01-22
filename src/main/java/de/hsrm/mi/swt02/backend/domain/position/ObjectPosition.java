@@ -1,6 +1,7 @@
 package de.hsrm.mi.swt02.backend.domain.position;
 
 import de.hsrm.mi.swt02.backend.domain.map.MapObjectType;
+import de.hsrm.mi.swt02.backend.domain.player.Player;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,6 +23,9 @@ public class ObjectPosition {
     double posX;
     double posY;
     double rotation;
+    @ManyToOne
+    @JoinColumn(name = "player_id")
+    private Player player;
 
     public ObjectPosition() {}
 
