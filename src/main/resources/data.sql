@@ -14,4 +14,4 @@ INSERT INTO MAP_OBJECT_TYPE (OBJECT_TYPE_ID, GROUP_ID, MODEL3D, NAME, ROTATION, 
 (5, 1, '/../../../src/assets/3D_Models/Building/shop.gltf', 'Supermarkt', 0, '/img/streetplaner/building/Supermarkt.png', 'BUILDING', 0),
 (6, 1, '/../../../src/assets/3D_Models/Building/stadium.gltf', 'Stadion', 0, '/img/streetplaner/building/Stadium.png', 'BUILDING', 0),
 (7, 2, '', 'Auto', 0, '/img/streetplaner/object-icons/car-top-view.svg', 'ASSET', 0),
-(8, 2, '', 'Startpunkt', 0, '/img/streetplaner/object-icons/car-top-view-red.svg', 'ASSET', 0);
+(13, 2, '', 'Startpunkt', 0, '/img/streetplaner/object-icons/car-top-view-red.svg', 'ASSET', 0);
