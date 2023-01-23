@@ -24,6 +24,7 @@ class NpcDriveScript():
         elif self.currentMapEle.objectTypeId == 1:
             self.curveStreet()
         elif self.currentMapEle.objectTypeId == 2:
+            print("Intersectttt me!")
             self.intersectionStreet()
 
     #determines the new x and y(z) coordinates of next MapElem, depending on the car car rotation.
@@ -59,8 +60,11 @@ class NpcDriveScript():
 
     #determines car rotation if MapElement contained an intersection. Turn direction determined randomly.
     def intersectionStreet(self):
+        print("Intersection")
         num = random.randint(-1,1)
-        self.currentCarRotation += num
+        self.newCarRotation = self.currentCarRotation + num
+      
+
         if(self.newCarRotation > 3):
             self.newCarRotation = 0
         elif(self.newCarRotation < 0):
