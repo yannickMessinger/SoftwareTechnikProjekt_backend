@@ -1,9 +1,9 @@
 package de.hsrm.mi.swt02.backend.api.game.position.dto;
 
 public record AddObjectPositionDTO(
-        long objectId,
+        long id,
         double x,
-        double y,
+        double z,
         double rotation
 ) {
 }

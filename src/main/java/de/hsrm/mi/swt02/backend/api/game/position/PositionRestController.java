@@ -76,10 +76,10 @@ public class PositionRestController {
             @Schema(description = "Map ID")
             @PathVariable("id") long id) {
 
-        var mapObject = mapObjectService.getMapObjectById(objectPositionDTO.objectId());
+        var mapObject = mapObjectService.getMapObjectById(objectPositionDTO.id());
 
         // only can be null if no object was created beforehand
-        if (objectPositionDTO.objectId() == -1) {
+        if (objectPositionDTO.id() == -1) {
             mapObject = mapObjectRepository.save(new MapObject(7, 0, 0, 0));
         }
         var mapObjectType = mapObjectTypeService.findMapObjectTypeById(mapObject.getObjectTypeId());
