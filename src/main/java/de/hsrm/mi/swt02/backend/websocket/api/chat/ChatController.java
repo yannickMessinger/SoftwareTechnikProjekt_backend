@@ -15,26 +15,17 @@ import org.springframework.stereotype.Controller;
 @Slf4j
 public class ChatController {
 
-    @MessageMapping("/chat.sendMessage")
+    @MessageMapping("/chat.globalChat")
     @SendTo("/topic/chat")
-    public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
+    public ChatMessage sendMessageGlobalChat(@Payload ChatMessage chatMessage) {
         log.info("send message received");
         return chatMessage;
     }
 
-    @MessageMapping("/chat.addUser")
-    @SendTo("/topic/chat")
-    public ChatMessage addUser(@Payload ChatMessage chatMessage,
-                               SimpMessageHeaderAccessor headerAccessor) {
-        headerAccessor.getSessionAttributes().put("username", chatMessage.getAuthor());
-        return chatMessage;
-    }
-
-
     @MessageMapping("/chat.lobbyChat/{lobbyId}")
     @SendTo("/topic/chat/lobby/{lobbyId}")
-    public ChatMessage lobbyChat(@DestinationVariable("lobbyId") String lobbyId ,@Payload ChatMessage lobbyChatMessage) {
+    public ChatMessage sendMessageLobbyChat(@DestinationVariable("lobbyId") String lobbyId ,@Payload ChatMessage lobbyChatMessage) {
+        log.info("send lobby-message received");
         return lobbyChatMessage;
     }
-    
 }
