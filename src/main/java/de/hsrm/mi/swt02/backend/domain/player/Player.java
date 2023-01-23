@@ -24,7 +24,7 @@ public class Player {
     private long version;
     private String userName;
     private String password;
-    @OneToOne(mappedBy = "player")
+    @OneToOne()
     ObjectPosition playerPosition;
     @ManyToOne(cascade = CascadeType.REMOVE)
     private Lobby activeLobby;

@@ -21,7 +21,7 @@ public class PositionController{
     @SendTo("/topic/position") 
     public PositionMessage create(PositionMessage positionMessage) {
         log.info("create message received");
-        positionService.createPosition( positionMessage.getId(),positionMessage.content.posX(),positionMessage.content.posy(),positionMessage.content.posRotation());
+        positionService.createPosition(positionMessage.getId(),positionMessage.content.posX(),positionMessage.content.posZ(),positionMessage.content.posRotation());
         return positionMessage;
     }
 
@@ -40,7 +40,7 @@ public class PositionController{
     public PositionMessage update(@Payload PositionMessage positionMessage) {
 
         log.info("update message received");
-        positionService.updatePosition(positionMessage.getId(),positionMessage.content.posX(), positionMessage.content.posy(), positionMessage.content.posRotation()  );
+        positionService.updatePosition(positionMessage.getId(),positionMessage.content.posX(), positionMessage.content.posZ(), positionMessage.content.posRotation()  );
         //headerAccessor.getSessionAttributes().put("username", editorMessage.getAuthor());
         return positionMessage;
     }
