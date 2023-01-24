@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public record GetMapObjectResponseDTO(
+        long objectId,
         long objectTypeId,
         int x,
         int y,
@@ -18,6 +19,7 @@ public record GetMapObjectResponseDTO(
         s.getGameAssets().forEach(ele -> gameAssetRequestDTOS.add(GameAssetDTO.from(ele)));
 
         return new GetMapObjectResponseDTO(
+                s.getId(),
                 s.getObjectTypeId(),
                 s.getX(),
                 s.getY(),
