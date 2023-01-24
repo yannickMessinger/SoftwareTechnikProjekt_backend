@@ -98,10 +98,10 @@ public class PositionRestController {
             assert mapObject != null;
         }
 
-        var objectPosition = positionService.createPosition(mapObjectType.getObjectTypeId(), mapObject.getX(), mapObject.getY(), mapObject.getRotation());
+        //var objectPosition = positionService.createPosition(mapObjectType.getObjectTypeId(), mapObject.getX(), mapObject.getY(), mapObject.getRotation());
 
         return new ResponseEntity<>(
-                GetObjectPositionDTO.from(objectPosition),
+                //GetObjectPositionDTO.from(objectPosition),
                 HttpStatus.OK);
     }
 

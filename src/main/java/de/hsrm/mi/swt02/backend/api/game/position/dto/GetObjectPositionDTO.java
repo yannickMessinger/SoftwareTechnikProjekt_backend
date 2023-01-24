@@ -7,7 +7,7 @@ public record GetObjectPositionDTO(
     long objectTypeId,
     double posX,
     double posZ,
-    double posRotation
+    double [] posRotation
 ) {
     public static GetObjectPositionDTO from (ObjectPosition objectPosition) {
         return new GetObjectPositionDTO(
