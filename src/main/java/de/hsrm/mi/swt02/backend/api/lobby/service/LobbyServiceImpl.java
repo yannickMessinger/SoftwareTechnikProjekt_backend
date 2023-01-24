@@ -133,12 +133,11 @@ public class LobbyServiceImpl implements LobbyService {
     public void removePlayerFromLobby(long lobbyId, long playerId) {
         Player player = playerService.findPlayerById(playerId);
         Lobby lobby = this.findLobbyById(lobbyId);
-        
+        player.setActiveLobby(null);
         if(lobby.isHostedBy(player.getId())){
             this.deleteLobby(lobbyId);
             return;
         }
-        player.setActiveLobby(null);
         lobby.getPlayerList().remove(player);
         lobbyRepository.save(lobby);
     }
