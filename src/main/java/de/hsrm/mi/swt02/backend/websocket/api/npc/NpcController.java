@@ -25,12 +25,12 @@ public class NpcController {
     public NpcMessage updatePos(NpcMessage npcMessage) {
         NpcMessage npcMessageResponse = new NpcMessage();
         log.info("update Position NpcID -> " + String.valueOf(npcMessage.npcInfoRequestDTO.npcId()));
-      
-        //mapid still hardcoded
-        NpcInfo info = mapService.initNpc(3, npcMessage.npcInfoRequestDTO.npcId(), npcMessage.npcInfoRequestDTO.currentMapObject().getX(), npcMessage.npcInfoRequestDTO.currentMapObject().getY(), npcMessage.npcInfoRequestDTO.npcRotation());
+        log.info("mapId -> " + String.valueOf(npcMessage.npcInfoRequestDTO.mapId()));
+
+        
+        NpcInfo info = mapService.initNpc(npcMessage.npcInfoRequestDTO.mapId(), npcMessage.npcInfoRequestDTO.npcId(), npcMessage.npcInfoRequestDTO.currentMapObject().getX(), npcMessage.npcInfoRequestDTO.currentMapObject().getY(), npcMessage.npcInfoRequestDTO.npcRotation());
         NpcInfoResponseDTO infoDTO = NpcInfoResponseDTO.from(info);
         npcMessageResponse.setNpcInfoResponseDTO(infoDTO);
-        // npcMessageResponse.setNextMapEleInfo(NpcInfoResponseDTO.from(info));
         npcMessageResponse.setType(NpcMessage.MessageType.NEW_POSITION_RECEIVED);
        
         return npcMessageResponse;

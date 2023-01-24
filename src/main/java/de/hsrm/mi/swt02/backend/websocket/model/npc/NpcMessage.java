@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 public class NpcMessage {
    
+    
     public NpcInfoRequestDTO npcInfoRequestDTO;
     public NpcInfoResponseDTO npcInfoResponseDTO;
     private MessageType type;
