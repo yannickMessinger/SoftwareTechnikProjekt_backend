@@ -24,7 +24,7 @@ public class NpcVehicle {
     private List<MapObject> list;
     MapObject currentMapObject;
     MapObject nextUpperMapObj;
-    MapObject nextMapObject;
+    MapObject nextnextMapObject;
 
     private int npcRot;
     private NpcInfo info;
@@ -118,10 +118,10 @@ public class NpcVehicle {
             pyInterp.exec("newZCoord = script.getNextUpperMapEleZ()");
 
             /**
-             * trys to find the new MapObject with the previously calculated X and Y coordinates. If not found it is set to currentMap object.
+             * trys to find the new nextnext MapObject with the previously calculated X and Y coordinates. If not found it is set to currentMap object.
              */
             try {
-                this.nextMapObject = this.list.stream()
+                this.nextnextMapObject = this.list.stream()
                         .filter(mapObj -> mapObj.getX() == this.pyInterp.get("newXCoord").asInt()
                                 && mapObj.getY() == this.pyInterp.get("newZCoord").asInt())
                         .findFirst().get();
@@ -131,9 +131,10 @@ public class NpcVehicle {
             }
 
             //sets info into NpcInfo object and returns value, is than transferred back to frontend.
-            //this.info.setCurrentMapObject(this.nextUpperMapObj);
+           
             this.info.setNpcId(this.npcId);
             this.info.setNextUpperMapObject(this.nextUpperMapObj);
+            this.info.setNextnextUpperMapObject(nextnextMapObject);
             this.info.setNewGameAssetRotation(this.pyInterp.get("newCarRot").asInt());
         this.pyInterp.close();
 

@@ -32,26 +32,25 @@ class NpcDriveScript():
     # if MapElement contained a curve,curve algorithm gets exucuted first than drive() method gets called.
     def drive(self):
         print("script drive")
-        if self.currentCarRotation == 0:
+        if self.newCarRotation == -1:
+            self.newCarRotation = self.currentCarRotation
+        
+        if self.newCarRotation == 0:
             self.nextUpperMapEle.x_coord = self.currentMapEle.x_coord - 1
             self.nextUpperMapEle.z_coord = self.currentMapEle.z_coord
-            if self.newCarRotation == -1:
-                self.newCarRotation = self.currentCarRotation
-        elif self.currentCarRotation == 1:
+           
+        elif self.newCarRotation == 1:
             self.nextUpperMapEle.x_coord = self.currentMapEle.x_coord
             self.nextUpperMapEle.z_coord = self.currentMapEle.z_coord + 1
-            if self.newCarRotation == -1:
-                self.newCarRotation = self.currentCarRotation
-        elif self.currentCarRotation == 2:
+          
+        elif self.newCarRotation == 2:
             self.nextUpperMapEle.x_coord = self.currentMapEle.x_coord + 1
             self.nextUpperMapEle.z_coord = self.currentMapEle.z_coord
-            if self.newCarRotation == -1:
-                self.newCarRotation = self.currentCarRotation
-        elif self.currentCarRotation == 3:
+           
+        elif self.newCarRotation == 3:
             self.nextUpperMapEle.x_coord = self.currentMapEle.x_coord
             self.nextUpperMapEle.z_coord = self.currentMapEle.z_coord - 1
-            if self.newCarRotation == -1:
-                self.newCarRotation = self.currentCarRotation
+           
         
         print('NEW car rotation: {}'.format(self.newCarRotation))
         print('NEW x_coord: {}'.format(self.nextUpperMapEle.x_coord))

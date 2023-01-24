@@ -12,15 +12,15 @@ import java.util.List;
 public class NpcInfo {
     private long npcId;
     private int newGameAssetRotation;
-    private MapObject currentMapObject;
     private MapObject nextUpperMapObject;
+    private MapObject nextnextUpperMapObject;
     public NpcInfo(){
 
     }
 
-    public NpcInfo(int newGameAssetRotation, MapObject currentMapObject, MapObject nextUpperMapObject){
+    public NpcInfo(int newGameAssetRotation, MapObject nextnextUpperMapObject, MapObject nextUpperMapObject){
         this.newGameAssetRotation = newGameAssetRotation;
-        this.currentMapObject = currentMapObject;
+        this.nextnextUpperMapObject = nextnextUpperMapObject;
         this.nextUpperMapObject = nextUpperMapObject;
     }
     
