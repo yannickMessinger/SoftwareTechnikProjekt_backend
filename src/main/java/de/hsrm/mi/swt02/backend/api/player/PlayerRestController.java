@@ -2,6 +2,7 @@ package de.hsrm.mi.swt02.backend.api.player;
 
 import de.hsrm.mi.swt02.backend.api.player.dto.AddPlayerRequestDTO;
 import de.hsrm.mi.swt02.backend.api.player.dto.GetPlayerResponseDTO;
+import de.hsrm.mi.swt02.backend.api.player.dto.GetPlayerWALResponseDTO;
 import de.hsrm.mi.swt02.backend.api.player.service.PlayerServiceImpl;
 import de.hsrm.mi.swt02.backend.domain.player.Player;
 import io.swagger.v3.oas.annotations.Operation;
@@ -86,6 +87,18 @@ public class PlayerRestController {
             @PathVariable("id") long id) {
         Player player = playerService.findPlayerById(id);
         return new ResponseEntity<>(GetPlayerResponseDTO.from(player), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get user by ID with active Lobby ID included")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User information delivered"),
+            @ApiResponse(responseCode = "500", description = "User was not found and threw Exception internally")})
+    @GetMapping("/wal/{id}")
+    public ResponseEntity<GetPlayerWALResponseDTO> getPlayerWithActiveLobby(
+            @Schema(description = "User ID", defaultValue = "1")
+            @PathVariable("id") long id) {
+        Player player = playerService.findPlayerById(id);
+        return new ResponseEntity<>(GetPlayerWALResponseDTO.from(player), HttpStatus.OK);
     }
 
     @Operation(summary = "Delete user by given ID")
