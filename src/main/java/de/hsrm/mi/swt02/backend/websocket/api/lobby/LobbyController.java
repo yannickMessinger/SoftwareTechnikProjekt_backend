@@ -34,6 +34,12 @@ public class LobbyController {
         return lobbyMessage;
     }
 
+    @MessageMapping("/lobby.leave")
+    @SendTo("/topic/lobby")
+    public LobbyMessage leaveMessage(LobbyMessage lobbyMessage) {
+        return lobbyMessage;
+    }
+
     @MessageMapping("/lobby.switchMode")
     @SendTo("/topic/lobby")
     public LobbyMessage switchMode(LobbyMessage lobbyMessage) {
