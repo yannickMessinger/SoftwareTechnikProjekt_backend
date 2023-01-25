@@ -1,4 +1,4 @@
-package de.hsrm.mi.swt02.backend.npc;
+package de.hsrm.mi.swt02.backend.domain.npc;
 
 
 import java.util.List;
@@ -17,8 +17,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class NpcVehicle {
-    Logger logger = LoggerFactory.getLogger(NpcVehicle.class);
+public class NpcNavigationSystem {
+    Logger logger = LoggerFactory.getLogger(NpcNavigationSystem.class);
 
     PythonInterpreter pyInterp;
     private List<MapObject> list;
@@ -27,16 +27,16 @@ public class NpcVehicle {
     MapObject nextnextMapObject;
 
     private int npcRot;
-    private NpcInfo info;
+    private NpcNavInfo info;
     private long npcId;
    
 
-    public NpcVehicle() {
+    public NpcNavigationSystem() {
         this.pyInterp = new PythonInterpreter();
         pyInterp.execfile("src/main/java/de/hsrm/mi/swt02/backend/npc/NpcDriveScript.py");
         this.currentMapObject = new MapObject();
         this.nextUpperMapObj = new MapObject();
-        this.info = new NpcInfo();
+        this.info = new NpcNavInfo();
     
     }
 
@@ -47,7 +47,7 @@ public class NpcVehicle {
      * @param currMapEleY Y Coordinate of the current MapElement that the Npc Vehicle that requested the script is currently positioned on
      * @param npcRot current rotation of the Npc Car that requested the script 
      */
-    public void setNpcParams(List<MapObject> list, int currMapEleX, int currMapEleY, int npcRot, long npcId) {
+    public void setNpcNavigationParams(List<MapObject> list, int currMapEleX, int currMapEleY, int npcRot, long npcId) {
         
         
         this.list = list;
@@ -80,12 +80,12 @@ public class NpcVehicle {
          * preparation for Python Script call. Initializes all necessary values. Calculates the X and Y coordinates of the next Map Element, based on
          * the street orientation and NpcVehicle orientation of the "nextUpperMapObj" object. 
          */
-        this.setScriptParams(nextUpperMapObj.getX(), nextUpperMapObj.getY(), nextUpperMapObj.getRotation(),
+        this.setNavigationScriptParams(nextUpperMapObj.getX(), nextUpperMapObj.getY(), nextUpperMapObj.getRotation(),
                 this.npcRot, nextUpperMapObj.getObjectTypeId());
     }
 
     //updates / sets parameters that the python script is using to calculate the x ad y coordinates of the next new Map Element
-    public void setScriptParams(int x, int z, int streetRotation, int carRotation, long objectTypeId) {
+    public void setNavigationScriptParams(int x, int z, int streetRotation, int carRotation, long objectTypeId) {
         pyInterp.set("x", new PyInteger(x));
         pyInterp.set("z", new PyInteger(z));
         pyInterp.set("streetR", new PyInteger(streetRotation));
@@ -99,7 +99,7 @@ public class NpcVehicle {
     }
 
     //triggers python script, outputs the coordinates of next map ele and new npc car rotation
-    public NpcInfo calcNextMapEle() {
+    public NpcNavInfo getDirections() {
         pyInterp.exec("script = NpcDriveScript(x, z, streetR, carR, objectTypeId)");
 
             /**
