@@ -14,6 +14,8 @@ public class LobbyMessage {
 
     public enum MessageType {
         JOIN,
-        SWITCH_MODE
+        SWITCH_MODE,
+        LEAVE
+
     }
 }
