@@ -8,15 +8,9 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class SoundController {
 
-    @MessageMapping("/sound.horn")
-    @SendTo("/topic/sound")
-   public SoundMessage doHorn(SoundMessage soundMessage) {
-        return soundMessage;
-    }
-
-    @MessageMapping("/sound.engine")
-    @SendTo("/topic/sound")
-    public SoundMessage doEngine(SoundMessage soundMessage) {
+    @MessageMapping("/sound.horn/{lobbyId}")
+    @SendTo("/topic/sound/{lobbyId}")
+    public SoundMessage doHorn(SoundMessage soundMessage) {
         return soundMessage;
     }
 }
