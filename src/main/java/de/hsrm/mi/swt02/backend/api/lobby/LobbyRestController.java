@@ -146,8 +146,7 @@ public class LobbyRestController {
             @RequestBody AddLobbyRequestDTO lobbyDTO,
             @PathVariable("map_id") long mapId) {
 
-        long lobbyId = lobbyService.createLobby(lobbyDTO.lobbyName(), lobbyDTO.lobbyModeEnum(), lobbyDTO.numOfPlayers(), lobbyDTO.hostId());
-        lobbyService.addMap(lobbyId, mapId);
+        long lobbyId = lobbyService.createLobbyWithMap(lobbyDTO.lobbyName(), lobbyDTO.lobbyModeEnum(), lobbyDTO.numOfPlayers(), lobbyDTO.hostId(),mapId);
         return new ResponseEntity<>(lobbyId, HttpStatus.OK);
     }
 

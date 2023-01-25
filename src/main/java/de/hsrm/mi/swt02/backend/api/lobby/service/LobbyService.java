@@ -14,6 +14,7 @@ public interface LobbyService {
     Lobby findLobbyById(long id);
     void deleteLobby(long id);
     long createLobby(String lobbyName, LobbyModeEnum lobbyMode, int numOfPlayers, long hostId);
+    long createLobbyWithMap(String lobbyName, LobbyModeEnum lobbyMode, int numOfPlayers, long hostId, long mapId);
     void updateLobby(long id);
     void addPlayerToLobby(long lobbyId, long playerId);
     void removePlayerFromLobby(long lobbyId, long playerId);
