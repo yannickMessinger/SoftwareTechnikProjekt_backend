@@ -1,12 +1,15 @@
 package de.hsrm.mi.swt02.backend.api.game.position;
 
-import de.hsrm.mi.swt02.backend.api.game.position.dto.AddPlayerPositionDTO;
-import de.hsrm.mi.swt02.backend.api.game.position.dto.GetPlayerPositionsDTO;
+import de.hsrm.mi.swt02.backend.api.game.position.dto.AddObjectPositionDTO;
+import de.hsrm.mi.swt02.backend.api.game.position.dto.GetObjectPositionDTO;
 import de.hsrm.mi.swt02.backend.api.game.position.service.PositionServiceImpl;
+import de.hsrm.mi.swt02.backend.api.map.repository.MapObjectRepository;
+import de.hsrm.mi.swt02.backend.api.map.service.MapObjectServiceImpl;
 import de.hsrm.mi.swt02.backend.api.map.service.MapObjectTypeServiceImpl;
 import de.hsrm.mi.swt02.backend.api.map.service.MapService;
 import de.hsrm.mi.swt02.backend.api.player.service.PlayerServiceImpl;
 import de.hsrm.mi.swt02.backend.domain.map.MapObject;
+import de.hsrm.mi.swt02.backend.domain.position.ObjectPosition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -22,7 +25,7 @@ import java.util.List;
 import java.util.Random;
 
 @RestController
-@RequestMapping("/api/game/position")
+@RequestMapping("/api/position")
 @Slf4j
 public class PositionRestController {
 
@@ -34,25 +37,29 @@ public class PositionRestController {
     MapService mapService;
     @Autowired
     MapObjectTypeServiceImpl mapObjectTypeService;
+    @Autowired
+    MapObjectServiceImpl mapObjectService;
+    @Autowired
+    MapObjectRepository mapObjectRepository;
 
-    @Operation(summary = "Get all player positions")
+    @Operation(summary = "Get all object positions")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found Position´s")})
     @GetMapping("")
-    public ResponseEntity<List<GetPlayerPositionsDTO>> getPlayerPositions() {
-        List<GetPlayerPositionsDTO> playerPositions = new ArrayList<>(
+    public ResponseEntity<List<GetObjectPositionDTO>> getPlayerPositions() {
+        List<GetObjectPositionDTO> playerPositions = new ArrayList<>(
                 positionService
                         .findAllPositions()
                         .stream()
-                        .map(GetPlayerPositionsDTO::from)
+                        .map(GetObjectPositionDTO::from)
                         .toList()
         );
         return new ResponseEntity<>(playerPositions, HttpStatus.OK);
     }
 
-    @Operation(summary = "Delete PlayerPosition by ID")
+    @Operation(summary = "Delete ObjectPosition by ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found Position")})
+            @ApiResponse(responseCode = "200", description = "Successfully deleted Position")})
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePlayerPosition(
             @PathVariable("id") long id) {
@@ -62,70 +69,57 @@ public class PositionRestController {
 
     @Operation(summary = "Post new Position by given X, Y coordinate")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "PlayerPosition ID")})
+            @ApiResponse(responseCode = "200", description = "Position ID")})
     @PostMapping("/{id}")
-    public ResponseEntity<Long> postPlayerPosition(
-            @RequestBody AddPlayerPositionDTO playerPositionDTO,
+    public ResponseEntity<GetObjectPositionDTO> postObjectPosition(
+            @RequestBody AddObjectPositionDTO objectPositionDTO,
             @Schema(description = "Map ID")
             @PathVariable("id") long id) {
-        double x = 0;
-        double y = 0;
-        double rotation = 0;
-        if (playerPositionDTO.x() == 0 || playerPositionDTO.y() == 0) {
-            MapObject mapObject = getRandomMapObject(id);
-            if (mapObject != null) {
-                x = mapObject.getX();
-                y = mapObject.getY();
-            } else {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-        } else {
-            x = playerPositionDTO.x();
-            y = playerPositionDTO.y();
-            rotation = playerPositionDTO.rotation();
+
+        var mapObject = mapObjectService.getMapObjectById(objectPositionDTO.id());
+
+        // only can be null if no object was created beforehand
+        if (objectPositionDTO.id() == -1) {
+            mapObject = mapObjectRepository.save(new MapObject(7, 0, 0, 0));
         }
-        var player = playerService.findPlayerById(playerPositionDTO.playerID());
+        var mapObjectType = mapObjectTypeService.findMapObjectTypeById(mapObject.getObjectTypeId());
+        var mapObjectGroupId = mapObjectType.getGroupId();
+
+        if (mapObject.getX() == 0 && mapObject.getY() == 0) {
+
+            // can be placed on a street-element (mapObjectTypeGroupId == 0)
+            if (mapObjectGroupId == 3 || mapObjectGroupId == 4) {
+                mapObject = getRandomMapObject(id, 0);
+
+                // can be placed on a train rail (mapObjectTypeGroupId == 6)
+            } else if (mapObjectGroupId == 5) {
+                mapObject = getRandomMapObject(id, 6);
+            }
+            assert mapObject != null;
+        }
+
+        //var objectPosition = positionService.createPosition(mapObjectType.getObjectTypeId(), mapObject.getX(), mapObject.getY(), mapObject.getRotation());
+
         return new ResponseEntity<>(
-                positionService.createPosition(
-                        player,
-                        x,
-                        y,
-                        rotation
-                ),
-                HttpStatus.OK
-        );
+                //GetObjectPositionDTO.from(objectPosition),
+                HttpStatus.OK);
     }
 
     /**
      * Get all MapObjects
-     *
      * @return all MapObjects of given Map ID
      */
-    private MapObject getRandomMapObject(long id) {
+    private MapObject getRandomMapObject(long id, long mapObjectTypeGroupId) {
         List<MapObject> mapObjects = mapService.getMapById(id).getMapObjects();
         if (mapObjects.isEmpty()) {
             log.debug("No mapObjects");
             return null;
         }
-        mapObjects = filterStreetMapObjects(mapObjects);
+        mapObjects = mapObjects
+                .stream()
+                .filter(mapObject -> mapObjectTypeService.findMapObjectTypeById(mapObject.getObjectTypeId()).getGroupId() == mapObjectTypeGroupId)
+                .toList();
         Random rand = new Random();
         return mapObjects.get(rand.nextInt(mapObjects.size()));
-    }
-
-    /**
-     * Get all MapObjects with Type StreetObject
-     *
-     * @param mapObjects unfiltered
-     * @return filtered mapObjects
-     */
-    private List<MapObject> filterStreetMapObjects(List<MapObject> mapObjects) {
-        return mapObjects
-                .stream()
-                .filter(mapObject ->
-                        mapObjectTypeService
-                                .findMapObjectTypeById(
-                                        mapObject.getObjectTypeId()
-                                ).getGroupId() == 0
-                ).toList();
     }
 }

@@ -60,11 +60,7 @@ public class MapObjectServiceImpl implements MapObjectService {
     public MapObject getMapObjectById(long id) {
         Optional<MapObject> foundMapObj = mapObjRepo.findById(id);
 
-        if (foundMapObj.isEmpty()) {
-            // logger
-        }
-
-        return foundMapObj.orElseThrow();
+        return foundMapObj.orElse(null);
     }
 
     /**
@@ -98,19 +94,20 @@ public class MapObjectServiceImpl implements MapObjectService {
 
         this.deleteAllMapObjectsFromMapById(mapId);
 
+        long returnValue = 0L;
+
         if (!mapObjects.mapObjects().isEmpty()) {
             for (AddMapObjectRequestDTO ele : mapObjects.mapObjects()) {
                 MapObject nMapObj = new MapObject(ele.objectTypeId(), ele.x(), ele.y(), ele.rotation());
                 nMapObj.setMap(mapService.getMapById(mapId));
                 foundMap.getMapObjects().add(nMapObj);
-                mapObjRepo.save(nMapObj);
-
+                returnValue = mapObjRepo.save(nMapObj).getId();
             }
         }
 
         mapService.saveEditedMap(foundMap);
 
-        return 0L;
+        return returnValue;
     }
 
     @Override
@@ -170,6 +167,7 @@ public class MapObjectServiceImpl implements MapObjectService {
         this.findMapObjectByXandY(mapObjectList, mapObjectDTO)
                 .ifPresent(mapObject -> {
                     mapObject.setRotation(mapObjectDTO.rotation());
+                    deleteOldGameAssetsFromMapObject(mapObject);
                     if (!mapObjectDTO.game_assets().isEmpty()) {
                         this.addNewGameAssetToMapObject(mapObjectDTO.game_assets(), mapObject);
                     }
@@ -178,9 +176,8 @@ public class MapObjectServiceImpl implements MapObjectService {
     }
 
     private void addNewGameAssetToMapObject(List<GameAssetDTO> gameAssetDTOs, MapObject mapObject) {
-        deleteOldGameAssetsFromMapObject(mapObject);
         gameAssetDTOs.forEach(ele -> {
-            GameAsset gameAsset = new GameAsset(ele.objectTypeId(), ele.x(), ele.y(), ele.rotation(), ele.texture());
+            GameAsset gameAsset = new GameAsset(ele.objectTypeId(), ele.x(), ele.y(), ele.rotation(), ele.texture(), ele.userId());
             mapObject.getGameAssets().add(gameAsset);
             gameAsset.setMapObject(mapObject);
             gameAssetRepo.save(gameAsset);
