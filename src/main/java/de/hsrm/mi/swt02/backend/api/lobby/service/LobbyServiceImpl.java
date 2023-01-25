@@ -2,20 +2,19 @@ package de.hsrm.mi.swt02.backend.api.lobby.service;
 
 import de.hsrm.mi.swt02.backend.api.lobby.repository.LobbyRepository;
 import de.hsrm.mi.swt02.backend.api.map.service.MapService;
-import de.hsrm.mi.swt02.backend.domain.map.Map;
-import de.hsrm.mi.swt02.backend.domain.player.Player;
 import de.hsrm.mi.swt02.backend.api.player.service.PlayerService;
-import java.util.List;
-import java.util.Optional;
-
-import javax.transaction.Transactional;
-
 import de.hsrm.mi.swt02.backend.domain.lobby.Lobby;
 import de.hsrm.mi.swt02.backend.domain.lobby.LobbyModeEnum;
+import de.hsrm.mi.swt02.backend.domain.map.Map;
+import de.hsrm.mi.swt02.backend.domain.player.Player;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LobbyServiceImpl implements LobbyService {
@@ -32,7 +31,7 @@ public class LobbyServiceImpl implements LobbyService {
 
     @Override
     @Transactional
-    public List<Lobby> findAllLobbys() {
+    public List<Lobby> findAllLobbys () {
 
         List<Lobby> lobbys = lobbyRepository.findAll();
 
@@ -45,7 +44,7 @@ public class LobbyServiceImpl implements LobbyService {
 
     @Override
     @Transactional
-    public Lobby findLobbyById(long id) {
+    public Lobby findLobbyById (long id) {
 
         Optional<Lobby> foundLobby = lobbyRepository.findById(id);
 
@@ -58,14 +57,9 @@ public class LobbyServiceImpl implements LobbyService {
 
     @Override
     @Transactional
-    public void deleteLobby(long id) {
+    public void deleteLobby (long id) {
 
         Lobby delLobby = this.findLobbyById(id);
-
-        //logger.warn("No Lobby with given ID was found");
-        //Player findPlayer = this.findLobbyById(id).getHost();
-        //findPlayer.removeLobbyFromHostedLobbyList(delLobby);
-        
 
         for (Player player : delLobby.getPlayerList()) {
             player.setActiveLobby(null);
@@ -76,8 +70,7 @@ public class LobbyServiceImpl implements LobbyService {
 
     @Override
     @Transactional
-    public long createLobby(String lobbyName, LobbyModeEnum lobbyMode, int numOfPlayers, long hostId) {
-        //todo: wenn bereits exisitierende map mit gegeben wird per id, erst per mapservice finden und setzen!
+    public long createLobby (String lobbyName, LobbyModeEnum lobbyMode, int numOfPlayers, long hostId) {
         Lobby createLobby = new Lobby(lobbyName, numOfPlayers, lobbyMode);
         createLobby = lobbyRepository.save(createLobby);
 
@@ -85,19 +78,17 @@ public class LobbyServiceImpl implements LobbyService {
         host.AddHostToHostedLobbyList(createLobby);
         createLobby.setHost(host);
 
-        
         Map test = mapService.createNewMap();
         mapService.assignLobbyToMap(test.getId(), createLobby.getId());
         test.setMapOwner(host);
         mapService.saveEditedMap(test);
-
 
         return createLobby.getId();
     }
 
     @Override
     @Transactional
-    public void updateLobby(long id) {
+    public void updateLobby (long id) {
         Optional<Lobby> findLobby = lobbyRepository.findById(id);
 
         // logger.warn("No Lobby with given ID was found");
@@ -108,13 +99,13 @@ public class LobbyServiceImpl implements LobbyService {
 
     /**
      * Find Player and Lobby by id and maintain the relations.
-     * 
+     *
      * @param lobbyId  from Lobby
      * @param playerId from Player
      */
     @Override
     @Transactional
-    public void addPlayerToLobby(long lobbyId, long playerId) {
+    public void addPlayerToLobby (long lobbyId, long playerId) {
         Player player = playerService.findPlayerById(playerId);
         Lobby lobby = this.findLobbyById(lobbyId);
         player.setActiveLobby(lobby);
@@ -124,17 +115,17 @@ public class LobbyServiceImpl implements LobbyService {
 
     /**
      * Find Player and Lobby by id and remove the relations.
-     * 
+     *
      * @param lobbyId  from Lobby
      * @param playerId from Player
      */
     @Override
     @Transactional
-    public void removePlayerFromLobby(long lobbyId, long playerId) {
+    public void removePlayerFromLobby (long lobbyId, long playerId) {
         Player player = playerService.findPlayerById(playerId);
         Lobby lobby = this.findLobbyById(lobbyId);
-        
-        if(lobby.isHostedBy(player.getId())){
+
+        if (lobby.isHostedBy(player.getId())) {
             this.deleteLobby(lobbyId);
             return;
         }
@@ -145,12 +136,12 @@ public class LobbyServiceImpl implements LobbyService {
 
     /**
      * Find Lobby by lobbyId and get all Players from Lobby
-     * 
+     *
      * @param lobbyId from Lobby
      * @return list of Players
      */
     @Override
-    public List<Player> findAllPlayersFromLobby(long lobbyId) {
+    public List<Player> findAllPlayersFromLobby (long lobbyId) {
         return this.findLobbyById(lobbyId).getPlayerList();
     }
 
@@ -158,19 +149,19 @@ public class LobbyServiceImpl implements LobbyService {
      * adds an available map to a lobby, both found by the id
      *
      * @param lobbyId id of lobby
-     * @param mapId id of map
+     * @param mapId   id of map
      * @return id of map
      */
     @Override
     @Transactional
-    public long addMap(long lobbyId, long mapId) {
+    public long addMap (long lobbyId, long mapId) {
         Lobby lobby = findLobbyById(lobbyId);
         Map map = mapService.getMapById(mapId);
 
-        if(lobby.getMap() != null)
+        if (lobby.getMap() != null)
             lobby.getMap().setLobby(null);
 
-        if(map.getLobby() != null)
+        if (map.getLobby() != null)
             map.getLobby().setMap(null);
 
         lobby.setMap(map);
@@ -181,21 +172,15 @@ public class LobbyServiceImpl implements LobbyService {
 
     @Override
     @Transactional
-    public void updateLobbyModeBroker(long id, LobbyModeEnum lobbyMode) {
-       Lobby updateLobby = this.findLobbyById(id);
-       updateLobby.setLobbyMode(lobbyMode);
-       this.saveEditedLobby(updateLobby);
-      
-        
+    public void updateLobbyModeBroker (long id, LobbyModeEnum lobbyMode) {
+        Lobby updateLobby = this.findLobbyById(id);
+        updateLobby.setLobbyMode(lobbyMode);
+        this.saveEditedLobby(updateLobby);
     }
 
     @Override
     @Transactional
-    public void saveEditedLobby(Lobby lobby) {
-       this.lobbyRepository.save(lobby);
-        
+    public void saveEditedLobby (Lobby lobby) {
+        this.lobbyRepository.save(lobby);
     }
-
-
-    
 }

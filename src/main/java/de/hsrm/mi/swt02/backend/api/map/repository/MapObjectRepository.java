@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * Repository to persist MapObjects.
  */
 public interface MapObjectRepository extends JpaRepository<MapObject, Long> {
-    
+
 }

@@ -20,21 +20,21 @@ public class PlayerPosition {
     private double posX;
     private double posY;
     private double rotation;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne (cascade = CascadeType.ALL)
     private Player player;
 
-    public PlayerPosition(Player player, double posX, double posY, double rotation) {
+    public PlayerPosition (Player player, double posX, double posY, double rotation) {
         this.posX = posX;
         this.posY = posY;
         this.rotation = rotation;
         this.player = player;
     }
 
-    public PlayerPosition() {
+    public PlayerPosition () {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals (Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PlayerPosition that = (PlayerPosition) o;
@@ -42,12 +42,12 @@ public class PlayerPosition {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode () {
         return Objects.hash(getId(), getVersion(), getPosX(), getPosY(), getRotation(), getPlayer());
     }
 
     @Override
-    public String toString() {
+    public String toString () {
         return "PlayerPosition{" +
                 "id=" + id +
                 ", version=" + version +

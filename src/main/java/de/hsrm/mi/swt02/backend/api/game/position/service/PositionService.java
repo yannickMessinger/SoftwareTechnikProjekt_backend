@@ -9,8 +9,11 @@ import java.util.List;
 @Service
 public interface PositionService {
 
-    List<PlayerPosition> findAllPositions();
-    void deletePosition(long id);
-    long createPosition(Player player, double x, double y, double rotation);
-    void savePosition(long playerPositionId, double x, double y, double rotation);
+    List<PlayerPosition> findAllPositions ();
+
+    void deletePosition (long id);
+
+    long createPosition (Player player, double x, double y, double rotation);
+
+    void savePosition (long playerPositionId, double x, double y, double rotation);
 }

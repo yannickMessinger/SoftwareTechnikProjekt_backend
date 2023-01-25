@@ -3,12 +3,7 @@ package de.hsrm.mi.swt02.backend.domain.map;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Version;
+import javax.persistence.*;
 
 @Entity
 @Setter
@@ -28,19 +23,19 @@ public class MapObjectType {
      * 3 = vehicle
      */
     private long groupId;
-    
-    @Enumerated(EnumType.STRING)
+
+    @Enumerated (EnumType.STRING)
     private ObjectTypeEnum type;
     private int rotation;
     private String name;
     private String texture;
     private String model3d;
-    
-    public MapObjectType() {
+
+    public MapObjectType () {
     }
 
-    public MapObjectType(long objectTypeId, long groupId, ObjectTypeEnum type, int rotation, String name,
-            String texture, String model3d) {
+    public MapObjectType (long objectTypeId, long groupId, ObjectTypeEnum type, int rotation, String name,
+                          String texture, String model3d) {
         this.objectTypeId = objectTypeId;
         this.groupId = groupId;
         this.type = type;
@@ -51,7 +46,7 @@ public class MapObjectType {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode () {
         final int prime = 31;
         int result = 1;
         result = prime * result + (int) (version ^ (version >>> 32));
@@ -66,7 +61,7 @@ public class MapObjectType {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals (Object obj) {
         if (this == obj)
             return true;
         if (obj == null)

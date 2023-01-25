@@ -1,12 +1,8 @@
 package de.hsrm.mi.swt02.backend.api.map.service;
 
-import java.util.List;
-import java.util.Optional;
-
-import javax.transaction.Transactional;
-
-import de.hsrm.mi.swt02.backend.api.map.dto.GameAssetDTO;
+import de.hsrm.mi.swt02.backend.api.map.dto.AddMapObjectRequestDTO;
 import de.hsrm.mi.swt02.backend.api.map.dto.AddMapObjectsRequestDTO;
+import de.hsrm.mi.swt02.backend.api.map.dto.GameAssetDTO;
 import de.hsrm.mi.swt02.backend.api.map.repository.GameAssetRepository;
 import de.hsrm.mi.swt02.backend.api.map.repository.MapObjectRepository;
 import de.hsrm.mi.swt02.backend.domain.map.GameAsset;
@@ -15,7 +11,9 @@ import de.hsrm.mi.swt02.backend.domain.map.MapObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import de.hsrm.mi.swt02.backend.api.map.dto.AddMapObjectRequestDTO;
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Service Class to handle CRUD operations on the MapObjectRepository.
@@ -38,7 +36,7 @@ public class MapObjectServiceImpl implements MapObjectService {
      */
     @Override
     @Transactional
-    public List<MapObject> findAllMapObjects() {
+    public List<MapObject> findAllMapObjects () {
 
         Optional<List<MapObject>> allMaps = Optional.of(mapObjRepo.findAll());
 
@@ -57,7 +55,7 @@ public class MapObjectServiceImpl implements MapObjectService {
      */
     @Override
     @Transactional
-    public MapObject getMapObjectById(long id) {
+    public MapObject getMapObjectById (long id) {
         Optional<MapObject> foundMapObj = mapObjRepo.findById(id);
 
         if (foundMapObj.isEmpty()) {
@@ -75,7 +73,7 @@ public class MapObjectServiceImpl implements MapObjectService {
      */
     @Override
     @Transactional
-    public void deleteMapObjectById(long id) {
+    public void deleteMapObjectById (long id) {
         this.getMapObjectById(id).getMap().getMapObjects().remove(this.getMapObjectById(id));
         mapObjRepo.deleteById(id);
     }
@@ -92,7 +90,7 @@ public class MapObjectServiceImpl implements MapObjectService {
      */
     @Override
     @Transactional
-    public Long createMapObject(AddMapObjectsRequestDTO mapObjects, long mapId) {
+    public Long createMapObject (AddMapObjectsRequestDTO mapObjects, long mapId) {
 
         Map foundMap = mapService.getMapById(mapId);
 
@@ -115,7 +113,7 @@ public class MapObjectServiceImpl implements MapObjectService {
 
     @Override
     @Transactional
-    public void deleteAllMapObjectsFromMapById(long id) {
+    public void deleteAllMapObjectsFromMapById (long id) {
         Map foundMap = mapService.getMapById(id);
 
         for (MapObject ele : foundMap.getMapObjects()) {
@@ -133,7 +131,7 @@ public class MapObjectServiceImpl implements MapObjectService {
 
     @Override
     @Transactional
-    public void addNewMapObjectFromBroker(AddMapObjectRequestDTO mapObjectDTO, long mapId) {
+    public void addNewMapObjectFromBroker (AddMapObjectRequestDTO mapObjectDTO, long mapId) {
         Map map = mapService.getMapById(mapId);
         List<MapObject> mapObjectList = map.getMapObjects();
         this.findMapObjectByXandY(mapObjectList, mapObjectDTO)
@@ -151,7 +149,7 @@ public class MapObjectServiceImpl implements MapObjectService {
      */
     @Override
     @Transactional
-    public void deleteMapObjectFromBroker(AddMapObjectRequestDTO mapObjectDTO, long mapId) {
+    public void deleteMapObjectFromBroker (AddMapObjectRequestDTO mapObjectDTO, long mapId) {
         Map map = mapService.getMapById(mapId);
         List<MapObject> mapObjectList = map.getMapObjects();
         this.findMapObjectByXandY(mapObjectList, mapObjectDTO)
@@ -164,7 +162,7 @@ public class MapObjectServiceImpl implements MapObjectService {
      * @param mapObjectDTO - came from Broker (update) channel
      */
     @Transactional
-    public void updateMapObjectFromBroker(AddMapObjectRequestDTO mapObjectDTO, long mapId) {
+    public void updateMapObjectFromBroker (AddMapObjectRequestDTO mapObjectDTO, long mapId) {
         Map map = mapService.getMapById(mapId);
         List<MapObject> mapObjectList = map.getMapObjects();
         this.findMapObjectByXandY(mapObjectList, mapObjectDTO)
@@ -177,7 +175,7 @@ public class MapObjectServiceImpl implements MapObjectService {
                 });
     }
 
-    private void addNewGameAssetToMapObject(List<GameAssetDTO> gameAssetDTOs, MapObject mapObject) {
+    private void addNewGameAssetToMapObject (List<GameAssetDTO> gameAssetDTOs, MapObject mapObject) {
         deleteOldGameAssetsFromMapObject(mapObject);
         gameAssetDTOs.forEach(ele -> {
             GameAsset gameAsset = new GameAsset(ele.objectTypeId(), ele.x(), ele.y(), ele.rotation(), ele.texture());
@@ -187,7 +185,7 @@ public class MapObjectServiceImpl implements MapObjectService {
         });
     }
 
-    private void deleteOldGameAssetsFromMapObject(MapObject mapObject) {
+    private void deleteOldGameAssetsFromMapObject (MapObject mapObject) {
         mapObject.getGameAssets().forEach(ele -> {
             ele.setMapObject(null);
             gameAssetRepo.delete(ele);
@@ -200,10 +198,11 @@ public class MapObjectServiceImpl implements MapObjectService {
      * @return All MapObjects from Map
      */
     @Override
-    public List<MapObject> getAllMapObjectsFromMap(long id) {
+    public List<MapObject> getAllMapObjectsFromMap (long id) {
         return mapService.getMapById(id).getMapObjects();
     }
-    private Optional<MapObject> findMapObjectByXandY(List<MapObject> mapObjectList, AddMapObjectRequestDTO mapObjectDTO) {
+
+    private Optional<MapObject> findMapObjectByXandY (List<MapObject> mapObjectList, AddMapObjectRequestDTO mapObjectDTO) {
         return mapObjectList.stream()
                 .filter(c -> c.getX() == mapObjectDTO.x() && c.getY() == mapObjectDTO.y())
                 .findFirst();

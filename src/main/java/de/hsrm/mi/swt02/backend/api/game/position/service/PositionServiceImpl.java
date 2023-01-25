@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-public class PositionServiceImpl implements PositionService{
+public class PositionServiceImpl implements PositionService {
     @Autowired
     PositionRepository positionRepository;
     @Autowired
@@ -24,7 +24,7 @@ public class PositionServiceImpl implements PositionService{
      * @return list of all PlayerPosition
      */
     @Override
-    public List<PlayerPosition> findAllPositions() {
+    public List<PlayerPosition> findAllPositions () {
         return positionRepository.findAll();
     }
 
@@ -32,19 +32,19 @@ public class PositionServiceImpl implements PositionService{
      * @param id of PlayerPosition
      */
     @Override
-    public void deletePosition(long id) {
+    public void deletePosition (long id) {
         positionRepository.deleteById(id);
     }
 
     /**
      * @param player Player to be persisted
-     * @param x Coordinate of Player on 3d world
-     * @param y Coordinate of Player on 3d world
+     * @param x      Coordinate of Player on 3d world
+     * @param y      Coordinate of Player on 3d world
      * @return id of created Position
      */
     @Override
     @Transactional
-    public long createPosition(Player player, double x, double y, double rotation) {
+    public long createPosition (Player player, double x, double y, double rotation) {
         PlayerPosition playerPosition = new PlayerPosition(player, x, y, rotation);
         player.setPlayerPosition(playerPosition);
         playerRepository.save(player);
@@ -53,13 +53,13 @@ public class PositionServiceImpl implements PositionService{
 
     /**
      * @param playerPositionId Player ID to be updated
-     * @param x Coordinate of Player on 3d world
-     * @param y Coordinate of Player on 3d world
-     * @param rotation Rotation of Player on 3d world
+     * @param x                Coordinate of Player on 3d world
+     * @param y                Coordinate of Player on 3d world
+     * @param rotation         Rotation of Player on 3d world
      */
     @Override
     @Transactional
-    public void savePosition(long playerPositionId, double x, double y, double rotation) {
+    public void savePosition (long playerPositionId, double x, double y, double rotation) {
         Optional<PlayerPosition> optionalPlayerPosition = positionRepository.findById(playerPositionId);
         if (optionalPlayerPosition.isPresent()) {
             var playerPosition = optionalPlayerPosition.get();

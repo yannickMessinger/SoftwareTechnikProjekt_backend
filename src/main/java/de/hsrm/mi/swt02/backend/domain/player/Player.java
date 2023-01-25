@@ -1,13 +1,12 @@
 package de.hsrm.mi.swt02.backend.domain.player;
 
-import javax.persistence.*;
-
 import de.hsrm.mi.swt02.backend.domain.game.position.PlayerPosition;
 import de.hsrm.mi.swt02.backend.domain.lobby.Lobby;
 import de.hsrm.mi.swt02.backend.domain.map.Map;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -17,6 +16,8 @@ import java.util.Objects;
 @Setter
 public class Player {
 
+    @OneToOne (mappedBy = "player")
+    PlayerPosition playerPosition;
     @Id
     @GeneratedValue
     private long id;
@@ -24,27 +25,25 @@ public class Player {
     private long version;
     private String userName;
     private String password;
-    @OneToOne(mappedBy = "player")
-    PlayerPosition playerPosition;
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne (cascade = CascadeType.REMOVE)
     private Lobby activeLobby;
-    @OneToMany(mappedBy = "host",cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany (mappedBy = "host", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Lobby> hostedLobbys;
-    @OneToMany(mappedBy = "mapOwner",cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany (mappedBy = "mapOwner", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Map> mapList;
 
 
-    public Player(String userName, String password) {
+    public Player (String userName, String password) {
         this.userName = userName;
         this.password = password;
         this.hostedLobbys = new ArrayList<Lobby>();
     }
 
-    public Player() {
+    public Player () {
     }
 
     @Override
-    public String toString() {
+    public String toString () {
         return "User{" +
                 "id=" + id +
                 ", version=" + version +
@@ -53,7 +52,7 @@ public class Player {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals (Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Player player = (Player) o;
@@ -61,29 +60,29 @@ public class Player {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode () {
         return Objects.hash(id, version, userName);
     }
 
 
-    public boolean isHost(Lobby lobby) {
+    public boolean isHost (Lobby lobby) {
         return lobby.getHostId() == this.id;
     }
 
-    
-    public void AddHostToHostedLobbyList(Lobby addLobby){
+
+    public void AddHostToHostedLobbyList (Lobby addLobby) {
         this.hostedLobbys.add(addLobby);
     }
 
-    public void removeLobbyFromHostedLobbyList(Lobby removeLobby){
+    public void removeLobbyFromHostedLobbyList (Lobby removeLobby) {
         this.hostedLobbys.remove(removeLobby);
     }
 
-    public void addMapToMapList(Map addMap){
+    public void addMapToMapList (Map addMap) {
         this.mapList.add(addMap);
     }
 
-    public void removeMapFromMapList(Map removeMap){
+    public void removeMapFromMapList (Map removeMap) {
         this.mapList.remove(removeMap);
     }
 

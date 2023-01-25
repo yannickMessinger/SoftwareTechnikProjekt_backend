@@ -20,7 +20,7 @@ public class PlayerServiceImpl implements PlayerService {
     Logger logger = LoggerFactory.getLogger(PlayerServiceImpl.class);
 
     @Override
-    public List<Player> findAllPlayers() {
+    public List<Player> findAllPlayers () {
 
         List<Player> players = uRepo.findAll();
 
@@ -32,7 +32,7 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public Player findPlayerById(long id) {
+    public Player findPlayerById (long id) {
 
         Optional<Player> player = uRepo.findById(id);
 
@@ -43,14 +43,14 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public void deletePlayer(long id) {
+    public void deletePlayer (long id) {
         Lobby activeLobby = findPlayerById(id).getActiveLobby();
         Player delPlayer = this.findPlayerById(id);
         if (activeLobby == null) {
             uRepo.deleteById(id);
             return;
         }
-        
+
         for (Player ele : activeLobby.getPlayerList()) {
             if (ele.getActiveLobby().isHostedBy(id)) {
                 ele.setActiveLobby(null);
@@ -76,16 +76,16 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public Player findPlayerByUsernameAndPassword(String username, String password){
+    public Player findPlayerByUsernameAndPassword (String username, String password) {
         Optional<Player> player = uRepo.findPlayerByUsernameAndPassword(username, password);
-        if (player.isEmpty()){
+        if (player.isEmpty()) {
             return null;
         }
         return player.get();
     }
 
     @Override
-    public Player createPlayer(String userName, String password) {
+    public Player createPlayer (String userName, String password) {
 
         return uRepo.save(new Player(userName, password));
     }

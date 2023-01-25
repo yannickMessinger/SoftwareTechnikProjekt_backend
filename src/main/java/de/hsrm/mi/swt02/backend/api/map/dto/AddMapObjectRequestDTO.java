@@ -9,4 +9,5 @@ public record AddMapObjectRequestDTO(
         int y,
         int rotation,
         List<GameAssetDTO> game_assets
-) {}
+) {
+}

@@ -4,14 +4,14 @@ import de.hsrm.mi.swt02.backend.domain.map.MapObjectType;
 import de.hsrm.mi.swt02.backend.domain.map.ObjectTypeEnum;
 
 public record GetMapObjectTypeResponseDTO(
-    long objectTypeId,
-    long groupId,
-    ObjectTypeEnum type,
-    int rotation,
-    String name,
-    String texture,
-    String model3d
-){
+        long objectTypeId,
+        long groupId,
+        ObjectTypeEnum type,
+        int rotation,
+        String name,
+        String texture,
+        String model3d
+) {
     public static GetMapObjectTypeResponseDTO from (MapObjectType mapObjectType) {
         return new GetMapObjectTypeResponseDTO(
                 mapObjectType.getObjectTypeId(),

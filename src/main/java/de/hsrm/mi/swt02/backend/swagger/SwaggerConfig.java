@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 public class SwaggerConfig {
     @Bean
-    public GroupedOpenApi api() {
+    public GroupedOpenApi api () {
         return GroupedOpenApi.builder()
                 .group("backend-api")
                 .pathsToMatch("/api/**")

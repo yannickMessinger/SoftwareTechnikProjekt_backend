@@ -1,13 +1,12 @@
 package de.hsrm.mi.swt02.backend.domain.map;
 
-import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import de.hsrm.mi.swt02.backend.domain.lobby.Lobby;
 import de.hsrm.mi.swt02.backend.domain.player.Player;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +26,10 @@ public class Map {
 
     private String mapName;
 
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat (pattern = "dd-MM-yyyy")
     private LocalDate creationDate;
 
-    @OneToMany(mappedBy = "map",cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany (mappedBy = "map", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<MapObject> mapObjects;
 
     @ManyToOne
@@ -39,10 +38,10 @@ public class Map {
     private int sizeX;
     private int sizeY;
 
-    @OneToOne(mappedBy = "map")
+    @OneToOne (mappedBy = "map")
     private Lobby lobby;
 
-    public Map(
+    public Map (
             String mapName,
             LocalDate creationDate,
             int sizeX,
@@ -55,10 +54,11 @@ public class Map {
         this.sizeY = sizeY;
     }
 
-    public Map() {}
+    public Map () {
+    }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals (Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Map that = (Map) o;
@@ -66,7 +66,7 @@ public class Map {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode () {
         return Objects.hash(id, version);
     }
 }

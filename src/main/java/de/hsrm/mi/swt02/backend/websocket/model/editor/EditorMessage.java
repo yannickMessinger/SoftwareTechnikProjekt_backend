@@ -7,9 +7,9 @@ import lombok.Setter;
 @Setter
 @Getter
 public class EditorMessage {
+    public AddMapObjectRequestDTO content;
     private long id;
     private MessageType type;
-    public AddMapObjectRequestDTO content;
     private String author;
 
     public enum MessageType {

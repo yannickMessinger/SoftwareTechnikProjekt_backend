@@ -6,8 +6,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ChatMessage {
-    private MessageType type;
     public String content;
+    private MessageType type;
     private String author;
 
     public enum MessageType {

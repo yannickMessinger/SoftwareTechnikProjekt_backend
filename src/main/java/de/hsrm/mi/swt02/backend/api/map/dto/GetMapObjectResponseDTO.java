@@ -13,7 +13,7 @@ public record GetMapObjectResponseDTO(
         List<GameAssetDTO> game_assets
 
 ) {
-    public static GetMapObjectResponseDTO from(MapObject s) {
+    public static GetMapObjectResponseDTO from (MapObject s) {
         List<GameAssetDTO> gameAssetRequestDTOS = new ArrayList<>();
         s.getGameAssets().forEach(ele -> gameAssetRequestDTOS.add(GameAssetDTO.from(ele)));
 

@@ -8,4 +8,5 @@ public record AddMapRequestDTO(
         int sizeX,
         int sizeY,
         long mapOwnerId
-) {}
+) {
+}

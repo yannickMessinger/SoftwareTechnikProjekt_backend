@@ -2,11 +2,10 @@ package de.hsrm.mi.swt02.backend.api.map.service;
 
 import de.hsrm.mi.swt02.backend.api.map.repository.MapObjectTypeRepository;
 import de.hsrm.mi.swt02.backend.domain.map.MapObjectType;
-
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Service class to manage CRUD database operations on repository for
@@ -22,7 +21,7 @@ public class MapObjectTypeServiceImpl implements MapObjectTypeService {
     /*
      * returns a list with all available MapObjectTypes (placable Mapobjects)
      */
-    public List<MapObjectType> findAllMapObjectType() {
+    public List<MapObjectType> findAllMapObjectType () {
         return mapConstRepo.findAll();
     }
 
@@ -30,7 +29,7 @@ public class MapObjectTypeServiceImpl implements MapObjectTypeService {
     /*
      * returns the MapObjectsType by objectTypeId
      */
-    public MapObjectType findMapObjectTypeById(long id) {
+    public MapObjectType findMapObjectTypeById (long id) {
         return mapConstRepo.findById(id).get();
     }
 

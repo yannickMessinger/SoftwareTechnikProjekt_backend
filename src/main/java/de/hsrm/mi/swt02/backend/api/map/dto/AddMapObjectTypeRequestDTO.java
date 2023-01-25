@@ -7,4 +7,5 @@ public record AddMapObjectTypeRequestDTO(
         String object_Name,
         String img,
         ObjectTypeEnum type
-) {}
+) {
+}

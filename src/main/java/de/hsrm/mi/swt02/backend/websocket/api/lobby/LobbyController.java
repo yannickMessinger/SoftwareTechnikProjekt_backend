@@ -20,23 +20,23 @@ public class LobbyController {
     @Autowired
     PlayerService playerService;
 
-    @MessageMapping("lobby.sendMessage")
-    @SendTo("/topic/public")
-    public LobbyMessage sendMessage(@Payload LobbyMessage lobbyMessage) {
+    @MessageMapping ("lobby.sendMessage")
+    @SendTo ("/topic/public")
+    public LobbyMessage sendMessage (@Payload LobbyMessage lobbyMessage) {
         return lobbyMessage;
     }
 
-    @MessageMapping("/lobby.join")
-    @SendTo("/topic/lobby")
-    public LobbyMessage join(LobbyMessage lobbyMessage) {
+    @MessageMapping ("/lobby.join")
+    @SendTo ("/topic/lobby")
+    public LobbyMessage join (LobbyMessage lobbyMessage) {
         log.info("create message received");
         lobbyService.addPlayerToLobby(lobbyMessage.lobbyContent.lobbyId(), lobbyMessage.playerContent.userId());
         return lobbyMessage;
     }
 
-    @MessageMapping("/lobby.switchMode")
-    @SendTo("/topic/lobby")
-    public LobbyMessage switchMode(LobbyMessage lobbyMessage) {
+    @MessageMapping ("/lobby.switchMode")
+    @SendTo ("/topic/lobby")
+    public LobbyMessage switchMode (LobbyMessage lobbyMessage) {
         // TODO: Validierung ob User host ist und überhaupt berechtigung hat um mode zu ändern!
         lobbyService.updateLobbyModeBroker(lobbyMessage.lobbyContent.lobbyId(), lobbyMessage.lobbyContent.lobbyModeEnum());
         return lobbyMessage;

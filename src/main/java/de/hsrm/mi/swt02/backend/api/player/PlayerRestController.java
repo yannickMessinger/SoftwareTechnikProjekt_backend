@@ -17,17 +17,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/player")
+@RequestMapping ("/api/player")
 public class PlayerRestController {
 
     @Autowired
     PlayerServiceImpl playerService;
 
-    @Operation(summary = "Get all registered users")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found users")})
-    @GetMapping("")
-    public ResponseEntity<List<GetPlayerResponseDTO>> getAllPlayers() {
+    @Operation (summary = "Get all registered users")
+    @ApiResponses (value = {
+            @ApiResponse (responseCode = "200", description = "Found users")})
+    @GetMapping ("")
+    public ResponseEntity<List<GetPlayerResponseDTO>> getAllPlayers () {
         List<GetPlayerResponseDTO> uDTOs = new ArrayList<>(
                 playerService.findAllPlayers()
                         .stream()
@@ -36,13 +36,13 @@ public class PlayerRestController {
         return new ResponseEntity<>(uDTOs, HttpStatus.OK);
     }
 
-    @Operation(summary = "Posting a new user to the DB")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User was created"),
-            @ApiResponse(responseCode = "400", description = "User JSON wrong syntax")})
-    @PostMapping("")
-    public ResponseEntity<Long> postNewPlayer(
-            @Schema(
+    @Operation (summary = "Posting a new user to the DB")
+    @ApiResponses (value = {
+            @ApiResponse (responseCode = "200", description = "User was created"),
+            @ApiResponse (responseCode = "400", description = "User JSON wrong syntax")})
+    @PostMapping ("")
+    public ResponseEntity<Long> postNewPlayer (
+            @Schema (
                     description = "User Dto (userName: '')",
                     implementation = AddPlayerRequestDTO.class)
             @RequestBody AddPlayerRequestDTO uDTO) {
@@ -58,44 +58,44 @@ public class PlayerRestController {
         return new ResponseEntity<>(u.getId(), HttpStatus.OK);
     }
 
-    @Operation(summary = "Get user by username and password")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "user found"),
-        @ApiResponse(responseCode = "400", description = "user not found")})
-    @PostMapping("/login")
-    public ResponseEntity<GetPlayerResponseDTO> getUser(
-        @Schema(
-            description = "Userlogin", 
-            implementation = AddPlayerRequestDTO.class)
-        @RequestBody AddPlayerRequestDTO uDto) {
-            Player p = playerService.findPlayerByUsernameAndPassword(uDto.userName(), uDto.password());
-            if (p != null){
-                return new ResponseEntity<>(GetPlayerResponseDTO.from(p), HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
+    @Operation (summary = "Get user by username and password")
+    @ApiResponses (value = {
+            @ApiResponse (responseCode = "200", description = "user found"),
+            @ApiResponse (responseCode = "400", description = "user not found")})
+    @PostMapping ("/login")
+    public ResponseEntity<GetPlayerResponseDTO> getUser (
+            @Schema (
+                    description = "Userlogin",
+                    implementation = AddPlayerRequestDTO.class)
+            @RequestBody AddPlayerRequestDTO uDto) {
+        Player p = playerService.findPlayerByUsernameAndPassword(uDto.userName(), uDto.password());
+        if (p != null) {
+            return new ResponseEntity<>(GetPlayerResponseDTO.from(p), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
 
-    @Operation(summary = "Get user by ID")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User was created"),
-            @ApiResponse(responseCode = "500", description = "User was not found and threw Exception internally")})
-    @GetMapping("/{id}")
-    public ResponseEntity<GetPlayerResponseDTO> getPlayer(
-            @Schema(description = "User ID", defaultValue = "1")
-            @PathVariable("id") long id) {
+    @Operation (summary = "Get user by ID")
+    @ApiResponses (value = {
+            @ApiResponse (responseCode = "200", description = "User was created"),
+            @ApiResponse (responseCode = "500", description = "User was not found and threw Exception internally")})
+    @GetMapping ("/{id}")
+    public ResponseEntity<GetPlayerResponseDTO> getPlayer (
+            @Schema (description = "User ID", defaultValue = "1")
+            @PathVariable ("id") long id) {
         Player player = playerService.findPlayerById(id);
         return new ResponseEntity<>(GetPlayerResponseDTO.from(player), HttpStatus.OK);
     }
 
-    @Operation(summary = "Delete user by given ID")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User was deleted"),
-            @ApiResponse(responseCode = "500", description = "User was not found and threw Exception internally")})
-    @DeleteMapping("/{id}")
-    public void delPlayer(
-            @Schema(description = "User ID", defaultValue = "1")
-            @PathVariable("id") long id) {
+    @Operation (summary = "Delete user by given ID")
+    @ApiResponses (value = {
+            @ApiResponse (responseCode = "200", description = "User was deleted"),
+            @ApiResponse (responseCode = "500", description = "User was not found and threw Exception internally")})
+    @DeleteMapping ("/{id}")
+    public void delPlayer (
+            @Schema (description = "User ID", defaultValue = "1")
+            @PathVariable ("id") long id) {
 
         playerService.deletePlayer(id);
     }
@@ -104,7 +104,7 @@ public class PlayerRestController {
         return string == null || string.isBlank() || string.isEmpty();
     }
 
-    public boolean containsUsername(final List<Player> list, final String name){
+    public boolean containsUsername (final List<Player> list, final String name) {
         return list.stream().anyMatch(o -> o.getUserName().equals(name));
     }
 }

@@ -23,10 +23,10 @@ public class GameAsset {
     @ManyToOne
     private MapObject mapObject;
 
-    public GameAsset() {
+    public GameAsset () {
     }
 
-    public GameAsset(int objectTypeId, double x, double y, int rotation, String texture) {
+    public GameAsset (int objectTypeId, double x, double y, int rotation, String texture) {
         this.objectTypeId = objectTypeId;
         this.x = x;
         this.y = y;
@@ -35,7 +35,7 @@ public class GameAsset {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals (Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GameAsset gameAsset = (GameAsset) o;
@@ -43,12 +43,12 @@ public class GameAsset {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode () {
         return Objects.hash(id, version, objectTypeId, x, y, rotation, texture);
     }
 
     @Override
-    public String toString() {
+    public String toString () {
         return "GameAsset{" +
                 "id=" + id +
                 ", version=" + version +
