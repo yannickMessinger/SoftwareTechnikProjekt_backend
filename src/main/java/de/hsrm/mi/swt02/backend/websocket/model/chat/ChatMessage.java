@@ -9,10 +9,12 @@ public class ChatMessage {
     private MessageType type;
     public String content;
     private String author;
+    private long lobbyId;
 
     public enum MessageType {
         CHAT,
         JOIN,
-        LEAVE
+        LEAVE,
+        LOBBYMSG
     }
 }
