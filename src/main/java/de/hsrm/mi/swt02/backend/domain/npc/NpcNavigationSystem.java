@@ -33,7 +33,7 @@ public class NpcNavigationSystem {
 
     public NpcNavigationSystem() {
         this.pyInterp = new PythonInterpreter();
-        pyInterp.execfile("src/main/java/de/hsrm/mi/swt02/backend/npc/NpcDriveScript.py");
+        pyInterp.execfile("src/main/java/de/hsrm/mi/swt02/backend/domain/npc/NpcDriveScript.py");
         this.currentMapObject = new MapObject();
         this.nextUpperMapObj = new MapObject();
         this.info = new NpcNavInfo();
