@@ -16,4 +16,4 @@ INSERT INTO MAP_OBJECT_TYPE (OBJECT_TYPE_ID, GROUP_ID, MODEL3D, NAME, ROTATION, 
 (7, 2, '', 'Auto', 0, '/img/streetplaner/object-icons/car-top-view.svg', 'ASSET', 0),
 (13, 2, '', 'Startpunkt', 0, '/img/streetplaner/object-icons/car-top-view-red.svg', 'ASSET', 0),
 
-(14, 3, '', 'Zug', 0, '/img/streetplaner/object-icons/car-top-view.svg', 'ASSET', 0);
+(14, 3, '', 'Zug', 0, '/img/streetplaner/object-icons/thomas_symbol.png', 'ASSET', 0);
