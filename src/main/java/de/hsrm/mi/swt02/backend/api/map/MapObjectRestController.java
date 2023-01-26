@@ -74,20 +74,6 @@ public class MapObjectRestController {
         return new ResponseEntity<>(mapObjectService.createMapObject(mapObjects, mapId), HttpStatus.OK);
     }
 
-    @Operation(summary = "Post amount of pedestrian to map (by id)")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "pedestrians are created")
-    })
-    @PostMapping("/pedestrian/{map_id}")
-    public ResponseEntity<Long> postPedestrian(
-            @RequestBody AddPedestrianRequestDTO pedestrianDTO,
-            @PathVariable("map_id") long mapId
-    ) {
-        mapObjectService.generatePedestrians(pedestrianDTO.pedestrianAmount(), mapId);
-        return null;
-    }
-
-
     @Operation(summary = "Delete MapObject by Id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "MapObject has been deleted")

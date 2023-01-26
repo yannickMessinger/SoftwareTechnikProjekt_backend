@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import de.hsrm.mi.swt02.backend.api.game.position.service.PositionService;
 import de.hsrm.mi.swt02.backend.api.map.dto.GameAssetDTO;
 import de.hsrm.mi.swt02.backend.api.map.dto.AddMapObjectsRequestDTO;
 import de.hsrm.mi.swt02.backend.api.map.repository.GameAssetRepository;
@@ -14,7 +13,8 @@ import de.hsrm.mi.swt02.backend.api.map.repository.MapObjectRepository;
 import de.hsrm.mi.swt02.backend.domain.map.GameAsset;
 import de.hsrm.mi.swt02.backend.domain.map.Map;
 import de.hsrm.mi.swt02.backend.domain.map.MapObject;
-import de.hsrm.mi.swt02.backend.domain.position.ObjectPosition;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +25,7 @@ import de.hsrm.mi.swt02.backend.api.map.dto.AddMapObjectRequestDTO;
  */
 
 @Service
+@Slf4j
 public class MapObjectServiceImpl implements MapObjectService {
 
     @Autowired
@@ -35,12 +36,6 @@ public class MapObjectServiceImpl implements MapObjectService {
 
     @Autowired
     private GameAssetRepository gameAssetRepo;
-
-    @Autowired
-    private PositionService positionService;
-
-    @Autowired
-    private MapObjectTypeService mapObjectTypeService;
 
     /**
      * @return list containing all MapObjects of repository.
@@ -69,11 +64,7 @@ public class MapObjectServiceImpl implements MapObjectService {
     public MapObject getMapObjectById(long id) {
         Optional<MapObject> foundMapObj = mapObjRepo.findById(id);
 
-        if (foundMapObj.isEmpty()) {
-            // logger
-        }
-
-        return foundMapObj.orElseThrow();
+        return foundMapObj.orElse(null);
     }
 
     /**
@@ -107,19 +98,20 @@ public class MapObjectServiceImpl implements MapObjectService {
 
         this.deleteAllMapObjectsFromMapById(mapId);
 
+        long returnValue = 0L;
+
         if (!mapObjects.mapObjects().isEmpty()) {
             for (AddMapObjectRequestDTO ele : mapObjects.mapObjects()) {
                 MapObject nMapObj = new MapObject(ele.objectTypeId(), ele.x(), ele.y(), ele.rotation());
                 nMapObj.setMap(mapService.getMapById(mapId));
                 foundMap.getMapObjects().add(nMapObj);
-                mapObjRepo.save(nMapObj);
-
+                returnValue = mapObjRepo.save(nMapObj).getId();
             }
         }
 
         mapService.saveEditedMap(foundMap);
 
-        return 0L;
+        return returnValue;
     }
 
     @Override
@@ -146,10 +138,12 @@ public class MapObjectServiceImpl implements MapObjectService {
         Map map = mapService.getMapById(mapId);
         List<MapObject> mapObjectList = map.getMapObjects();
         this.findMapObjectByXandY(mapObjectList, mapObjectDTO)
-                .ifPresent(mapObject -> mapObjRepo.delete(mapObject));
+            .ifPresent(mapObject -> mapObjRepo.delete(mapObject));
         MapObject mapObject = new MapObject(mapObjectDTO.objectTypeId(), mapObjectDTO.x(), mapObjectDTO.y(), mapObjectDTO.rotation());
         mapObjectList.add(mapObject);
         mapObject.setMap(map);
+        mapObject.setGameAssets(new ArrayList<GameAsset>());
+        this.addNewGameAssetToMapObject(mapObjectDTO.game_assets(), mapObject);
         mapObjRepo.save(mapObject);
     }
 
@@ -179,6 +173,7 @@ public class MapObjectServiceImpl implements MapObjectService {
         this.findMapObjectByXandY(mapObjectList, mapObjectDTO)
                 .ifPresent(mapObject -> {
                     mapObject.setRotation(mapObjectDTO.rotation());
+                    deleteOldGameAssetsFromMapObject(mapObject);
                     if (!mapObjectDTO.game_assets().isEmpty()) {
                         this.addNewGameAssetToMapObject(mapObjectDTO.game_assets(), mapObject);
                     }
@@ -187,9 +182,8 @@ public class MapObjectServiceImpl implements MapObjectService {
     }
 
     private void addNewGameAssetToMapObject(List<GameAssetDTO> gameAssetDTOs, MapObject mapObject) {
-        deleteOldGameAssetsFromMapObject(mapObject);
         gameAssetDTOs.forEach(ele -> {
-            GameAsset gameAsset = new GameAsset(ele.objectTypeId(), ele.x(), ele.y(), ele.rotation(), ele.texture());
+            GameAsset gameAsset = new GameAsset(ele.objectTypeId(), ele.x(), ele.y(), ele.rotation(), ele.texture(), ele.userId());
             mapObject.getGameAssets().add(gameAsset);
             gameAsset.setMapObject(mapObject);
             gameAssetRepo.save(gameAsset);
@@ -216,88 +210,5 @@ public class MapObjectServiceImpl implements MapObjectService {
         return mapObjectList.stream()
                 .filter(c -> c.getX() == mapObjectDTO.x() && c.getY() == mapObjectDTO.y())
                 .findFirst();
-    }
-
-    /**
-     *
-     * @param amount of pedestrians to generate
-     * @param mapId of map
-     * @return List of pedestrians / mapObjects from map
-     */
-    public List<MapObject> generatePedestrians(int amount, long mapId) {
-        Map map = mapService.getMapById(mapId);
-        List<MapObject> allObjects = new ArrayList<>(map.getMapObjects());
-        List<MapObject> streetObjects = new ArrayList<>();
-        List<MapObject> presentPedestrians = new ArrayList<>();
-        for(MapObject o: allObjects) {
-            long groupId = mapObjectTypeService.findMapObjectTypeById(o.getObjectTypeId()).getGroupId();
-            if (groupId == 0) {
-                streetObjects.add(o);
-            } else if (groupId == 4) {
-                presentPedestrians.add(o);
-            }
-        }
-        int numberToGenerate = amount - presentPedestrians.size();
-        if (numberToGenerate > 0 ) {
-            if (streetObjects.size() != 0) {
-                return createPedestrians(numberToGenerate, mapId, streetObjects);
-            }
-        } else if (numberToGenerate < 0) {
-            numberToGenerate *= -1;
-            List<ObjectPosition> allPositions = positionService.findAllPositions();
-            List<ObjectPosition> pedestrianPositions = findAllPedestrianPositions(allPositions);
-            for (int i=0; i<numberToGenerate; i++) {
-                ObjectPosition posToDelete = pedestrianPositions.get(i);
-                presentPedestrians.remove(mapObjRepo.findById(posToDelete.getId()));
-                mapObjRepo.deleteById(posToDelete.getMapObjectId());
-                positionService.deletePosition(posToDelete.getId());
-            }
-        }
-        return presentPedestrians;
-    }
-
-    private List<ObjectPosition> findAllPedestrianPositions (List<ObjectPosition> allPositions) {
-        List<ObjectPosition> pedestrians = new ArrayList<>();
-        for (ObjectPosition o: allPositions) {
-            MapObject mapObject = mapObjRepo.findById(o.getMapObjectId()).orElseThrow();
-            long groupid = mapObjectTypeService.findMapObjectTypeById(mapObject.getObjectTypeId()).getGroupId();
-            if (groupid == 4) {
-                pedestrians.add(o);
-            }
-        }
-        return pedestrians;
-    }
-
-    private List<MapObject> createPedestrians(int amount, long mapId, List<MapObject> streets) {
-        Map map = mapService.getMapById(mapId);
-        List<MapObject> pedestrians = new ArrayList<>();
-        for (int i = 0; i < amount; i++) {
-            int objectTypeId = generateRandomInt(7, 16);
-            int randomIndex = generateRandomInt(0, streets.size() - 1);
-            int x = streets.get(randomIndex).getX();
-            int y = streets.get(randomIndex).getY();
-            MapObject newPedestrian = new MapObject(objectTypeId, x, y, streets.get(randomIndex).getRotation());
-            newPedestrian.setMap(map);
-            mapObjRepo.save(newPedestrian);
-            double posX = x;
-            double posY = y;
-            if (streets.get(randomIndex).getRotation() % 2 == 0) {
-                posX += (double) generateRandomInt(1,9)/10;
-                posY += generateRandomInt(0,1) == 1 ? 0.1 : 0.9;
-            } else {
-                posX += generateRandomInt(0,1) == 1 ? 0.1 : 0.9;
-                posY += (double) generateRandomInt(1,9)/10;
-            }
-            positionService.createPosition(newPedestrian.getId(), posX, posY, streets.get(randomIndex).getRotation());
-            map.getMapObjects().add(newPedestrian);
-            pedestrians.add(newPedestrian);
-        }
-        mapService.saveEditedMap(map);
-        return pedestrians;
-    }
-
-    private int generateRandomInt(int min, int max) {
-        int range = (max - min) + 1;
-        return (int) (Math.random() * range + min);
     }
 }

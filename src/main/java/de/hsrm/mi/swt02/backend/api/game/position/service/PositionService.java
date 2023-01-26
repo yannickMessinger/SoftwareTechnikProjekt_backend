@@ -28,7 +28,7 @@ public interface PositionService {
      * @param rotation of Object on Map
      * @return id of created ObjectPosition
      */
-    ObjectPosition createPosition(long mapObjectId, double x, double y, double rotation);
+    ObjectPosition createPosition(long mapObjectId, double x, double y, double []rotation);
 
     /**
      * Update the Object by given Attributes
@@ -37,6 +37,6 @@ public interface PositionService {
      * @param y position of Object on Map
      * @param rotation of Object on Map
      */
-    void updatePosition(long objectPositionId, double x, double y, double rotation);
+    void updatePosition(long objectPositionId, double x, double y, double []rotation);
 }
 

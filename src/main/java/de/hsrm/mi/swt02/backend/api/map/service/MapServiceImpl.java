@@ -4,7 +4,11 @@ import de.hsrm.mi.swt02.backend.api.lobby.repository.LobbyRepository;
 import de.hsrm.mi.swt02.backend.api.map.dto.AddMapRequestDTO;
 import de.hsrm.mi.swt02.backend.api.map.repository.MapRepository;
 import de.hsrm.mi.swt02.backend.api.player.service.PlayerService;
+import de.hsrm.mi.swt02.backend.domain.map.GameAsset;
 import de.hsrm.mi.swt02.backend.domain.map.Map;
+import de.hsrm.mi.swt02.backend.domain.map.MapObject;
+import de.hsrm.mi.swt02.backend.domain.npc.NpcNavInfo;
+import de.hsrm.mi.swt02.backend.domain.npc.NpcNavigationSystem;
 import de.hsrm.mi.swt02.backend.domain.player.Player;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,6 +133,19 @@ public class MapServiceImpl implements MapService {
     @Transactional
     public void saveEditedMap(Map map) {
         mapRepository.save(map);
+        
+    }
+
+    //Triggers Python Script 
+    @Override
+    public NpcNavInfo getNpcDirections(long mapId, long npcId, int npcPosX, int npcPosY, int npcRot) {
+        NpcNavigationSystem npc = new NpcNavigationSystem();
+        List<MapObject> list = this.getMapById(mapId).getMapObjects();
+        npc.setNpcNavigationParams(list,npcPosX, npcPosY, npcRot, npcId);
+       
+        return npc.getDirections();
+
+        
         
     }
 

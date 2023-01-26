@@ -76,10 +76,10 @@ public class PositionRestController {
             @Schema(description = "Map ID")
             @PathVariable("id") long id) {
 
-        var mapObject = mapObjectService.getMapObjectById(objectPositionDTO.objectId());
+        var mapObject = mapObjectService.getMapObjectById(objectPositionDTO.id());
 
         // only can be null if no object was created beforehand
-        if (objectPositionDTO.objectId() == -1) {
+        if (objectPositionDTO.id() == -1) {
             mapObject = mapObjectRepository.save(new MapObject(7, 0, 0, 0));
         }
         var mapObjectType = mapObjectTypeService.findMapObjectTypeById(mapObject.getObjectTypeId());
@@ -98,10 +98,10 @@ public class PositionRestController {
             assert mapObject != null;
         }
 
-        var objectPosition = positionService.createPosition(mapObjectType.getObjectTypeId(), mapObject.getX(), mapObject.getY(), mapObject.getRotation());
+        //var objectPosition = positionService.createPosition(mapObjectType.getObjectTypeId(), mapObject.getX(), mapObject.getY(), mapObject.getRotation());
 
         return new ResponseEntity<>(
-                GetObjectPositionDTO.from(objectPosition),
+                //GetObjectPositionDTO.from(objectPosition),
                 HttpStatus.OK);
     }
 
