@@ -10,11 +10,12 @@ import lombok.Setter;
 @Setter
 @Getter
 public class CrossroadMessage {
+    private MessageType type;
     private long id;
     private Map<String, Light> trafficLights = new HashMap<>();
-
-    public CrossroadMessage(long id, Map<String, Light> trafficLights){
-        this.id = id;
-        this.trafficLights = trafficLights;
+    
+    private enum MessageType {
+        CREATE,
+        DELETE
     }
 }

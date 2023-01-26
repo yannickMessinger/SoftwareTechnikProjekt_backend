@@ -4,16 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+import de.hsrm.mi.swt02.backend.api.game.crossroad.repository.CrossroadRepository;
 import de.hsrm.mi.swt02.backend.api.game.trafficLight.service.TrafficLightService;
-import de.hsrm.mi.swt02.backend.api.game.trafficLight.service.TrafficLightServiceImpl;
 import de.hsrm.mi.swt02.backend.domain.game.crossroad.Crossroad;
 import de.hsrm.mi.swt02.backend.domain.game.trafficLight.Light;
 import de.hsrm.mi.swt02.backend.domain.game.trafficLight.TrafficLight;
-import de.hsrm.mi.swt02.backend.websocket.model.crossroad.CrossroadMessage;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,29 +27,23 @@ import org.slf4j.LoggerFactory;
 @Service
 public class CrossroadServiceImpl implements CrossroadService {
 
-    private Crossroad cr;
-    private TrafficLightService tls;
-    private Thread t;
     @Autowired
-    private SimpMessagingTemplate messaging; //Autwired funktioniert nicht
+    private TrafficLightService tls;
+    @Autowired
+    private CrossroadRepository crRepo;
+    // @Autowired
+    // private SimpMessagingTemplate messaging; // Autowired funktioniert nicht
+    private Map<Long, Thread> crTMap = new HashMap<>();
     private Logger logger = LoggerFactory.getLogger(CrossroadServiceImpl.class);
 
     /**
      * Constructor for creating an instance of the CrossroadServiceImpl.
      */
-    public CrossroadServiceImpl() {
-        cr = new Crossroad();
-        tls = new TrafficLightServiceImpl();
-    }
+    public CrossroadServiceImpl() {}
 
-    /**
-     * Constructor for creating an instance of the CrossroadServiceImpl.
-     * 
-     * @param cr the new crossroad.
-     */
-    public CrossroadServiceImpl(Crossroad cr) {
-        this.cr = cr;
-        tls = new TrafficLightServiceImpl();
+    public Crossroad createCrossroad() {
+        Crossroad crossroad = crRepo.save(new Crossroad());
+        return crossroad;
     }
 
     /**
@@ -57,12 +52,14 @@ public class CrossroadServiceImpl implements CrossroadService {
      * 
      */
     @Override
-    public void start() {
-        logger.info("Crossroad is started");
-        t = new Thread(() -> {
-            changeStates();
+    public void start(Long crId) {
+        Crossroad cr = crRepo.findById(crId).get();
+        Thread thread = new Thread(() -> {
+            changeStates(crId);
         });
-        t.start();
+        crTMap.put(crId, thread);
+        thread.start();
+        cr.setRunning(true);
     }
 
     /**
@@ -72,9 +69,12 @@ public class CrossroadServiceImpl implements CrossroadService {
      * @return the thread that was interrupted.
      */
     @Override
-    public Thread stop() {
-        t.interrupt();
-        return t;
+    public void stop(Long crId) {
+        Thread thread = crTMap.get(crId);
+        if (thread != null) {
+            thread.interrupt();
+            crRepo.findById(crId).get().setRunning(false);
+        }
     }
 
     /**
@@ -85,14 +85,16 @@ public class CrossroadServiceImpl implements CrossroadService {
      * @return a list of the created traffic light services.
      */
     @Override
-    public List<TrafficLight> createTrafficLights(int numberOfTrafficLights) {
+    @Transactional
+    public List<TrafficLight> createTrafficLights(int numberOfTrafficLights, Long crId) {
+        Crossroad cr = crRepo.findById(crId).get();
         for (int i = 0; i < numberOfTrafficLights; i++) {
-            TrafficLight tl = new TrafficLight();
+            Long tlId = tls.createTrafficLight().getId();
+            tls.getTrafficLight(tlId).setCr(cr);
             if (cr.isTlArrangement()) {
-                tls.setTrafficLight(tl);
-                tls.changeCurrentState(Light.RED);
+                tls.changeCurrentState(tlId, Light.RED);
             }
-            cr.getTrafficLights().add(tl);
+            cr.getTrafficLights().add(tls.getTrafficLight(tlId));
             cr.setTlArrangement(!cr.isTlArrangement());
         }
         return cr.getTrafficLights();
@@ -103,10 +105,13 @@ public class CrossroadServiceImpl implements CrossroadService {
      * 
      */
     @Override
-    public void changeStates() {
+    public void changeStates(Long crId) {
+        Crossroad cr = crRepo.findById(crId).get();
         boolean toggle = false;
-        Map<String, Light> tlMap = new HashMap<>();
-        while (!Thread.currentThread().isInterrupted()) {
+        Map<Long, Light> tlMap = new HashMap<>();
+
+        while (!crTMap.get(crId).isInterrupted()) {
+            logger.info("Bin drin");
             try {
                 if (!toggle) {
                     Thread.sleep(15000);
@@ -115,17 +120,18 @@ public class CrossroadServiceImpl implements CrossroadService {
                 }
                 toggle = !toggle;
                 for (TrafficLight tl : cr.getTrafficLights()) {
-                    tls.setTrafficLight(tl);
-                    tls.changeCurrentState();
-                    tlMap.put(tl.getId(), tl.getCurrentState());
+                    tls.changeCurrentState(tl.getId());
+                    tlMap.put(tl.getId(), tls.getCurrentState(tl.getId()));
                 }
-                //messaging.convertAndSend("/", new CrossroadMessage(0, tlMap));
+                // Hier eine Stomp Message an den richtigen Endpunkt senden mit dem kompletten
+                // CrossroadObject mit einem ENUM um die Message zu beschreiben
+                // messaging.convertAndSend("/", new CrossroadMessage(0, tlMap));
             } catch (InterruptedException e) {
                 logger.info("Thread interrupted. Ending changeStates() method");
-                Thread.currentThread().interrupt();
+                crTMap.get(crId).interrupt();
+                cr.setRunning(false);
                 break;
             }
-
         }
     }
 
@@ -136,22 +142,7 @@ public class CrossroadServiceImpl implements CrossroadService {
      * @return the thread that handles the change of states of the traffic lights.
      */
     @Override
-    public Thread getThread() {
-        return t;
-    }
-
-    /**
-     * Retrieves a TrafficLight object by its ID.
-     *
-     * @param id the ID of the TrafficLight to retrieve
-     * @return the TrafficLight with the specified ID, or null if no TrafficLight
-     * with that ID exists in the list
-     */
-    @Override
-    public TrafficLight getTrafficLightById(String id) {
-        for(TrafficLight tl : cr.getTrafficLights()){
-            if(tl.getId().equals(id)) return tl;
-        }
-        return null;
+    public Thread getThread(Long crId) {
+        return crTMap.get(crId);
     }
 }

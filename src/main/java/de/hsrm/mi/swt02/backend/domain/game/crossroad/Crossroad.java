@@ -2,9 +2,12 @@ package de.hsrm.mi.swt02.backend.domain.game.crossroad;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-import org.springframework.stereotype.Component;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import de.hsrm.mi.swt02.backend.domain.game.trafficLight.TrafficLight;
 import lombok.Getter;
@@ -20,18 +23,17 @@ import lombok.Setter;
 
 @Setter
 @Getter
-@Component
+@Entity
 public class Crossroad {
-    /* @Id
+    @Id
     @GeneratedValue
-    private long id; */
-    private String id;
+    private Long id;
+    @OneToMany(mappedBy = "cr", fetch = FetchType.EAGER) 
     private List<TrafficLight> trafficLights = new ArrayList<>();
     private boolean tlArrangement = false;
+    private boolean running = false;
 
-    public Crossroad() {
-        this.id = UUID.randomUUID().toString().replace("-", "");
-    }
+    public Crossroad() {}
 
     @Override
     public int hashCode() {
@@ -40,6 +42,7 @@ public class Crossroad {
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((trafficLights == null) ? 0 : trafficLights.hashCode());
         result = prime * result + (tlArrangement ? 1231 : 1237);
+        result = prime * result + (running ? 1231 : 1237);
         return result;
     }
 
@@ -64,11 +67,14 @@ public class Crossroad {
             return false;
         if (tlArrangement != other.tlArrangement)
             return false;
+        if (running != other.running)
+            return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "Crossroad [id=" + id + ", trafficLights=" + trafficLights + ", tlArrangement=" + tlArrangement + "]";
+        return "Crossroad [id=" + id + ", trafficLights=" + trafficLights + ", tlArrangement=" + tlArrangement
+                + ", running=" + running + "]";
     }
 }

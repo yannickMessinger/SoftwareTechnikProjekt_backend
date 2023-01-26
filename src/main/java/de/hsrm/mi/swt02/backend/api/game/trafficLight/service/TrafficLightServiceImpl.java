@@ -1,10 +1,13 @@
 package de.hsrm.mi.swt02.backend.api.game.trafficLight.service;
 
+import javax.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import de.hsrm.mi.swt02.backend.api.game.trafficLight.repository.TrafficLightRepository;
 import de.hsrm.mi.swt02.backend.domain.game.trafficLight.Light;
 import de.hsrm.mi.swt02.backend.domain.game.trafficLight.TrafficLight;
 
@@ -13,23 +16,15 @@ The implementation of the {@link TrafficLightService} interface. This service ha
 */
 @Service
 public class TrafficLightServiceImpl implements TrafficLightService{
-    private TrafficLight tl;
+    @Autowired
+    private TrafficLightRepository tlRepo;
     private Logger logger = LoggerFactory.getLogger(TrafficLightServiceImpl.class);
     
-
     /**
      * Constructor for creating an instance of the TrafficLightServiceImpl.
      */
     public TrafficLightServiceImpl(){}
 
-    /**
-     * Constructor for creating an instance of the TrafficLightServiceImpl.
-     * 
-     * @param tl the traffic light that this service will manage.
-     */
-    public TrafficLightServiceImpl(TrafficLight tl){
-        this.tl = tl;
-    }
 
     /**
      * This method changes the current state of the traffic light managed by this service to the next state in the following order: 
@@ -37,7 +32,9 @@ public class TrafficLightServiceImpl implements TrafficLightService{
      * 
      */
     @Override
-    public void changeCurrentState(){
+    @Transactional
+    public void changeCurrentState(Long tlId){
+        TrafficLight tl = tlRepo.findById(tlId).get();
         switch (tl.getCurrentState()) {
             case GREEN:
                 tl.setCurrentState(Light.YELLOW);
@@ -61,8 +58,8 @@ public class TrafficLightServiceImpl implements TrafficLightService{
      * @param l the new state of the traffic light.
      */
     @Override
-    public void changeCurrentState(Light l) {
-        tl.setCurrentState(l);   
+    public void changeCurrentState(Long tlId, Light l) {
+        tlRepo.findById(tlId).get().setCurrentState(l);
     }
 
     /**
@@ -71,17 +68,17 @@ public class TrafficLightServiceImpl implements TrafficLightService{
      * @return the current state of the traffic light.
      */
     @Override
-    public Light getCurrentState() {
-        return tl.getCurrentState();
+    public Light getCurrentState(Long tlId) {
+        return tlRepo.findById(tlId).get().getCurrentState();
     }
 
-    /**
-     * Sets the TrafficLight object in the Crossroad
-     *
-     * @param tl the TrafficLight object to be set in the Crossroad
-     */
     @Override
-    public void setTrafficLight(TrafficLight tl) {
-        this.tl = tl;
+    public TrafficLight createTrafficLight(){
+        return tlRepo.save(new TrafficLight());
+    }
+
+    @Override
+    public TrafficLight getTrafficLight(Long tlId) {
+        return tlRepo.findById(tlId).get();
     }
 }

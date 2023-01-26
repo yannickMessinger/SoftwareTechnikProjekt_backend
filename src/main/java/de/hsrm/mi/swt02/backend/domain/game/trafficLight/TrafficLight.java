@@ -1,9 +1,11 @@
 package de.hsrm.mi.swt02.backend.domain.game.trafficLight;
 
-import java.util.UUID;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
-import org.springframework.stereotype.Component;
-
+import de.hsrm.mi.swt02.backend.domain.game.crossroad.Crossroad;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,24 +18,21 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@Component
+@Entity
 public class TrafficLight {
 
-    /*
-     * @Id @GeneratedValue
-     * private long id;
-     * For the case we want to persist the lights in a database.
-     */
-    private String id;
+    @Id
+    @GeneratedValue
+    private Long id;
     private Light currentState = Light.GREEN;
+    @ManyToOne
+    private Crossroad cr;
 
     /**
      * Constructor for creating an instance of the TrafficLight with an
      * auto-generateed Id.
      */
-    public TrafficLight() {
-        this.id = UUID.randomUUID().toString().replace("-", "");
-    }
+    public TrafficLight() {}
 
     @Override
     public String toString() {

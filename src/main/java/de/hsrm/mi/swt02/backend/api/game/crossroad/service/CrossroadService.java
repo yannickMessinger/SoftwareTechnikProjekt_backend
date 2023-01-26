@@ -2,7 +2,7 @@ package de.hsrm.mi.swt02.backend.api.game.crossroad.service;
 
 import java.util.List;
 
-
+import de.hsrm.mi.swt02.backend.domain.game.crossroad.Crossroad;
 import de.hsrm.mi.swt02.backend.domain.game.trafficLight.TrafficLight;
 
 /**
@@ -18,38 +18,31 @@ public interface CrossroadService {
     * @param numberOfTrafficLights the number of traffic lights to be created.
     * @return a list of the created traffic light services.
     */
-    public List<TrafficLight> createTrafficLights(int numberOfTrafficLights);
+    public List<TrafficLight> createTrafficLights(int numberOfTrafficLights, Long crId);
 
     /**
      * This method starts the thread that handles the change of states of the traffic lights at the crossroad.
      */
-    public void start();
+    public void start(Long crId);
 
     /**
      * This method stops the thread that handles the change of states of the traffic lights at the crossroad.
      * 
      * @return the thread that was interrupted.
      */
-    public Thread stop();
+    public void stop(Long crId);
 
+    public Crossroad createCrossroad();
     /**
      * This method changes the state of all traffic lights at the crossroad.
      */
-    public void changeStates();
+    public void changeStates(Long crId);
 
     /**
      * This method returns the thread that handles the change of states of the traffic lights at the crossroad.
      * 
      * @return the thread that handles the change of states of the traffic lights.
      */
-    public Thread getThread();
+    public Thread getThread(Long crId);
     
-    /**
-     * Retrieves a TrafficLight object by its ID.
-     *
-     * @param id the ID of the TrafficLight to retrieve
-     * @return the TrafficLight object with the specified ID, or null if no TrafficLight
-     * with that ID exists in the list
-     */
-    public TrafficLight getTrafficLightById(String id);
 }

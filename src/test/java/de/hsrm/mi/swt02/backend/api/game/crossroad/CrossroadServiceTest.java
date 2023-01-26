@@ -1,24 +1,25 @@
 package de.hsrm.mi.swt02.backend.api.game.crossroad;
 
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.annotation.Testable;
-import org.springframework.boot.test.context.SpringBootTest;
-
-import de.hsrm.mi.swt02.backend.api.game.crossroad.service.CrossroadService;
-import de.hsrm.mi.swt02.backend.api.game.crossroad.service.CrossroadServiceImpl;
-import de.hsrm.mi.swt02.backend.api.game.trafficLight.service.TrafficLightService;
-import de.hsrm.mi.swt02.backend.api.game.trafficLight.service.TrafficLightServiceImpl;
-import de.hsrm.mi.swt02.backend.domain.game.crossroad.Crossroad;
-import de.hsrm.mi.swt02.backend.domain.game.trafficLight.Light;
-import de.hsrm.mi.swt02.backend.domain.game.trafficLight.TrafficLight;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.annotation.Testable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import de.hsrm.mi.swt02.backend.api.game.crossroad.repository.CrossroadRepository;
+import de.hsrm.mi.swt02.backend.api.game.crossroad.service.CrossroadService;
+import de.hsrm.mi.swt02.backend.api.game.trafficLight.repository.TrafficLightRepository;
+import de.hsrm.mi.swt02.backend.api.game.trafficLight.service.TrafficLightService;
+import de.hsrm.mi.swt02.backend.domain.game.crossroad.Crossroad;
+import de.hsrm.mi.swt02.backend.domain.game.trafficLight.Light;
+import de.hsrm.mi.swt02.backend.domain.game.trafficLight.TrafficLight;
 
 /**
     Test class for the {@link CrossroadService} class.
@@ -29,17 +30,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CrossroadServiceTest {
 
-    private Crossroad cr;
+    @Autowired
     private CrossroadService crs;
+    @Autowired
+    private CrossroadRepository crRepo;
+    @Autowired
+    private TrafficLightRepository tlRepo;
+    @Autowired
+    private TrafficLightService tls;
 
-    /**
-     * This method is called before each test and creates a new instance of the {@link CrossroadService} class.
-     */
-    @BeforeEach
-    public void startUp(){
-        cr = new Crossroad();
-        crs = new CrossroadServiceImpl(cr);
-    }
 
     /**
      * Test method for the traffic light state.
@@ -51,18 +50,24 @@ public class CrossroadServiceTest {
      */
     @Test
     public void TrafficLightState() throws InterruptedException {
-        TrafficLight tl = crs.createTrafficLights(1).get(0);
-        TrafficLightService tls = new TrafficLightServiceImpl(tl);
-        crs.start();
+        
+        Crossroad cr = crs.createCrossroad();
+        crs.createTrafficLights(1, cr.getId());
+
+        cr = crRepo.findById(cr.getId()).get();
+        List<TrafficLight> tlList = cr.getTrafficLights();
+        TrafficLight tl = tlList.get(0);
+        
+        crs.start(cr.getId());
         TimeUnit.SECONDS.sleep(16);
-        assertEquals(Light.YELLOW, tls.getCurrentState());
+        assertEquals(Light.YELLOW, tlRepo.findById(tl.getId()).get().getCurrentState());
         TimeUnit.SECONDS.sleep(3);
-        assertEquals(Light.RED, tls.getCurrentState());
+        assertEquals(Light.RED, tlRepo.findById(tl.getId()).get().getCurrentState());
         TimeUnit.SECONDS.sleep(15);
-        assertEquals(Light.REDYELLOW, tls.getCurrentState());
+        assertEquals(Light.REDYELLOW, tlRepo.findById(tl.getId()).get().getCurrentState());
         TimeUnit.SECONDS.sleep(3);
-        assertEquals(Light.GREEN, tls.getCurrentState());
-        crs.stop();   
+        assertEquals(Light.GREEN, tlRepo.findById(tl.getId()).get().getCurrentState());
+        crs.stop(cr.getId());
     }
 
     /**
@@ -71,9 +76,11 @@ public class CrossroadServiceTest {
     */
     @Test
     public void CloseThreadAfterStop() throws InterruptedException {
-        crs.createTrafficLights(1);
-        crs.start();
-        Thread t = crs.stop();
+        Long crId = crs.createCrossroad().getId();
+        crs.createTrafficLights(1, crId);
+        crs.start(crId);
+        crs.stop(crId);
+        Thread t = crs.getThread(crId);
         assertTrue(t.isInterrupted());
     }
 
@@ -83,8 +90,10 @@ public class CrossroadServiceTest {
     */
     @Test
     public void EmptyTrafficLightList() throws InterruptedException {
-        crs.start();
-        Thread t = crs.stop();
+        Long crId = crs.createCrossroad().getId();
+        crs.start(crId);
+        crs.stop(crId);
+        Thread t = crs.getThread(crId);
         assertTrue(t.isInterrupted());
     }
 
@@ -94,26 +103,27 @@ public class CrossroadServiceTest {
     */
     @Test
     public void MultipleTrafficLightState() throws InterruptedException {
-        List<TrafficLight> tl = crs.createTrafficLights(2);
-        TrafficLightService tl1 = new TrafficLightServiceImpl(tl.get(0)); //Starts with Light.GREEN
-        TrafficLightService tl2 = new TrafficLightServiceImpl(tl.get(1)); //Starts with Light.RED
-        crs.start();
+        Long crId = crs.createCrossroad().getId();
+        List<TrafficLight> tlList = crs.createTrafficLights(2, crId);
+        Long tl1Id = tlList.get(0).getId();
+        Long tl2Id = tlList.get(1).getId();
 
-        assertEquals(Light.GREEN, tl1.getCurrentState());
-        assertEquals(Light.RED, tl2.getCurrentState());
+        crs.start(crId);
+        assertEquals(Light.GREEN, tls.getCurrentState(tl1Id) );
+        assertEquals(Light.RED, tls.getCurrentState(tl2Id));
         TimeUnit.SECONDS.sleep(16);
-        assertEquals(Light.YELLOW, tl1.getCurrentState());
-        assertEquals(Light.REDYELLOW, tl2.getCurrentState());
+        assertEquals(Light.YELLOW, tls.getCurrentState(tl1Id) );
+        assertEquals(Light.REDYELLOW, tls.getCurrentState(tl2Id));
         TimeUnit.SECONDS.sleep(3);
-        assertEquals(Light.RED, tl1.getCurrentState());
-        assertEquals(Light.GREEN, tl2.getCurrentState());
+        assertEquals(Light.RED, tls.getCurrentState(tl1Id) );
+        assertEquals(Light.GREEN, tls.getCurrentState(tl2Id));
         TimeUnit.SECONDS.sleep(15);
-        assertEquals(Light.REDYELLOW, tl1.getCurrentState());
-        assertEquals(Light.YELLOW, tl2.getCurrentState());
+        assertEquals(Light.REDYELLOW, tls.getCurrentState(tl1Id) );
+        assertEquals(Light.YELLOW, tls.getCurrentState(tl2Id));
         TimeUnit.SECONDS.sleep(3);
-        assertEquals(Light.GREEN, tl1.getCurrentState());
-        assertEquals(Light.RED, tl2.getCurrentState());
-        crs.stop();   
+        assertEquals(Light.GREEN, tls.getCurrentState(tl1Id) );
+        assertEquals(Light.RED, tls.getCurrentState(tl2Id));
+        crs.stop(crId);
     }
 
     /**
@@ -122,19 +132,22 @@ public class CrossroadServiceTest {
     */
     @Test
     public void MultipleCrossroads() throws InterruptedException {
-        CrossroadService crs2 = new CrossroadServiceImpl(); //2nd Crossroad
-        CrossroadService crs3 = new CrossroadServiceImpl(); //3nd Crossroad
-        List<TrafficLight> tl = crs.createTrafficLights(2);
-        List<TrafficLight> tl2 = crs2.createTrafficLights(3);
-        List<TrafficLight> tl3 = crs3.createTrafficLights(4);
+        Long crId1 = crs.createCrossroad().getId();
+        Long crId2 = crs.createCrossroad().getId();
+        Long crId3 = crs.createCrossroad().getId();
+        crs.createTrafficLights(4, crId1);
+        crs.createTrafficLights(4, crId2);
+        crs.createTrafficLights(4, crId3);
+
+        crs.start(crId1);
+        crs.start(crId2);
+        crs.start(crId3);
         
-        crs.start();
-        crs2.start();
-        crs3.start();
-        Thread t = crs.stop();
+        crs.stop(crId1);
+    
         TimeUnit.SECONDS.sleep(5);
-        assertTrue(t.isInterrupted());
-        assertFalse(crs2.getThread().isInterrupted());
-        assertFalse(crs3.getThread().isInterrupted());
+        assertTrue(crs.getThread(crId1).isInterrupted());
+        assertFalse(crs.getThread(crId2).isInterrupted());
+        assertFalse(crs.getThread(crId3).isInterrupted());
     }
 }
