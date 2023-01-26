@@ -4,7 +4,6 @@ package de.hsrm.mi.swt02.backend;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import de.hsrm.mi.swt02.backend.npc.NpcVehicle;
 
 @SpringBootApplication
 public class BackendApplication {

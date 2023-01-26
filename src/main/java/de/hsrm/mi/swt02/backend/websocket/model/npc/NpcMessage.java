@@ -1,8 +1,8 @@
 package de.hsrm.mi.swt02.backend.websocket.model.npc;
 
 
-import de.hsrm.mi.swt02.backend.npc.NpcInfoRequestDTO;
-import de.hsrm.mi.swt02.backend.npc.NpcInfoResponseDTO;
+import de.hsrm.mi.swt02.backend.api.npc.dto.NpcNavInfoRequestDTO;
+import de.hsrm.mi.swt02.backend.api.npc.dto.NpcNavInfoResponseDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,8 +11,8 @@ import lombok.Setter;
 public class NpcMessage {
    
     
-    public NpcInfoRequestDTO npcInfoRequestDTO;
-    public NpcInfoResponseDTO npcInfoResponseDTO;
+    public NpcNavInfoRequestDTO npcInfoRequestDTO;
+    public NpcNavInfoResponseDTO npcInfoResponseDTO;
     private MessageType type;
 
     public enum MessageType {

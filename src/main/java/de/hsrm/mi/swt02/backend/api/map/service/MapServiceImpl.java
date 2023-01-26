@@ -7,9 +7,9 @@ import de.hsrm.mi.swt02.backend.api.player.service.PlayerService;
 import de.hsrm.mi.swt02.backend.domain.map.GameAsset;
 import de.hsrm.mi.swt02.backend.domain.map.Map;
 import de.hsrm.mi.swt02.backend.domain.map.MapObject;
+import de.hsrm.mi.swt02.backend.domain.npc.NpcNavInfo;
+import de.hsrm.mi.swt02.backend.domain.npc.NpcNavigationSystem;
 import de.hsrm.mi.swt02.backend.domain.player.Player;
-import de.hsrm.mi.swt02.backend.npc.NpcInfo;
-import de.hsrm.mi.swt02.backend.npc.NpcVehicle;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -138,12 +138,12 @@ public class MapServiceImpl implements MapService {
 
     //Triggers Python Script 
     @Override
-    public NpcInfo initNpc(long mapId, long npcId, int npcPosX, int npcPosY, int npcRot) {
-        NpcVehicle npc = new NpcVehicle();
+    public NpcNavInfo getNpcDirections(long mapId, long npcId, int npcPosX, int npcPosY, int npcRot) {
+        NpcNavigationSystem npc = new NpcNavigationSystem();
         List<MapObject> list = this.getMapById(mapId).getMapObjects();
-        npc.setNpcParams(list,npcPosX, npcPosY, npcRot, npcId);
+        npc.setNpcNavigationParams(list,npcPosX, npcPosY, npcRot, npcId);
        
-        return npc.calcNextMapEle();
+        return npc.getDirections();
 
         
         

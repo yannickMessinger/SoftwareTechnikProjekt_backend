@@ -22,16 +22,18 @@ public class GameAsset {
     private String texture;
     @ManyToOne
     private MapObject mapObject;
+    private int userId;
 
     public GameAsset() {
     }
 
-    public GameAsset(int objectTypeId, double x, double y, int rotation, String texture) {
+    public GameAsset(int objectTypeId, double x, double y, int rotation, String texture, int userId) {
         this.objectTypeId = objectTypeId;
         this.x = x;
         this.y = y;
         this.rotation = rotation;
         this.texture = texture;
+        this.userId = userId;
     }
 
     @Override
