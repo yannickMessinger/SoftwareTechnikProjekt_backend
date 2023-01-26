@@ -1,5 +1,6 @@
 package de.hsrm.mi.swt02.backend.api.map.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,8 @@ import de.hsrm.mi.swt02.backend.api.map.repository.MapObjectRepository;
 import de.hsrm.mi.swt02.backend.domain.map.GameAsset;
 import de.hsrm.mi.swt02.backend.domain.map.Map;
 import de.hsrm.mi.swt02.backend.domain.map.MapObject;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +25,7 @@ import de.hsrm.mi.swt02.backend.api.map.dto.AddMapObjectRequestDTO;
  */
 
 @Service
+@Slf4j
 public class MapObjectServiceImpl implements MapObjectService {
 
     @Autowired
@@ -134,10 +138,11 @@ public class MapObjectServiceImpl implements MapObjectService {
         Map map = mapService.getMapById(mapId);
         List<MapObject> mapObjectList = map.getMapObjects();
         this.findMapObjectByXandY(mapObjectList, mapObjectDTO)
-                .ifPresent(mapObject -> mapObjRepo.delete(mapObject));
+            .ifPresent(mapObject -> mapObjRepo.delete(mapObject));
         MapObject mapObject = new MapObject(mapObjectDTO.objectTypeId(), mapObjectDTO.x(), mapObjectDTO.y(), mapObjectDTO.rotation());
         mapObjectList.add(mapObject);
         mapObject.setMap(map);
+        mapObject.setGameAssets(new ArrayList<GameAsset>());
         this.addNewGameAssetToMapObject(mapObjectDTO.game_assets(), mapObject);
         mapObjRepo.save(mapObject);
     }

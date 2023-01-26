@@ -6,6 +6,8 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -44,6 +46,7 @@ public class MapObject {
         this.x = x;
         this.y = y;
         this.rotation = rotation % 4;
+        this.gameAssets = new ArrayList<GameAsset>();
     }
 
     @Override
@@ -58,6 +61,12 @@ public class MapObject {
     public int hashCode() {
         return Objects.hash(id, version);
     }
+
+    @Override
+    public String toString() {
+        return "MapObject [id=" + id + ", version=" + version + ", objectTypeId=" + objectTypeId + ", x=" + x + ", y="
+                + y + ", rotation=" + rotation + ", map=" + map + ", gameAssets=" + gameAssets + "]";
+    }    
 }
 
 
