@@ -141,6 +141,7 @@ public class MapObjectServiceImpl implements MapObjectService {
         MapObject mapObject = new MapObject(mapObjectDTO.objectTypeId(), mapObjectDTO.x(), mapObjectDTO.y(), mapObjectDTO.rotation());
         mapObjectList.add(mapObject);
         mapObject.setMap(map);
+        this.addNewGameAssetToMapObject(mapObjectDTO.game_assets(), mapObject);
         mapObjRepo.save(mapObject);
     }
 
