@@ -10,6 +10,8 @@ public record GetMapObjectResponseDTO(
         long objectTypeId,
         int x,
         int y,
+        int centerX3d,
+        int centerZ3d,
         int rotation,
         List<GameAssetDTO> game_assets
 
@@ -23,6 +25,8 @@ public record GetMapObjectResponseDTO(
                 s.getObjectTypeId(),
                 s.getX(),
                 s.getY(),
+                s.getCenterX3d(),
+                s.getCenterZ3d(),
                 s.getRotation(),
                 gameAssetRequestDTOS
         );

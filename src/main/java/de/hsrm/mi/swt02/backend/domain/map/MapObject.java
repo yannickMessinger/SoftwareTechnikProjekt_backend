@@ -26,6 +26,8 @@ public class MapObject {
     private long objectTypeId;
     private int x;
     private int y;
+    private int centerX3d;
+    private int centerZ3d;
     /**
      * rotation * 90° (0-3)
      */
@@ -47,6 +49,8 @@ public class MapObject {
         this.y = y;
         this.rotation = rotation % 4;
         this.gameAssets = new ArrayList<GameAsset>();
+        this.centerX3d = -1;
+        this.centerZ3d = -1;
     }
 
     @Override

@@ -37,6 +37,10 @@ public class MapObjectServiceImpl implements MapObjectService {
     @Autowired
     private GameAssetRepository gameAssetRepo;
 
+    private int gridSizeX = 300;
+    private int gridSizeY = 200;
+    private int fieldSize = 10;
+
     /**
      * @return list containing all MapObjects of repository.
      */
@@ -103,6 +107,8 @@ public class MapObjectServiceImpl implements MapObjectService {
         if (!mapObjects.mapObjects().isEmpty()) {
             for (AddMapObjectRequestDTO ele : mapObjects.mapObjects()) {
                 MapObject nMapObj = new MapObject(ele.objectTypeId(), ele.x(), ele.y(), ele.rotation());
+                nMapObj.setCenterX3d(ele.y());
+                nMapObj.setCenterZ3d(ele.x());
                 nMapObj.setMap(mapService.getMapById(mapId));
                 foundMap.getMapObjects().add(nMapObj);
                 returnValue = mapObjRepo.save(nMapObj).getId();
@@ -140,6 +146,11 @@ public class MapObjectServiceImpl implements MapObjectService {
         this.findMapObjectByXandY(mapObjectList, mapObjectDTO)
             .ifPresent(mapObject -> mapObjRepo.delete(mapObject));
         MapObject mapObject = new MapObject(mapObjectDTO.objectTypeId(), mapObjectDTO.x(), mapObjectDTO.y(), mapObjectDTO.rotation());
+
+        mapObject.setCenterX3d(calcMapEleCenterX(mapObjectDTO.y()));
+        mapObject.setCenterZ3d(calcMapEleCenterZ(mapObjectDTO.x()));
+
+
         mapObjectList.add(mapObject);
         mapObject.setMap(map);
         mapObject.setGameAssets(new ArrayList<GameAsset>());
@@ -184,6 +195,11 @@ public class MapObjectServiceImpl implements MapObjectService {
     private void addNewGameAssetToMapObject(List<GameAssetDTO> gameAssetDTOs, MapObject mapObject) {
         gameAssetDTOs.forEach(ele -> {
             GameAsset gameAsset = new GameAsset(ele.objectTypeId(), ele.x(), ele.y(), ele.rotation(), ele.texture(), ele.userId());
+            
+            gameAsset.setX3d(calcPixelPosNpcX(mapObject.getCenterX3d(),gameAsset.getX()));
+            gameAsset.setZ3d(calcPixelPosNpcX(mapObject.getCenterZ3d(),gameAsset.getY()));
+
+
             mapObject.getGameAssets().add(gameAsset);
             gameAsset.setMapObject(mapObject);
             gameAssetRepo.save(gameAsset);
@@ -210,5 +226,36 @@ public class MapObjectServiceImpl implements MapObjectService {
         return mapObjectList.stream()
                 .filter(c -> c.getX() == mapObjectDTO.x() && c.getY() == mapObjectDTO.y())
                 .findFirst();
+    }
+
+
+    //center 3D xcoord
+    public int calcMapEleCenterX(int curMapObjY){
+        int curMapObjcenterX = ((int) (this.gridSizeX * -0.5 + curMapObjY * this.fieldSize + this.fieldSize / 2));
+        return curMapObjcenterX;
+    }
+
+    //center 3D zcoord
+    public int calcMapEleCenterZ(int curMapObjY){
+        int curMapObjcenterZ = ((int) (this.gridSizeY * -0.5 + curMapObjY * this.fieldSize + this.fieldSize / 2));
+        return curMapObjcenterZ;
+    }
+
+    // x pixelpos asset 3d
+    public double calcPixelPosNpcX(int curMapObjcenterX, double gameAssetX){
+        double originX = curMapObjcenterX - this.fieldSize / 2;
+        double npcPosX = originX + gameAssetX * this.fieldSize;
+
+        return npcPosX;
+    }
+
+    //z pixelpos asset 3d
+    public double calcPixelPosNpcZ(int curMapObjcenterZ, double gameAssetZ){
+       
+
+        double originZ = curMapObjcenterZ - this.fieldSize / 2;
+        double npcPosZ = originZ + gameAssetZ * this.fieldSize;
+
+        return npcPosZ;
     }
 }
