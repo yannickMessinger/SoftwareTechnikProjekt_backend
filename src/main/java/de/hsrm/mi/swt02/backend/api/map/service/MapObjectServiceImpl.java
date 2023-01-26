@@ -37,9 +37,9 @@ public class MapObjectServiceImpl implements MapObjectService {
     @Autowired
     private GameAssetRepository gameAssetRepo;
 
-    private int gridSizeX = 300;
-    private int gridSizeY = 200;
-    private int fieldSize = 10;
+    private final int GRID_SIZE_X = 300;
+    private final int GRID_SIZE_Y = 200;
+    private final int FIELD_SIZE = 10;
 
     /**
      * @return list containing all MapObjects of repository.
@@ -229,22 +229,22 @@ public class MapObjectServiceImpl implements MapObjectService {
     }
 
 
-    //center 3D xcoord
+    //center 3D xcoord for mapobject
     public int calcMapEleCenterX(int curMapObjY){
-        int curMapObjcenterX = ((int) (this.gridSizeX * -0.5 + curMapObjY * this.fieldSize + this.fieldSize / 2));
+        int curMapObjcenterX = ((int) (this.GRID_SIZE_X * -0.5 + curMapObjY * this.FIELD_SIZE + this.FIELD_SIZE / 2));
         return curMapObjcenterX;
     }
 
-    //center 3D zcoord
+    //center 3D zcoord for mapobject
     public int calcMapEleCenterZ(int curMapObjY){
-        int curMapObjcenterZ = ((int) (this.gridSizeY * -0.5 + curMapObjY * this.fieldSize + this.fieldSize / 2));
+        int curMapObjcenterZ = ((int) (this.GRID_SIZE_Y * -0.5 + curMapObjY * this.FIELD_SIZE + this.FIELD_SIZE / 2));
         return curMapObjcenterZ;
     }
 
     // x pixelpos asset 3d
     public double calcPixelPosNpcX(int curMapObjcenterX, double gameAssetX){
-        double originX = curMapObjcenterX - this.fieldSize / 2;
-        double npcPosX = originX + gameAssetX * this.fieldSize;
+        double originX = curMapObjcenterX - this.FIELD_SIZE / 2;
+        double npcPosX = originX + gameAssetX * this.FIELD_SIZE;
 
         return npcPosX;
     }
@@ -253,8 +253,8 @@ public class MapObjectServiceImpl implements MapObjectService {
     public double calcPixelPosNpcZ(int curMapObjcenterZ, double gameAssetZ){
        
 
-        double originZ = curMapObjcenterZ - this.fieldSize / 2;
-        double npcPosZ = originZ + gameAssetZ * this.fieldSize;
+        double originZ = curMapObjcenterZ - this.FIELD_SIZE / 2;
+        double npcPosZ = originZ + gameAssetZ * this.FIELD_SIZE;
 
         return npcPosZ;
     }
