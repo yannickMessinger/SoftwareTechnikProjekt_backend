@@ -19,9 +19,9 @@ INSERT INTO MAP_OBJECT_TYPE (OBJECT_TYPE_ID, GROUP_ID, MODEL3D, NAME, ROTATION, 
 (51, 4, '/../../../src/assets/3D_Models/Pedestrians/pedestrianBlondeBlue.gltf', 'Fussgänger', 0, '/img/streetplaner/object-icons/pedestrian-top-view.png', 'ASSET', 0),
 (52, 4, '/../../../src/assets/3D_Models/Pedestrians/pedestrianBrowneBlue.gltf', 'Fussgänger', 0, '/img/streetplaner/object-icons/pedestrian-top-view.png', 'ASSET', 0),
 (53, 4, '/../../../src/assets/3D_Models/Pedestrians/pedestrianBrowneRed.gltf', 'Fussgänger', 0, '/img/streetplaner/object-icons/pedestrian-top-view.png', 'ASSET', 0),
-(54, 4, '/../../../src/assets/3D_Models/Pedestrians/pedestrianBrownePink.gltf', 'Fussgänger', 0, '/img/streetplaner/object-icons/pedestrian-top-view.png', 'ASSET', 0),
+(54, 4, '/../../../src/assets/3D_Models/Pedestrians/pedestrianBrownPink.gltf', 'Fussgänger', 0, '/img/streetplaner/object-icons/pedestrian-top-view.png', 'ASSET', 0),
 (55, 4, '/../../../src/assets/3D_Models/Pedestrians/pedestrianOrangeGreen.gltf', 'Fussgänger', 0, '/img/streetplaner/object-icons/pedestrian-top-view.png', 'ASSET', 0),
 (56, 4, '/../../../src/assets/3D_Models/Pedestrians/pedestrianOrangeWhite.gltf', 'Fussgänger', 0, '/img/streetplaner/object-icons/pedestrian-top-view.png', 'ASSET', 0),
 (57, 4, '/../../../src/assets/3D_Models/Pedestrians/pedestrianRed.gltf', 'Fussgänger', 0, '/img/streetplaner/object-icons/pedestrian-top-view.png', 'ASSET', 0),
 (58, 4, '/../../../src/assets/3D_Models/Pedestrians/PoliceOfficer.gltf', 'Polizist', 0, '/img/streetplaner/object-icons/pedestrian-top-view.png', 'ASSET', 0),
-(59, 4, '/../../../src/assets/3D_Models/Pedestrians/firefighter.gltf', 'Feuerwehrmann', 0, '/img/streetplaner/object-icons/pedestrian-top-view.png', 'ASSET', 0);
+(59, 4, '/../../../src/assets/3D_Models/Pedestrians/Firefighter.gltf', 'Feuerwehrmann', 0, '/img/streetplaner/object-icons/pedestrian-top-view.png', 'ASSET', 0);
