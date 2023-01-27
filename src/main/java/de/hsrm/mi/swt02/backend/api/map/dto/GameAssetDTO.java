@@ -7,6 +7,8 @@ public record GameAssetDTO(
         int objectTypeId,
         double x,
         double y,
+        double x3d,
+        double z3d,
         int rotation,
         String texture,
         int userId
@@ -18,6 +20,8 @@ public record GameAssetDTO(
                 asset.getObjectTypeId(),
                 asset.getX(),
                 asset.getY(),
+                asset.getX3d(),
+                asset.getZ3d(),
                 asset.getRotation(),
                 asset.getTexture(),
                 asset.getUserId()

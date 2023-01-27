@@ -18,6 +18,8 @@ public class GameAsset {
     private int objectTypeId;
     private double x;
     private double y;
+    private double x3d;
+    private double z3d;
     private int rotation;
     private String texture;
     @ManyToOne
@@ -34,6 +36,8 @@ public class GameAsset {
         this.rotation = rotation;
         this.texture = texture;
         this.userId = userId;
+        this.x3d = 0.0;
+        this.z3d = 0.0;
     }
 
     @Override
