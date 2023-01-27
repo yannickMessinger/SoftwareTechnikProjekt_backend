@@ -1,5 +1,7 @@
 package de.hsrm.mi.swt02.backend.domain.game.trafficLight;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -19,7 +21,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class TrafficLight {
+public class TrafficLight implements Serializable {
 
     @Id
     @GeneratedValue

@@ -9,6 +9,8 @@ import de.hsrm.mi.swt02.backend.api.game.trafficLight.service.TrafficLightServic
 import de.hsrm.mi.swt02.backend.domain.game.crossroad.Crossroad;
 import de.hsrm.mi.swt02.backend.domain.game.trafficLight.Light;
 import de.hsrm.mi.swt02.backend.domain.game.trafficLight.TrafficLight;
+import de.hsrm.mi.swt02.backend.websocket.model.crossroad.CrossroadMessage;
+import de.hsrm.mi.swt02.backend.websocket.model.crossroad.CrossroadMessage.MessageType;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,8 +33,8 @@ public class CrossroadServiceImpl implements CrossroadService {
     private TrafficLightService tls;
     @Autowired
     private CrossroadRepository crRepo;
-    // @Autowired
-    // private SimpMessagingTemplate messaging; // Autowired funktioniert nicht
+    @Autowired
+    private SimpMessagingTemplate messaging; // Autowired funktioniert nicht
     private Map<Long, Thread> crTMap = new HashMap<>();
     private Logger logger = LoggerFactory.getLogger(CrossroadServiceImpl.class);
 
@@ -125,7 +127,8 @@ public class CrossroadServiceImpl implements CrossroadService {
                 }
                 // Hier eine Stomp Message an den richtigen Endpunkt senden mit dem kompletten
                 // CrossroadObject mit einem ENUM um die Message zu beschreiben
-                // messaging.convertAndSend("/", new CrossroadMessage(0, tlMap));
+                //messaging.convertAndSend("/topic/crossroad", new CrossroadMessage(crId, tlMap, MessageType.UPDATE));
+                messaging.convertAndSend("/topic/crossroad", tlMap);
             } catch (InterruptedException e) {
                 logger.info("Thread interrupted. Ending changeStates() method");
                 crTMap.get(crId).interrupt();
@@ -144,5 +147,9 @@ public class CrossroadServiceImpl implements CrossroadService {
     @Override
     public Thread getThread(Long crId) {
         return crTMap.get(crId);
+    }
+
+    public Crossroad getCrossroad(Long crId){
+        return crRepo.findById(crId).get();
     }
 }

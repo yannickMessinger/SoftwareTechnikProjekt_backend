@@ -1,5 +1,6 @@
 package de.hsrm.mi.swt02.backend.domain.game.crossroad;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-public class Crossroad {
+public class Crossroad implements Serializable {
     @Id
     @GeneratedValue
     private Long id;

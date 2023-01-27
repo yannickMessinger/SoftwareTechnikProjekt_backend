@@ -44,5 +44,7 @@ public interface CrossroadService {
      * @return the thread that handles the change of states of the traffic lights.
      */
     public Thread getThread(Long crId);
+
+    public Crossroad getCrossroad(Long crId);
     
 }
