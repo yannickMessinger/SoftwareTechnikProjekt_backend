@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -29,7 +30,7 @@ public class Crossroad implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
-    @OneToMany(mappedBy = "cr", fetch = FetchType.EAGER) 
+    @OneToMany(mappedBy = "cr", cascade = CascadeType.ALL, fetch = FetchType.EAGER) 
     private List<TrafficLight> trafficLights = new ArrayList<>();
     private boolean tlArrangement = false;
     private boolean running = false;

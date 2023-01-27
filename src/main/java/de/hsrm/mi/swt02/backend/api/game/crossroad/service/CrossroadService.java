@@ -46,5 +46,7 @@ public interface CrossroadService {
     public Thread getThread(Long crId);
 
     public Crossroad getCrossroad(Long crId);
+
+    public void deleteCrossroad(Long crId);
     
 }

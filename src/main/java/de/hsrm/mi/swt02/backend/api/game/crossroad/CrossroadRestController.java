@@ -52,8 +52,12 @@ public class CrossroadRestController {
     }
 
     @DeleteMapping ("/delete/{id}")
-    public ResponseEntity<Void> deleteCrossroad (@PathVariable ("id") Long id) {
-        // TODO: Delete operation is missing in the service class
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<String> deleteCrossroad (@PathVariable ("id") Long id) {
+        try {
+            crs.deleteCrossroad(id);
+            return new ResponseEntity<>("Crossroad deleted with id: " + id,HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>("Crossroad with the id " + id + "is null",HttpStatus.BAD_REQUEST);
+        }
     }
 }
