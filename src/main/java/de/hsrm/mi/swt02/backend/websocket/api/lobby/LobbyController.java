@@ -40,11 +40,30 @@ public class LobbyController {
         return lobbyMessage;
     }
 
+    @MessageMapping("/lobby.close")
+    @SendTo("/topic/lobby")
+    public LobbyMessage closeMessage(LobbyMessage lobbyMessage) {
+        return lobbyMessage;
+    }
+
+    @MessageMapping("/lobby.create")
+    @SendTo("/topic/lobby")
+    public LobbyMessage crateMessage(LobbyMessage lobbyMessage) {
+        return lobbyMessage;
+    }
+
     @MessageMapping("/lobby.switchMode")
     @SendTo("/topic/lobby")
     public LobbyMessage switchMode(LobbyMessage lobbyMessage) {
         // TODO: Validierung ob User host ist und überhaupt berechtigung hat um mode zu ändern!
         lobbyService.updateLobbyModeBroker(lobbyMessage.lobbyContent.lobbyId(), lobbyMessage.lobbyContent.lobbyModeEnum());
+        return lobbyMessage;
+    }
+
+    @MessageMapping("/lobby.switchMap")
+    @SendTo("/topic/lobby")
+    public LobbyMessage switchMap(LobbyMessage lobbyMessage) {
+        log.debug("switch map message recieved");
         return lobbyMessage;
     }
 }
