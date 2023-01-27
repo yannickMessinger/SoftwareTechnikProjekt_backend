@@ -11,20 +11,16 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping ("/api/crossroad")
+@RequestMapping("/api/crossroad")
 public class CrossroadRestController {
 
     @Autowired
     private CrossroadServiceImpl crs;
 
-    @GetMapping ("/get/{id}")
-    public ResponseEntity<GetCrossroadResponseDTO> getCrossroad (@PathVariable ("id") Long id) {
-        // Funktioniert nicht. content wird nicht richtig übermittlet. Nach dem 3. Mal
-        // laden hängt sich das FE auf
+    @GetMapping("/{id}")
+    public ResponseEntity<GetCrossroadResponseDTO> getCrossroad(@PathVariable("id") Long id) {
         try {
             Crossroad cr = crs.getCrossroad(id);
-            /* GetCrossroadResponseDTO content = GetCrossroadResponseDTO.from(cr);
-            log.info(content.toString()); */
             return new ResponseEntity<>(
                     GetCrossroadResponseDTO.from(cr),
                     HttpStatus.OK);
@@ -34,8 +30,8 @@ public class CrossroadRestController {
         }
     }
 
-    @PostMapping ("/add")
-    public ResponseEntity<Long> addCrossroad (@RequestParam int tlAmount) {
+    @PostMapping("")
+    public ResponseEntity<Long> addCrossroad(@RequestParam int tlAmount) {
         try {
             Long crId = crs.createCrossroad().getId();
             crs.createTrafficLights(tlAmount, crId);
@@ -51,13 +47,13 @@ public class CrossroadRestController {
 
     }
 
-    @DeleteMapping ("/delete/{id}")
-    public ResponseEntity<String> deleteCrossroad (@PathVariable ("id") Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteCrossroad(@PathVariable("id") Long id) {
         try {
             crs.deleteCrossroad(id);
-            return new ResponseEntity<>("Crossroad deleted with id: " + id,HttpStatus.OK);
+            return new ResponseEntity<>("Crossroad deleted with id: " + id, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>("Crossroad with the id " + id + "is null",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Crossroad with the id " + id + "is null", HttpStatus.BAD_REQUEST);
         }
     }
 }
