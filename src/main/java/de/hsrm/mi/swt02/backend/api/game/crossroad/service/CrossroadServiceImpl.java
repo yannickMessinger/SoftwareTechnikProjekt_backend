@@ -9,15 +9,12 @@ import de.hsrm.mi.swt02.backend.api.game.trafficLight.service.TrafficLightServic
 import de.hsrm.mi.swt02.backend.domain.game.crossroad.Crossroad;
 import de.hsrm.mi.swt02.backend.domain.game.trafficLight.Light;
 import de.hsrm.mi.swt02.backend.domain.game.trafficLight.TrafficLight;
-import de.hsrm.mi.swt02.backend.websocket.model.crossroad.CrossroadMessage;
-import de.hsrm.mi.swt02.backend.websocket.model.crossroad.CrossroadMessage.MessageType;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.transaction.Transactional;
-import javax.validation.OverridesAttribute;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -126,9 +123,6 @@ public class CrossroadServiceImpl implements CrossroadService {
                     tls.changeCurrentState(tl.getId());
                     tlMap.put(tl.getId(), tls.getCurrentState(tl.getId()));
                 }
-                // Hier eine Stomp Message an den richtigen Endpunkt senden mit dem kompletten
-                // CrossroadObject mit einem ENUM um die Message zu beschreiben
-                //messaging.convertAndSend("/topic/crossroad", new CrossroadMessage(crId, tlMap, MessageType.UPDATE));
                 messaging.convertAndSend("/topic/crossroad", tlMap);
             } catch (InterruptedException e) {
                 logger.info("Thread interrupted. Ending changeStates() method");

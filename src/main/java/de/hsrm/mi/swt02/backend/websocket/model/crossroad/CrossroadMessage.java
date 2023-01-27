@@ -3,8 +3,6 @@ package de.hsrm.mi.swt02.backend.websocket.model.crossroad;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.hsrm.mi.swt02.backend.api.game.crossroad.dto.AddCrossroadRequestDTO;
-import de.hsrm.mi.swt02.backend.api.game.crossroad.dto.GetCrossroadResponseDTO;
 import de.hsrm.mi.swt02.backend.domain.game.trafficLight.Light;
 import lombok.Getter;
 import lombok.Setter;
