@@ -18,6 +18,7 @@ public class LobbyMessage {
         SWITCH_MAP,
         LEAVE,
         CLOSE,
-        CREATE
+        CREATE,
+        DRIVE
     }
 }
