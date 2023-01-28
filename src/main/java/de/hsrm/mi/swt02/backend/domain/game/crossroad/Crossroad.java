@@ -20,9 +20,6 @@ import java.util.UUID;
 @Getter
 @Component
 public class Crossroad {
-    /* @Id
-    @GeneratedValue
-    private long id; */
     private String id;
     private List<TrafficLight> trafficLights = new ArrayList<>();
     private boolean tlArrangement = false;
