@@ -10,28 +10,29 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class PositionServiceImpl implements PositionService{
+public class PositionServiceImpl implements PositionService {
     @Autowired
     PositionRepository positionRepository;
+
     @Override
-    public List<ObjectPosition> findAllPositions() {
+    public List<ObjectPosition> findAllPositions () {
         return positionRepository.findAll();
     }
 
     @Override
-    public void deletePosition(long id) {
+    public void deletePosition (long id) {
         positionRepository.deleteById(id);
     }
 
     @Override
-    public ObjectPosition createPosition(long mapObjectId, double x, double y, double []rotation) {
-        var objectPosition = new ObjectPosition(mapObjectId,x,y,rotation);
+    public ObjectPosition createPosition (long mapObjectId, double x, double y, double[] rotation) {
+        var objectPosition = new ObjectPosition(mapObjectId, x, y, rotation);
         return positionRepository
                 .save(objectPosition);
     }
 
     @Override
-    public void updatePosition(long objectPositionId, double x, double y, double[] rotation) {
+    public void updatePosition (long objectPositionId, double x, double y, double[] rotation) {
         var optionalObjectPosition = positionRepository.findById(objectPositionId);
         if (optionalObjectPosition.isPresent()) {
             var objectPosition = optionalObjectPosition.get();

@@ -16,7 +16,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest (webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testable
 public class LobbyServiceTest {
 
@@ -27,18 +27,18 @@ public class LobbyServiceTest {
     private LobbyRepository lobbyRepository;
 
     @Test
-    void preTest() {
+    void preTest () {
         assertThat(lobbyService).isNotNull();
         assertThat(lobbyRepository).isNotNull();
     }
 
     @BeforeEach
-    void setup() {
+    void setup () {
         lobbyRepository.deleteAll();
     }
 
     @Test
-    void CreateLobbyTest() {
+    void CreateLobbyTest () {
 
         // setup
         Lobby lobby1 = new Lobby(
@@ -51,8 +51,8 @@ public class LobbyServiceTest {
                 LobbyModeEnum.BUILD_MODE);
 
         // exercise
-        long lobby1ID = lobbyService.createLobby("Lobby1", LobbyModeEnum.PLAY_MODE,1,1);
-        long lobby2ID = lobbyService.createLobby( "Lobby2", LobbyModeEnum.BUILD_MODE,2,1);
+        long lobby1ID = lobbyService.createLobby("Lobby1", LobbyModeEnum.PLAY_MODE, 1, 1);
+        long lobby2ID = lobbyService.createLobby("Lobby2", LobbyModeEnum.BUILD_MODE, 2, 1);
 
         // validate
         assertThat(lobbyRepository.count()).isEqualTo(2);
@@ -60,25 +60,25 @@ public class LobbyServiceTest {
                 .findById(lobby1ID)
                 .orElseThrow()
                 .toString())
-                    .isEqualTo(lobby1.toString());
+                .isEqualTo(lobby1.toString());
         assertThat(lobbyRepository
                 .findById(lobby2ID)
                 .orElseThrow()
                 .toString())
-                    .isEqualTo(lobby2.toString());
+                .isEqualTo(lobby2.toString());
     }
 
     @Test
-    void DeleteLobbyTest() {
+    void DeleteLobbyTest () {
 
         // setup
         List<Lobby> lobbyList = initDB();
 
         // exercise
-        for (var lobby: lobbyList) {
+        for (var lobby : lobbyList) {
             lobbyService.deleteLobby(lobby.getId());
 
-        // verify
+            // verify
             assertThat(lobbyRepository
                     .findById(lobby.getId())
                     .isEmpty())
@@ -88,7 +88,7 @@ public class LobbyServiceTest {
     }
 
     @Test
-    void FindAllPlayers() {
+    void FindAllPlayers () {
 
         // setup
         List<Lobby> lobbyList = initDB();
@@ -97,10 +97,10 @@ public class LobbyServiceTest {
         Iterator<Lobby> iterator = lobbyList.iterator();
 
         // exercise
-        for (var lobbyFromService: lobbiesFromService) {
+        for (var lobbyFromService : lobbiesFromService) {
             Lobby lobby = iterator.next();
 
-        // validate
+            // validate
             assertThat(lobbyFromService.getLobbyName()).isEqualTo(lobby.getLobbyName());
             assertThat(lobbyFromService.getNumOfPlayers()).isEqualTo(lobby.getNumOfPlayers());
             assertThat(lobbyFromService.getLobbyMode()).isEqualTo(lobby.getLobbyMode());
@@ -108,30 +108,30 @@ public class LobbyServiceTest {
     }
 
     @Test
-    void FindPlayersByIDTest() {
+    void FindPlayersByIDTest () {
 
         // setup
         List<Lobby> lobbies = initDB();
 
         // exercise
-        for (var lobby: lobbies) {
+        for (var lobby : lobbies) {
 
-        // validate
+            // validate
             assertThat(lobbyService
                     .findLobbyById(
-                        lobby
-                            .getId())
-                            .toString())
+                            lobby
+                                    .getId())
+                    .toString())
                     .isEqualTo(lobby.toString());
         }
     }
 
-    private List<Lobby> initDB() {
+    private List<Lobby> initDB () {
 
         List<Lobby> lobbyList = new ArrayList<>();
         int i = 1;
 
-        for (var name: List.of("Lobby1, Lobby2")) {
+        for (var name : List.of("Lobby1, Lobby2")) {
             Lobby lobby = new Lobby(
                     name, i++, LobbyModeEnum.BUILD_MODE);
             lobbyList.add(lobbyRepository.save(lobby));

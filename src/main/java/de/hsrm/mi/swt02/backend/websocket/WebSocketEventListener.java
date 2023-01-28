@@ -16,16 +16,16 @@ public class WebSocketEventListener {
     private SimpMessageSendingOperations messageSendingOperations;
 
     @EventListener
-    public void handleWebSocketConnectListener(SessionConnectedEvent event) {
+    public void handleWebSocketConnectListener (SessionConnectedEvent event) {
         log.info("Received a new web socket connection");
     }
 
     @EventListener
-    public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
+    public void handleWebSocketDisconnectListener (SessionDisconnectEvent event) {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
 
         String username = (String) headerAccessor.getSessionAttributes().get("username");
-        if(username != null) {
+        if (username != null) {
             log.info("User Disconnected : " + username);
 
             ChatMessage chatMessage = new ChatMessage();

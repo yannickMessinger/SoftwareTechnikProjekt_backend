@@ -1,21 +1,19 @@
 package de.hsrm.mi.swt02.backend.domain.game.crossroad;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import org.springframework.stereotype.Component;
-
 import de.hsrm.mi.swt02.backend.domain.game.trafficLight.TrafficLight;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * This class represents a Crossroad in the game.
  * It contains a list of TrafficLight objects and information about the
  * arrangement of traffic lights.
  * It also contains methods for equality and hashing.
- * 
  */
 
 @Setter
@@ -29,12 +27,12 @@ public class Crossroad {
     private List<TrafficLight> trafficLights = new ArrayList<>();
     private boolean tlArrangement = false;
 
-    public Crossroad() {
+    public Crossroad () {
         this.id = UUID.randomUUID().toString().replace("-", "");
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode () {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -44,7 +42,7 @@ public class Crossroad {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals (Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -68,7 +66,7 @@ public class Crossroad {
     }
 
     @Override
-    public String toString() {
+    public String toString () {
         return "Crossroad [id=" + id + ", trafficLights=" + trafficLights + ", tlArrangement=" + tlArrangement + "]";
     }
 }

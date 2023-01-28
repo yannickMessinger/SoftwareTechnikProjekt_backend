@@ -14,7 +14,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest (webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testable
 public class PlayerServiceTest {
 
@@ -24,7 +24,7 @@ public class PlayerServiceTest {
     @Autowired
     private PlayerRepository playerRepository;
 
-    private List<Player> initDB() {
+    private List<Player> initDB () {
         //init DB to Test service methods
         playerRepository.deleteAll();
         List<Player> playerList = new ArrayList<>();
@@ -38,13 +38,13 @@ public class PlayerServiceTest {
     }
 
     @Test
-    void preTest() {
+    void preTest () {
         assertThat(playerService).isNotNull();
         assertThat(playerRepository).isNotNull();
     }
 
     @Test
-    void createPlayersTest() {
+    void createPlayersTest () {
         //create player with Service
         playerRepository.deleteAll();
 
@@ -63,7 +63,7 @@ public class PlayerServiceTest {
     }
 
     @Test
-    void deletePlayersTest() {
+    void deletePlayersTest () {
         //Setup
         List<Player> playerList = initDB();
 
@@ -76,7 +76,7 @@ public class PlayerServiceTest {
     }
 
     @Test
-    void findAllPlayersTest() {
+    void findAllPlayersTest () {
         //Setup
         List<Player> playerList = initDB();
         List<Player> playerListFromService = playerService.findAllPlayers();
@@ -93,7 +93,7 @@ public class PlayerServiceTest {
     }
 
     @Test
-    void findPlayersByIdTest() {
+    void findPlayersByIdTest () {
         //Setup
         List<Player> playerList = initDB();
 

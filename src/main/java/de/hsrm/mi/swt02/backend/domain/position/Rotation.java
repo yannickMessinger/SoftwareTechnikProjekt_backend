@@ -1,4 +1,5 @@
 package de.hsrm.mi.swt02.backend.domain.position;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,23 +11,23 @@ public class Rotation {
     private double _z;
     private String _order;
 
-    public Rotation(double _x, double _y, double _z, String _order) {
+    public Rotation (double _x, double _y, double _z, String _order) {
         this._x = _x;
         this._y = _y;
         this._z = _z;
         this._order = _order;
     }
 
-    public Rotation() {
+    public Rotation () {
     }
 
     @Override
-    public String toString() {
+    public String toString () {
         return "Rotation [_x=" + _x + ", _y=" + _y + ", _z=" + _z + ", _order=" + _order + "]";
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode () {
         final int prime = 31;
         int result = 1;
         long temp;
@@ -41,7 +42,7 @@ public class Rotation {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals (Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -62,6 +63,6 @@ public class Rotation {
             return false;
         return true;
     }
-    
+
 
 }

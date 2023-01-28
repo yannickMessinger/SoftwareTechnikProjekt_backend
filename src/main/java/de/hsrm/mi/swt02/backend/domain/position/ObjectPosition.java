@@ -1,14 +1,11 @@
 package de.hsrm.mi.swt02.backend.domain.position;
 
-import de.hsrm.mi.swt02.backend.domain.map.MapObjectType;
 import de.hsrm.mi.swt02.backend.domain.player.Player;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-
 import java.util.Arrays;
-import java.util.Objects;
 
 @Entity
 @Setter
@@ -24,14 +21,15 @@ public class ObjectPosition {
     long mapObjectId;
     double posX;
     double posY;
-    double []rotation;
+    double[] rotation;
     @ManyToOne
-    @JoinColumn(name = "player_id")
+    @JoinColumn (name = "player_id")
     private Player player;
 
-    public ObjectPosition() {}
+    public ObjectPosition () {
+    }
 
-    public ObjectPosition(long mapObjectId, double posX, double posY, double []rotation) {
+    public ObjectPosition (long mapObjectId, double posX, double posY, double[] rotation) {
         this.mapObjectId = mapObjectId;
         this.posX = posX;
         this.posY = posY;
@@ -39,7 +37,7 @@ public class ObjectPosition {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode () {
         final int prime = 31;
         int result = 1;
         result = prime * result + (int) (id ^ (id >>> 32));
@@ -56,7 +54,7 @@ public class ObjectPosition {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals (Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -84,6 +82,5 @@ public class ObjectPosition {
         return true;
     }
 
-    
 
 }  

@@ -9,7 +9,6 @@ import de.hsrm.mi.swt02.backend.api.map.service.MapObjectTypeServiceImpl;
 import de.hsrm.mi.swt02.backend.api.map.service.MapService;
 import de.hsrm.mi.swt02.backend.api.player.service.PlayerServiceImpl;
 import de.hsrm.mi.swt02.backend.domain.map.MapObject;
-import de.hsrm.mi.swt02.backend.domain.position.ObjectPosition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -25,7 +24,7 @@ import java.util.List;
 import java.util.Random;
 
 @RestController
-@RequestMapping("/api/position")
+@RequestMapping ("/api/position")
 @Slf4j
 public class PositionRestController {
 
@@ -42,11 +41,11 @@ public class PositionRestController {
     @Autowired
     MapObjectRepository mapObjectRepository;
 
-    @Operation(summary = "Get all object positions")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found Position´s")})
-    @GetMapping("")
-    public ResponseEntity<List<GetObjectPositionDTO>> getPlayerPositions() {
+    @Operation (summary = "Get all object positions")
+    @ApiResponses (value = {
+            @ApiResponse (responseCode = "200", description = "Found Position´s")})
+    @GetMapping ("")
+    public ResponseEntity<List<GetObjectPositionDTO>> getPlayerPositions () {
         List<GetObjectPositionDTO> playerPositions = new ArrayList<>(
                 positionService
                         .findAllPositions()
@@ -57,24 +56,24 @@ public class PositionRestController {
         return new ResponseEntity<>(playerPositions, HttpStatus.OK);
     }
 
-    @Operation(summary = "Delete ObjectPosition by ID")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully deleted Position")})
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePlayerPosition(
-            @PathVariable("id") long id) {
+    @Operation (summary = "Delete ObjectPosition by ID")
+    @ApiResponses (value = {
+            @ApiResponse (responseCode = "200", description = "Successfully deleted Position")})
+    @DeleteMapping ("/{id}")
+    public ResponseEntity<Void> deletePlayerPosition (
+            @PathVariable ("id") long id) {
         positionService.deletePosition(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @Operation(summary = "Post new Position by given X, Y coordinate")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Position ID")})
-    @PostMapping("/{id}")
-    public ResponseEntity<GetObjectPositionDTO> postObjectPosition(
+    @Operation (summary = "Post new Position by given X, Y coordinate")
+    @ApiResponses (value = {
+            @ApiResponse (responseCode = "200", description = "Position ID")})
+    @PostMapping ("/{id}")
+    public ResponseEntity<GetObjectPositionDTO> postObjectPosition (
             @RequestBody AddObjectPositionDTO objectPositionDTO,
-            @Schema(description = "Map ID")
-            @PathVariable("id") long id) {
+            @Schema (description = "Map ID")
+            @PathVariable ("id") long id) {
 
         var mapObject = mapObjectService.getMapObjectById(objectPositionDTO.id());
 
@@ -107,9 +106,10 @@ public class PositionRestController {
 
     /**
      * Get all MapObjects
+     *
      * @return all MapObjects of given Map ID
      */
-    private MapObject getRandomMapObject(long id, long mapObjectTypeGroupId) {
+    private MapObject getRandomMapObject (long id, long mapObjectTypeGroupId) {
         List<MapObject> mapObjects = mapService.getMapById(id).getMapObjects();
         if (mapObjects.isEmpty()) {
             log.debug("No mapObjects");

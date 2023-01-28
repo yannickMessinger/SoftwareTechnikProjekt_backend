@@ -9,7 +9,7 @@ public record GetPlayerWALResponseDTO(
 
     public static GetPlayerWALResponseDTO from (Player u) {
         Long activeLobbyId = -1L;
-        if(u.getActiveLobby()!=null){
+        if (u.getActiveLobby() != null) {
             activeLobbyId = u.getActiveLobby().getId();
         }
         return new GetPlayerWALResponseDTO(

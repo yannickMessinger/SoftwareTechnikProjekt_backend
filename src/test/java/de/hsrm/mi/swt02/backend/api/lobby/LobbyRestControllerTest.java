@@ -7,7 +7,6 @@ import de.hsrm.mi.swt02.backend.api.player.repository.PlayerRepository;
 import de.hsrm.mi.swt02.backend.domain.lobby.Lobby;
 import de.hsrm.mi.swt02.backend.domain.lobby.LobbyModeEnum;
 import de.hsrm.mi.swt02.backend.domain.player.Player;
-
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.annotation.Testable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest (webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testable
 @AutoConfigureMockMvc
 public class LobbyRestControllerTest {
@@ -42,14 +41,14 @@ public class LobbyRestControllerTest {
     private PlayerRepository playerRepository;
 
     @Test
-    void PreTest() {
+    void PreTest () {
         assertNotNull(lobbyRestController);
         assertNotNull(lobbyService);
         assertNotNull(lobbyRepository);
     }
 
     @Test
-    void postNewLobbyAndGetIDTest() throws Exception {
+    void postNewLobbyAndGetIDTest () throws Exception {
 
         // setup
         var testObject = new Object() {
@@ -76,7 +75,7 @@ public class LobbyRestControllerTest {
     }
 
     @Test
-    void getAllLobbies() throws Exception {
+    void getAllLobbies () throws Exception {
 
         // setup
         ObjectMapper mapper = new ObjectMapper();
@@ -111,13 +110,13 @@ public class LobbyRestControllerTest {
     }
 
     @Test
-    void getLobbyWithID() throws Exception {
+    void getLobbyWithID () throws Exception {
 
         // setup
         ObjectMapper mapper = new ObjectMapper();
-        Player host = new Player("Testhost","123");
+        Player host = new Player("Testhost", "123");
         playerRepository.save(host);
-        
+
         Lobby testLobby = new Lobby("TestLobby", 3, LobbyModeEnum.PLAY_MODE);
         long testLobbyID = lobbyService.createLobby("TestLobby", LobbyModeEnum.PLAY_MODE, 3, 1);
 
@@ -142,11 +141,11 @@ public class LobbyRestControllerTest {
     }
 
     @Test
-    void deleteLobbyWithId() throws Exception {
+    void deleteLobbyWithId () throws Exception {
 
         // setup
         Lobby testLobby = new Lobby("TestLobby", 3, LobbyModeEnum.PLAY_MODE);
-        long testLobbyID = lobbyService.createLobby("TestLobby", LobbyModeEnum.PLAY_MODE,3,1);
+        long testLobbyID = lobbyService.createLobby("TestLobby", LobbyModeEnum.PLAY_MODE, 3, 1);
 
         //delete user with ID
         mockMvc.perform(

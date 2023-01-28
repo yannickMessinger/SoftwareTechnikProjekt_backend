@@ -6,7 +6,6 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -36,14 +35,14 @@ public class MapObject {
     @ManyToOne
     private Map map;
 
-    @OneToMany(mappedBy = "mapObject", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany (mappedBy = "mapObject", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @LazyCollection (LazyCollectionOption.FALSE)
     private List<GameAsset> gameAssets;
 
-    public MapObject() {
+    public MapObject () {
     }
 
-    public MapObject(long objectTypeId, int x, int y, int rotation) {
+    public MapObject (long objectTypeId, int x, int y, int rotation) {
         this.objectTypeId = objectTypeId;
         this.x = x;
         this.y = y;
@@ -54,7 +53,7 @@ public class MapObject {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals (Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MapObject that = (MapObject) o;
@@ -62,15 +61,15 @@ public class MapObject {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode () {
         return Objects.hash(id, version);
     }
 
     @Override
-    public String toString() {
+    public String toString () {
         return "MapObject [id=" + id + ", version=" + version + ", objectTypeId=" + objectTypeId + ", x=" + x + ", y="
                 + y + ", rotation=" + rotation + ", map=" + map + ", gameAssets=" + gameAssets + "]";
-    }    
+    }
 }
 
 

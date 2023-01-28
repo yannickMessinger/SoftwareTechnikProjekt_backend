@@ -4,8 +4,6 @@ import de.hsrm.mi.swt02.backend.api.lobby.repository.LobbyRepository;
 import de.hsrm.mi.swt02.backend.api.map.dto.AddMapRequestDTO;
 import de.hsrm.mi.swt02.backend.api.map.repository.MapRepository;
 import de.hsrm.mi.swt02.backend.api.player.repository.PlayerRepository;
-import de.hsrm.mi.swt02.backend.api.player.service.PlayerService;
-import de.hsrm.mi.swt02.backend.domain.map.GameAsset;
 import de.hsrm.mi.swt02.backend.domain.map.Map;
 import de.hsrm.mi.swt02.backend.domain.map.MapObject;
 import de.hsrm.mi.swt02.backend.domain.npc.NpcNavInfo;
@@ -34,20 +32,20 @@ public class MapServiceImpl implements MapService {
 
     /**
      * save map Plan
-     * 
+     *
      * @param dto
      * @return id
      */
     @Override
     @Transactional
-    public long saveMap(AddMapRequestDTO dto) {
+    public long saveMap (AddMapRequestDTO dto) {
         Map map = new Map(dto.mapName(), dto.creationDate(), dto.sizeX(), dto.sizeY());
         if (dto.mapOwnerId() != 0L) {
             Optional<Player> playerOptional = playerRepository.findById(dto.mapOwnerId());
             if (playerOptional.isPresent()) {
                 map.setMapOwner(playerOptional.get());
             } else
-                log.info("Player not found: "+ dto.mapOwnerId());
+                log.info("Player not found: " + dto.mapOwnerId());
         }
         map = mapRepository.save(map);
 
@@ -56,7 +54,7 @@ public class MapServiceImpl implements MapService {
 
     @Override
     @Transactional
-    public Map createNewMap(){
+    public Map createNewMap () {
         Map map = new Map();
 
         return mapRepository.save(map);
@@ -67,15 +65,15 @@ public class MapServiceImpl implements MapService {
      */
     @Override
     @Transactional
-    public void assignLobbyToMap(long mapId, long lobbyId) {
-        Map map =  this.getMapById(mapId);
+    public void assignLobbyToMap (long mapId, long lobbyId) {
+        Map map = this.getMapById(mapId);
 
         lobbyRepository.findById(lobbyId).ifPresent(lobby -> {
-            if(lobby.getMap() != null) {
+            if (lobby.getMap() != null) {
                 lobby.getMap().setLobby(null);
 
             }
-            if(map.getLobby() != null) {
+            if (map.getLobby() != null) {
                 map.getLobby().setMap(null);
             }
 
@@ -87,33 +85,32 @@ public class MapServiceImpl implements MapService {
     }
 
 
-   
-
     /**
      * get map by id
-     * 
+     *
      * @param id
      * @return map
      */
     @Override
     @Transactional
-    public Map getMapById(long id) {
+    public Map getMapById (long id) {
         Optional<Map> mapOpt = mapRepository.findById(id);
         if (mapOpt.isEmpty()) {
-            // logger
+            log.info("Not found");
+
         }
         return mapOpt.orElseThrow();
     }
 
     /**
      * delete map by id
-     * 
+     *
      * @param id
      * @return map
      */
     @Override
     @Transactional
-    public void deleteMapById(long id) {
+    public void deleteMapById (long id) {
         //Map delMap = this.getMapById(id);
         //Player PlayertoDelMapFrom = delMap.getMapOwner();
         //PlayertoDelMapFrom.removeMapFromMapList(delMap);
@@ -123,17 +120,17 @@ public class MapServiceImpl implements MapService {
 
     /**
      * get all Maps
-     * 
+     *
      * @return Maps
      */
     @Override
     @Transactional
-    public List<Map> findAllMaps() {
+    public List<Map> findAllMaps () {
 
         Optional<List<Map>> allMaps = Optional.of(mapRepository.findAll());
 
         if (allMaps.isEmpty()) {
-            // logger
+            log.info("Not found");
         }
 
         return allMaps.get();
@@ -141,33 +138,32 @@ public class MapServiceImpl implements MapService {
 
     @Override
     @Transactional
-    public void saveEditedMap(Map map) {
+    public void saveEditedMap (Map map) {
         mapRepository.save(map);
-        
+
     }
 
     /**
-     *
      * @param playerId
      * @return
      */
     @Override
-    public List<Map> findAllMapsFromPlayer(long playerId) {
+    public List<Map> findAllMapsFromPlayer (long playerId) {
         return mapRepository.findAll()
                 .stream()
                 .filter(map ->
                         map.getMapOwner().getId() == playerId)
                 .toList();
     }
+
     //Triggers Python Script
     @Override
-    public NpcNavInfo getNpcDirections(long mapId, long npcId, int npcPosX, int npcPosY, int npcRot) {
+    public NpcNavInfo getNpcDirections (long mapId, long npcId, int npcPosX, int npcPosY, int npcRot) {
         NpcNavigationSystem npc = new NpcNavigationSystem();
         List<MapObject> list = this.getMapById(mapId).getMapObjects();
-        npc.setNpcNavigationParams(list,npcPosX, npcPosY, npcRot, npcId);
+        npc.setNpcNavigationParams(list, npcPosX, npcPosY, npcRot, npcId);
 
         return npc.getDirections();
-
 
 
     }
