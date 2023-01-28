@@ -7,7 +7,8 @@ public record GameAssetDTO(
         double x,
         double y,
         int rotation,
-        String texture
+        String texture,
+        int userId
 ) {
 
     public static GameAssetDTO from (GameAsset asset) {
@@ -16,7 +17,8 @@ public record GameAssetDTO(
                 asset.getX(),
                 asset.getY(),
                 asset.getRotation(),
-                asset.getTexture()
+                asset.getTexture(),
+                asset.getUserId()
         );
     }
 }
