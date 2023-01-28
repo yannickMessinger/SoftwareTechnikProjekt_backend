@@ -97,12 +97,6 @@ public class LobbyServiceImpl implements LobbyService {
         }
     }
 
-    /**
-     * Find Player and Lobby by id and maintain the relations.
-     *
-     * @param lobbyId  from Lobby
-     * @param playerId from Player
-     */
     @Override
     @Transactional
     public void addPlayerToLobby (long lobbyId, long playerId) {
@@ -113,12 +107,6 @@ public class LobbyServiceImpl implements LobbyService {
         lobbyRepository.save(lobby);
     }
 
-    /**
-     * Find Player and Lobby by id and remove the relations.
-     *
-     * @param lobbyId  from Lobby
-     * @param playerId from Player
-     */
     @Override
     @Transactional
     public void removePlayerFromLobby (long lobbyId, long playerId) {
@@ -134,24 +122,11 @@ public class LobbyServiceImpl implements LobbyService {
         lobbyRepository.save(lobby);
     }
 
-    /**
-     * Find Lobby by lobbyId and get all Players from Lobby
-     *
-     * @param lobbyId from Lobby
-     * @return list of Players
-     */
     @Override
     public List<Player> findAllPlayersFromLobby (long lobbyId) {
         return this.findLobbyById(lobbyId).getPlayerList();
     }
 
-    /**
-     * adds an available map to a lobby, both found by the id
-     *
-     * @param lobbyId id of lobby
-     * @param mapId   id of map
-     * @return id of map
-     */
     @Override
     @Transactional
     public long addMap (long lobbyId, long mapId) {

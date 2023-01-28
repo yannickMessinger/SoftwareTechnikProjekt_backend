@@ -18,7 +18,6 @@ public class MapObject {
     @Id
     @GeneratedValue
     private long id;
-
     @Version
     private long version;
     private long objectTypeId;
@@ -31,7 +30,6 @@ public class MapObject {
 
     @ManyToOne
     private Map map;
-
     @OneToMany (mappedBy = "mapObject", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @LazyCollection (LazyCollectionOption.FALSE)
     private List<GameAsset> gameAssets;

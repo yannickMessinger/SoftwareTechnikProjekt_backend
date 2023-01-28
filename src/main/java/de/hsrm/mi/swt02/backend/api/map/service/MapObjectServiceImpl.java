@@ -8,6 +8,7 @@ import de.hsrm.mi.swt02.backend.api.map.repository.MapObjectRepository;
 import de.hsrm.mi.swt02.backend.domain.map.GameAsset;
 import de.hsrm.mi.swt02.backend.domain.map.Map;
 import de.hsrm.mi.swt02.backend.domain.map.MapObject;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ import java.util.Optional;
  * Service Class to handle CRUD operations on the MapObjectRepository.
  */
 
+@Slf4j
 @Service
 public class MapObjectServiceImpl implements MapObjectService {
 
@@ -31,46 +33,27 @@ public class MapObjectServiceImpl implements MapObjectService {
     @Autowired
     private GameAssetRepository gameAssetRepo;
 
-    /**
-     * @return list containing all MapObjects of repository.
-     */
     @Override
     @Transactional
     public List<MapObject> findAllMapObjects () {
 
         Optional<List<MapObject>> allMaps = Optional.of(mapObjRepo.findAll());
 
-        if (allMaps.isEmpty()) {
-            // logger
-        }
-
         return allMaps.get();
     }
 
-    /**
-     * gets single MapObject by the handed id
-     *
-     * @param id id to look for the correct object
-     * @return returns MapObject if found
-     */
     @Override
     @Transactional
     public MapObject getMapObjectById (long id) {
         Optional<MapObject> foundMapObj = mapObjRepo.findById(id);
 
         if (foundMapObj.isEmpty()) {
-            // logger
+            log.warn("No Map was found");
         }
 
         return foundMapObj.orElseThrow();
     }
 
-    /**
-     * deletes single MapObject by the given id and delete MapObject from
-     * MapObjectList in Map
-     *
-     * @param id id of the MapObject to be deleted.
-     */
     @Override
     @Transactional
     public void deleteMapObjectById (long id) {
@@ -78,16 +61,6 @@ public class MapObjectServiceImpl implements MapObjectService {
         mapObjRepo.deleteById(id);
     }
 
-    /**
-     * adds incoming MapObjects from frontend to the repository.
-     *
-     * @param mapObjects initial converting from JSON to regular java object from
-     *                   incoming Request Body in corresponding REST Controller,
-     *                   every Entity is saved individually.
-     * @param mapId      id to add the MapObjects to the right Map (in MapObjects
-     *                   list) and add Map field to the right MapObject
-     * @return returns the id of the Entity that was saved last.
-     */
     @Override
     @Transactional
     public Long createMapObject (AddMapObjectsRequestDTO mapObjects, long mapId) {
@@ -108,7 +81,7 @@ public class MapObjectServiceImpl implements MapObjectService {
 
         mapService.saveEditedMap(foundMap);
 
-        return 0L;
+        return foundMap.getId();
     }
 
     @Override
@@ -121,13 +94,11 @@ public class MapObjectServiceImpl implements MapObjectService {
         }
     }
 
+    @Override
+    public List<MapObject> getAllMapObjectsFromMap (long id) {
+        return mapService.getMapById(id).getMapObjects();
+    }
 
-    /**
-     * Add a new MapObjekt to the right Map and save in database that comes from Message Broker.
-     * If MapObject has a field that already exist, it will be deleted.
-     *
-     * @param mapObjectDTO - came from Broker (create) channel
-     */
 
     @Override
     @Transactional
@@ -142,11 +113,6 @@ public class MapObjectServiceImpl implements MapObjectService {
         mapObjRepo.save(mapObject);
     }
 
-    /**
-     * Delete a MapObject that comes from Message Broker.
-     *
-     * @param mapObjectDTO - came from Broker (delete) channel
-     */
     @Override
     @Transactional
     public void deleteMapObjectFromBroker (AddMapObjectRequestDTO mapObjectDTO, long mapId) {
@@ -156,11 +122,6 @@ public class MapObjectServiceImpl implements MapObjectService {
                 .ifPresent(mapObject -> mapObjRepo.delete(mapObject));
     }
 
-    /**
-     * Update a new MapObjekt that comes from Message Broker (rotation).
-     *
-     * @param mapObjectDTO - came from Broker (update) channel
-     */
     @Transactional
     public void updateMapObjectFromBroker (AddMapObjectRequestDTO mapObjectDTO, long mapId) {
         Map map = mapService.getMapById(mapId);
@@ -193,14 +154,6 @@ public class MapObjectServiceImpl implements MapObjectService {
         mapObject.getGameAssets().clear();
     }
 
-    /**
-     * @param id Map ID
-     * @return All MapObjects from Map
-     */
-    @Override
-    public List<MapObject> getAllMapObjectsFromMap (long id) {
-        return mapService.getMapById(id).getMapObjects();
-    }
 
     private Optional<MapObject> findMapObjectByXandY (List<MapObject> mapObjectList, AddMapObjectRequestDTO mapObjectDTO) {
         return mapObjectList.stream()

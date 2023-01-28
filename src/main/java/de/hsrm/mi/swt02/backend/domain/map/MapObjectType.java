@@ -13,7 +13,6 @@ public class MapObjectType {
     @Id
     @GeneratedValue
     private long objectTypeId;
-
     @Version
     private long version;
     /*
@@ -23,7 +22,6 @@ public class MapObjectType {
      * 3 = vehicle
      */
     private long groupId;
-
     @Enumerated (EnumType.STRING)
     private ObjectTypeEnum type;
     private int rotation;

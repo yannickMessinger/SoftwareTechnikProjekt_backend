@@ -20,28 +20,16 @@ public class PositionServiceImpl implements PositionService {
     @Autowired
     PlayerRepository playerRepository;
 
-    /**
-     * @return list of all PlayerPosition
-     */
     @Override
     public List<PlayerPosition> findAllPositions () {
         return positionRepository.findAll();
     }
 
-    /**
-     * @param id of PlayerPosition
-     */
     @Override
     public void deletePosition (long id) {
         positionRepository.deleteById(id);
     }
 
-    /**
-     * @param player Player to be persisted
-     * @param x      Coordinate of Player on 3d world
-     * @param y      Coordinate of Player on 3d world
-     * @return id of created Position
-     */
     @Override
     @Transactional
     public long createPosition (Player player, double x, double y, double rotation) {
@@ -51,15 +39,9 @@ public class PositionServiceImpl implements PositionService {
         return positionRepository.save(playerPosition).getId();
     }
 
-    /**
-     * @param playerPositionId Player ID to be updated
-     * @param x                Coordinate of Player on 3d world
-     * @param y                Coordinate of Player on 3d world
-     * @param rotation         Rotation of Player on 3d world
-     */
     @Override
     @Transactional
-    public void savePosition (long playerPositionId, double x, double y, double rotation) {
+    public void updatePosition (long playerPositionId, double x, double y, double rotation) {
         Optional<PlayerPosition> optionalPlayerPosition = positionRepository.findById(playerPositionId);
         if (optionalPlayerPosition.isPresent()) {
             var playerPosition = optionalPlayerPosition.get();

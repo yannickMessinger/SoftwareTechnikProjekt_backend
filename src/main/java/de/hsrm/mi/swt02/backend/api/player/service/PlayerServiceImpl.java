@@ -3,21 +3,19 @@ package de.hsrm.mi.swt02.backend.api.player.service;
 import de.hsrm.mi.swt02.backend.api.player.repository.PlayerRepository;
 import de.hsrm.mi.swt02.backend.domain.lobby.Lobby;
 import de.hsrm.mi.swt02.backend.domain.player.Player;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class PlayerServiceImpl implements PlayerService {
 
     @Autowired
     PlayerRepository uRepo;
-
-    Logger logger = LoggerFactory.getLogger(PlayerServiceImpl.class);
 
     @Override
     public List<Player> findAllPlayers () {
@@ -25,7 +23,7 @@ public class PlayerServiceImpl implements PlayerService {
         List<Player> players = uRepo.findAll();
 
         if (players.isEmpty()) {
-            logger.warn("DB is empty.. no Players were found");
+            log.warn("DB is empty.. no Players were found");
         }
 
         return players;
@@ -37,7 +35,7 @@ public class PlayerServiceImpl implements PlayerService {
         Optional<Player> player = uRepo.findById(id);
 
         if (player.isEmpty()) {
-            logger.warn("No Player with given ID was found");
+            log.warn("No Player with given ID was found");
         }
         return player.get();
     }

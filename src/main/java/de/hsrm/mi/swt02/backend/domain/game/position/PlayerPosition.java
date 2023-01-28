@@ -14,7 +14,6 @@ public class PlayerPosition {
 
     @Id
     private long id;
-
     @Version
     private long version;
     private double posX;

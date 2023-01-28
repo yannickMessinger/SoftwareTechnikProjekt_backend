@@ -17,21 +17,16 @@ public class Lobby {
     @Id
     @GeneratedValue
     private long id;
-
     @Version
     private long version;
-
     private String lobbyName;
     private int numOfPlayers;
     private LobbyModeEnum lobbyMode;
 
-
     @OneToMany (mappedBy = "activeLobby")
     private List<Player> playerList;
-
     @ManyToOne
     private Player host;
-
     @OneToOne
     private Map map;
 
@@ -55,7 +50,6 @@ public class Lobby {
         this.playerList.add(addPlayer);
 
     }
-
 
     public void removePlayerFromPlayerList (Player removePlayer) {
         this.playerList.remove(removePlayer);

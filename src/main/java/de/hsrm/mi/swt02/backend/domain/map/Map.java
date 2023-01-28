@@ -23,21 +23,16 @@ public class Map {
     private long id;
     @Version
     private long version;
-
     private String mapName;
-
     @JsonFormat (pattern = "dd-MM-yyyy")
     private LocalDate creationDate;
-
-    @OneToMany (mappedBy = "map", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<MapObject> mapObjects;
-
-    @ManyToOne
-    private Player mapOwner;
-
     private int sizeX;
     private int sizeY;
 
+    @OneToMany (mappedBy = "map", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<MapObject> mapObjects;
+    @ManyToOne
+    private Player mapOwner;
     @OneToOne (mappedBy = "map")
     private Lobby lobby;
 

@@ -4,6 +4,7 @@ import de.hsrm.mi.swt02.backend.api.lobby.repository.LobbyRepository;
 import de.hsrm.mi.swt02.backend.api.map.dto.AddMapRequestDTO;
 import de.hsrm.mi.swt02.backend.api.map.repository.MapRepository;
 import de.hsrm.mi.swt02.backend.domain.map.Map;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class MapServiceImpl implements MapService {
 
@@ -20,12 +22,6 @@ public class MapServiceImpl implements MapService {
     @Autowired
     LobbyRepository lobbyRepository;
 
-    /**
-     * save map Plan
-     *
-     * @param dto
-     * @return id
-     */
     @Override
     @Transactional
     public long saveMap (AddMapRequestDTO dto) {
@@ -43,9 +39,6 @@ public class MapServiceImpl implements MapService {
         return mapRepository.save(map);
     }
 
-    /**
-     * assign new Lobby to map and cut old relations
-     */
     @Override
     @Transactional
     public void assignLobbyToMap (long mapId, long lobbyId) {
@@ -62,58 +55,31 @@ public class MapServiceImpl implements MapService {
 
             lobby.setMap(map);
             map.setLobby(lobby);
-            //map.setMapOwner(lobby.getHost());
             mapRepository.save(map);
         });
     }
 
-
-    /**
-     * get map by id
-     *
-     * @param id
-     * @return map
-     */
     @Override
     @Transactional
     public Map getMapById (long id) {
         Optional<Map> mapOpt = mapRepository.findById(id);
         if (mapOpt.isEmpty()) {
-            // logger
+            log.warn("No Map was found");
         }
         return mapOpt.orElseThrow();
     }
 
-    /**
-     * delete map by id
-     *
-     * @param id
-     * @return map
-     */
     @Override
     @Transactional
     public void deleteMapById (long id) {
-        //Map delMap = this.getMapById(id);
-        //Player PlayertoDelMapFrom = delMap.getMapOwner();
-        //PlayertoDelMapFrom.removeMapFromMapList(delMap);
-
         mapRepository.deleteById(id);
     }
 
-    /**
-     * get all Maps
-     *
-     * @return Maps
-     */
     @Override
     @Transactional
     public List<Map> findAllMaps () {
 
         Optional<List<Map>> allMaps = Optional.of(mapRepository.findAll());
-
-        if (allMaps.isEmpty()) {
-            // logger
-        }
 
         return allMaps.get();
     }
@@ -122,8 +88,5 @@ public class MapServiceImpl implements MapService {
     @Transactional
     public void saveEditedMap (Map map) {
         mapRepository.save(map);
-
     }
-
-
 }

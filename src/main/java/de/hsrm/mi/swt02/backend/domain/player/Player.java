@@ -25,13 +25,13 @@ public class Player {
     private long version;
     private String userName;
     private String password;
+
     @ManyToOne (cascade = CascadeType.REMOVE)
     private Lobby activeLobby;
     @OneToMany (mappedBy = "host", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Lobby> hostedLobbys;
     @OneToMany (mappedBy = "mapOwner", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Map> mapList;
-
 
     public Player (String userName, String password) {
         this.userName = userName;
