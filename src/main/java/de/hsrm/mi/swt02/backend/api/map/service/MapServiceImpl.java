@@ -4,7 +4,12 @@ import de.hsrm.mi.swt02.backend.api.lobby.repository.LobbyRepository;
 import de.hsrm.mi.swt02.backend.api.map.dto.AddMapRequestDTO;
 import de.hsrm.mi.swt02.backend.api.map.repository.MapRepository;
 import de.hsrm.mi.swt02.backend.api.player.repository.PlayerRepository;
+import de.hsrm.mi.swt02.backend.api.player.service.PlayerService;
+import de.hsrm.mi.swt02.backend.domain.map.GameAsset;
 import de.hsrm.mi.swt02.backend.domain.map.Map;
+import de.hsrm.mi.swt02.backend.domain.map.MapObject;
+import de.hsrm.mi.swt02.backend.domain.npc.NpcNavInfo;
+import de.hsrm.mi.swt02.backend.domain.npc.NpcNavigationSystem;
 import de.hsrm.mi.swt02.backend.domain.player.Player;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +34,7 @@ public class MapServiceImpl implements MapService {
 
     /**
      * save map Plan
-     *
+     * 
      * @param dto
      * @return id
      */
@@ -51,7 +56,7 @@ public class MapServiceImpl implements MapService {
 
     @Override
     @Transactional
-    public Map createNewMap() {
+    public Map createNewMap(){
         Map map = new Map();
 
         return mapRepository.save(map);
@@ -63,14 +68,14 @@ public class MapServiceImpl implements MapService {
     @Override
     @Transactional
     public void assignLobbyToMap(long mapId, long lobbyId) {
-        Map map = this.getMapById(mapId);
+        Map map =  this.getMapById(mapId);
 
         lobbyRepository.findById(lobbyId).ifPresent(lobby -> {
-            if (lobby.getMap() != null) {
+            if(lobby.getMap() != null) {
                 lobby.getMap().setLobby(null);
 
             }
-            if (map.getLobby() != null) {
+            if(map.getLobby() != null) {
                 map.getLobby().setMap(null);
             }
 
@@ -82,9 +87,11 @@ public class MapServiceImpl implements MapService {
     }
 
 
+   
+
     /**
      * get map by id
-     *
+     * 
      * @param id
      * @return map
      */
@@ -100,7 +107,7 @@ public class MapServiceImpl implements MapService {
 
     /**
      * delete map by id
-     *
+     * 
      * @param id
      * @return map
      */
@@ -116,7 +123,7 @@ public class MapServiceImpl implements MapService {
 
     /**
      * get all Maps
-     *
+     * 
      * @return Maps
      */
     @Override
@@ -136,7 +143,7 @@ public class MapServiceImpl implements MapService {
     @Transactional
     public void saveEditedMap(Map map) {
         mapRepository.save(map);
-
+        
     }
 
     /**
@@ -152,4 +159,18 @@ public class MapServiceImpl implements MapService {
                         map.getMapOwner().getId() == playerId)
                 .toList();
     }
+    //Triggers Python Script
+    @Override
+    public NpcNavInfo getNpcDirections(long mapId, long npcId, int npcPosX, int npcPosY, int npcRot) {
+        NpcNavigationSystem npc = new NpcNavigationSystem();
+        List<MapObject> list = this.getMapById(mapId).getMapObjects();
+        npc.setNpcNavigationParams(list,npcPosX, npcPosY, npcRot, npcId);
+
+        return npc.getDirections();
+
+
+
+    }
+
+
 }

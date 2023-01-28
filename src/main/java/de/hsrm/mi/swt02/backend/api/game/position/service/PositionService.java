@@ -1,6 +1,8 @@
 package de.hsrm.mi.swt02.backend.api.game.position.service;
 
 import de.hsrm.mi.swt02.backend.domain.position.ObjectPosition;
+import de.hsrm.mi.swt02.backend.domain.map.MapObject;
+import de.hsrm.mi.swt02.backend.domain.player.Player;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -30,10 +32,11 @@ public interface PositionService {
 
     /**
      * Update the Object by given Attributes
-     * @param objectPositionId of OpbjectPosition
+     * @param objectPositionId of ObjectPosition
      * @param x position of Object on Map
      * @param y position of Object on Map
      * @param rotation of Object on Map
      */
     void updatePosition(long objectPositionId, double x, double y, double []rotation);
 }
+

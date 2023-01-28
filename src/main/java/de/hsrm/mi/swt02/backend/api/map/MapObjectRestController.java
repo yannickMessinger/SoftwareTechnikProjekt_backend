@@ -3,6 +3,7 @@ package de.hsrm.mi.swt02.backend.api.map;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hsrm.mi.swt02.backend.api.map.dto.AddPedestrianRequestDTO;
 import de.hsrm.mi.swt02.backend.api.map.service.MapObjectServiceImpl;
 import de.hsrm.mi.swt02.backend.api.map.service.MapObjectTypeServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -72,7 +73,6 @@ public class MapObjectRestController {
 
         return new ResponseEntity<>(mapObjectService.createMapObject(mapObjects, mapId), HttpStatus.OK);
     }
-
 
     @Operation(summary = "Delete MapObject by Id")
     @ApiResponses(value = {
