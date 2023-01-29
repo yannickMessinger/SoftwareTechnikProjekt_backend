@@ -27,6 +27,13 @@ VALUES (0, 0, '/../../../src/assets/3D_Models/Streets/straight_road.gltf', 'Gera
        (13, 2, '', 'Startpunkt', 0, '/img/streetplaner/object-icons/car-top-view-red.svg', 'ASSET', 0),
        (14, 3, '', 'Zug', 0, '/img/streetplaner/object-icons/thomas_symbol.png', 'ASSET', 0),
 
+        (15, 1, '/../../../src/assets/3D_Models/Building/skyscraper1.gltf', 'Wolkenkratzer1', 0, '/img/streetplaner/building/skyscraper1.png', 'BUILDING', 0),
+        (16, 1, '/../../../src/assets/3D_Models/Building/skyscraper2.gltf', 'Wolkenkratzer2', 0, '/img/streetplaner/building/skyscraper2.png', 'BUILDING', 0),
+        (17, 1, '/../../../src/assets/3D_Models/Building/skyscraper3.gltf', 'Wolkenkratzer3', 0, '/img/streetplaner/building/skyscraper3.png', 'BUILDING', 0),
+        (18, 1, '/../../../src/assets/3D_Models/Building/citybuilding1.gltf', 'Haus1', 0, '/img/streetplaner/building/citybuilding1.png', 'BUILDING', 0),
+        (19, 1, '/../../../src/assets/3D_Models/Building/citybuilding2.gltf', 'Haus2', 0, '/img/streetplaner/building/citybuilding2.png', 'BUILDING', 0),
+        (20, 1, '/../../../src/assets/3D_Models/Building/citybuilding3.gltf', 'Haus3', 0, '/img/streetplaner/building/citybuilding3.png', 'BUILDING', 0),
+
        (50, 4, '/../../../src/assets/3D_Models/Pedestrians/pedestrianBlondeBlack.gltf', 'Fussgänger', 0,
         '/img/streetplaner/object-icons/pedestrian-top-view.png', 'ASSET', 0),
        (51, 4, '/../../../src/assets/3D_Models/Pedestrians/pedestrianBlondeBlue.gltf', 'Fussgänger', 0,
