@@ -10,11 +10,19 @@ import java.util.Map;
 @Setter
 @Getter
 public class CrossroadMessage {
-    private long id;
-    private Map<String, Light> trafficLights = new HashMap<>();
+    private MessageType type;
+    private Long id;
+    private Map<Long, Light> tl = new HashMap<>();
 
-    public CrossroadMessage (long id, Map<String, Light> trafficLights) {
+    public CrossroadMessage(long id, Map<Long, Light> tl, MessageType type){
         this.id = id;
-        this.trafficLights = trafficLights;
+        this.tl = tl;
+        this. type = type;
+    }
+
+    public enum MessageType {
+        CREATE,
+        UPDATE,
+        DELETE
     }
 }

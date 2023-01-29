@@ -15,7 +15,10 @@ spring:
 logging:
   level:
     org:
+      springframework:
+        web: DEBUG
       hibernate:
-        SQL: DEBUG
-        type: INFO
+        SQL: WARN
+        type: WARN
+    root: WARN
 
