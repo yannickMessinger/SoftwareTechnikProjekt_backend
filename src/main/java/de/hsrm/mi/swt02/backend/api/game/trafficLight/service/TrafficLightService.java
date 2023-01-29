@@ -4,31 +4,44 @@ import de.hsrm.mi.swt02.backend.domain.game.trafficLight.Light;
 import de.hsrm.mi.swt02.backend.domain.game.trafficLight.TrafficLight;
 
 /**
-    The interface for a service that handles the management of a traffic light.
-    This interface defines methods for changing the current state of a traffic light and getting the current state.
-*/
+ * The TrafficLightService interface defines a set of methods for managing traffic lights.
+ */
 public interface TrafficLightService {
     /**
-     * This method changes the current state of the traffic light to the next state in the following order: 
-     * GREEN -> YELLOW -> RED -> REDYELLOW -> GREEN.
+     * Changes the current state of a traffic light identified by its ID.
+     * 
+     * @param tlId the ID of the traffic light
      */
     public void changeCurrentState(Long tlId);
 
     /**
-     * This method changes the current state of the traffic light to the given state.
+     * Changes the current state of a traffic light identified by its ID to the specified state.
      * 
-     * @param l the new state of the traffic light.
+     * @param tlId the ID of the traffic light
+     * @param l the state to set the traffic light to
      */
     public void changeCurrentState(Long tlId, Light l);
 
     /**
-     * This method returns the current state of the traffic light.
+     * Returns the current state of a traffic light identified by its ID.
      * 
-     * @return the current state of the traffic light.
+     * @param tlId the ID of the traffic light
+     * @return the current state of the traffic light
      */
     public Light getCurrentState(Long tlId);
 
+    /**
+     * Creates a new traffic light.
+     * 
+     * @return the newly created traffic light
+     */
     public TrafficLight createTrafficLight();
 
+    /**
+     * Returns a traffic light identified by its ID.
+     * 
+     * @param tlId the ID of the traffic light
+     * @return the traffic light
+     */
     public TrafficLight getTrafficLight(Long tlId);
 }

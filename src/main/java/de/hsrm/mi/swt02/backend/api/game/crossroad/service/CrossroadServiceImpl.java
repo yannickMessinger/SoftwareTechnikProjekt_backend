@@ -18,8 +18,9 @@ import java.util.Map;
 
 /**
  * The implementation of the {@link CrossroadService} interface. This service
- * handles the creation and management
- * of traffic lights at a crossroad.
+ * handles the creation and management of traffic lights at a {@link Crossroad}.
+ * The class is annotated with {@Service} to indicate it is a Spring service
+ * bean.
  */
 @Service
 public class CrossroadServiceImpl implements CrossroadService {
@@ -36,20 +37,27 @@ public class CrossroadServiceImpl implements CrossroadService {
     /**
      * Constructor for creating an instance of the CrossroadServiceImpl.
      */
-    public CrossroadServiceImpl () {
+    public CrossroadServiceImpl() {
     }
 
-    public Crossroad createCrossroad () {
+    /**
+     * Creates a new {@link Crossroad}.
+     * 
+     * @return the newly created {@link Crossroad}.
+     */
+    public Crossroad createCrossroad() {
         Crossroad crossroad = crRepo.save(new Crossroad());
         return crossroad;
     }
 
     /**
-     * This method starts the thread that handles the change of states of the
-     * traffic lights at the crossroad.
+     * Starts the thread handling the change of states of the traffic lights at a
+     * crossroad.
+     * 
+     * @param crId the id of the {@link Crossroad}.
      */
     @Override
-    public void start (Long crId) {
+    public void start(Long crId) {
         Crossroad cr = crRepo.findById(crId).get();
         Thread thread = new Thread(() -> {
             changeStates(crId);
@@ -60,13 +68,13 @@ public class CrossroadServiceImpl implements CrossroadService {
     }
 
     /**
-     * This method stops the thread that handles the change of states of the traffic
-     * lights at the crossroad.
-     *
-     * @return the thread that was interrupted.
+     * Stops the thread handling the change of states of the traffic lights at a
+     * crossroad.
+     * 
+     * @param crId the id of the {@link Crossroad}.
      */
     @Override
-    public void stop (Long crId) {
+    public void stop(Long crId) {
         Thread thread = crTMap.get(crId);
         if (thread != null) {
             thread.interrupt();
@@ -75,14 +83,15 @@ public class CrossroadServiceImpl implements CrossroadService {
     }
 
     /**
-     * This method creates a number of traffic lights at the crossroad.
-     *
+     * Creates a specified number of traffic lights at a {@link Crossroad}.
+     * 
      * @param numberOfTrafficLights the number of traffic lights to be created.
-     * @return a list of the created traffic light services.
+     * @param crId                  the id of the {@link Crossroad}.
+     * @return a list of the created traffic lights.
      */
     @Override
     @Transactional
-    public List<TrafficLight> createTrafficLights (int numberOfTrafficLights, Long crId) {
+    public List<TrafficLight> createTrafficLights(int numberOfTrafficLights, Long crId) {
         Crossroad cr = crRepo.findById(crId).get();
         for (int i = 0; i < numberOfTrafficLights; i++) {
             Long tlId = tls.createTrafficLight().getId();
@@ -97,10 +106,12 @@ public class CrossroadServiceImpl implements CrossroadService {
     }
 
     /**
-     * This method changes the state of all traffic lights at the crossroad.
+     * This method changes the state of all traffic lights at the {@link Crossroad}.
+     * 
+     * @param crId the id of the {@link Crossroad}.
      */
     @Override
-    public void changeStates (Long crId) {
+    public void changeStates(Long crId) {
         Crossroad cr = crRepo.findById(crId).get();
         boolean toggle = false;
         Map<Long, Light> tlMap = new HashMap<>();
@@ -128,22 +139,34 @@ public class CrossroadServiceImpl implements CrossroadService {
 
     /**
      * This method returns the thread that handles the change of states of the
-     * traffic lights at the crossroad.
-     *
+     * traffic lights at the {@link Crossroad}.
+     * 
+     * @param crId the id of the {@link Crossroad}.
      * @return the thread that handles the change of states of the traffic lights.
      */
     @Override
-    public Thread getThread (Long crId) {
+    public Thread getThread(Long crId) {
         return crTMap.get(crId);
     }
 
+    /**
+     * The method retrieves a {@link Crossroad} object based on its id.
+     * 
+     * @param crId the id of the {@link Crossroad}.
+     * @return the crossroad with the given id.
+     */
     @Override
-    public Crossroad getCrossroad (Long crId) {
+    public Crossroad getCrossroad(Long crId) {
         return crRepo.findById(crId).get();
     }
 
+    /**
+     * The method stops the {@link Crossroad} and deletes it.
+     * 
+     * @param crId the id of the {@link Crossroad}.
+     */
     @Override
-    public void deleteCrossroad (Long crId) {
+    public void deleteCrossroad(Long crId) {
         stop(crId);
         crRepo.deleteById(crId);
     }

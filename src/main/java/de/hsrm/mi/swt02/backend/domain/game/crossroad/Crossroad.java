@@ -27,16 +27,28 @@ import lombok.Setter;
 @Getter
 @Entity
 public class Crossroad implements Serializable {
+    /** The id of the Crossroad */
     @Id
     @GeneratedValue
     private Long id;
+    /** List of traffic lights in the crossroad */
     @OneToMany(mappedBy = "cr", cascade = CascadeType.ALL, fetch = FetchType.EAGER) 
     private List<TrafficLight> trafficLights = new ArrayList<>();
+    /** Flag indicating if the arrangement of traffic lights is set */
     private boolean tlArrangement = false;
+    /** Flag indicating if the crossroad is running */
     private boolean running = false;
 
+    /**
+     * Default constructor
+     */
     public Crossroad() {}
 
+    /**
+     * Returns the hash code value for the object
+     * 
+     * @return the hash code value for the object
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -48,6 +60,12 @@ public class Crossroad implements Serializable {
         return result;
     }
 
+    /**
+     * Indicates whether some other object is "equal to" this one
+     * 
+     * @param obj the reference object with which to compare
+     * @return true if this object is the same as the obj argument; false otherwise
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -74,6 +92,11 @@ public class Crossroad implements Serializable {
         return true;
     }
 
+    /**
+     * Returns a string representation of the object
+     * 
+     * @return a string representation of the object
+     */
     @Override
     public String toString() {
         return "Crossroad [id=" + id + ", trafficLights=" + trafficLights + ", tlArrangement=" + tlArrangement

@@ -22,25 +22,43 @@ import lombok.Setter;
 @Setter
 @Entity
 public class TrafficLight implements Serializable {
-
+    /**
+     * Unique identifier for the traffic light.
+     */
     @Id
     @GeneratedValue
     private Long id;
+    /**
+     * The current state of the light.
+     */
     private Light currentState = Light.GREEN;
+    /**
+     * The crossroad the traffic light is located.
+     */
     @ManyToOne
     private Crossroad cr;
 
     /**
-     * Constructor for creating an instance of the TrafficLight with an
-     * auto-generateed Id.
+     * Default constructor.
      */
-    public TrafficLight() {}
+    public TrafficLight() {
+    }
 
+    /**
+     * Returns a string representation of the traffic light.
+     *
+     * @return String representation of the traffic light.
+     */
     @Override
     public String toString() {
         return "TrafficLight [id=" + id + ", currentState=" + currentState + "]";
     }
 
+    /**
+     * Generates hash code for the traffic light.
+     *
+     * @return Hash code for the traffic light.
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -50,6 +68,12 @@ public class TrafficLight implements Serializable {
         return result;
     }
 
+    /**
+     * Compares the traffic light with another object.
+     *
+     * @param obj Object to compare with the traffic light.
+     * @return true if the objects are equal, false otherwise.
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

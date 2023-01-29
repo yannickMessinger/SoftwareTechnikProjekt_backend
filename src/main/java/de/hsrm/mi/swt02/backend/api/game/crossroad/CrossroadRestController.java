@@ -9,6 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * This is a REST Controller class that handles the CRUD operations for crossroads. 
+ * The class maps the URLs with the specified HTTP methods to perform the operations.
+ * It utilizes the service implementation for crossroads to perform the operations.
+ */
 @Slf4j
 @RestController
 @RequestMapping("/api/crossroad")
@@ -17,6 +22,12 @@ public class CrossroadRestController {
     @Autowired
     private CrossroadServiceImpl crs;
 
+    /**
+     * This method maps the "/api/crossroad/{id}" URL with the GET method. 
+     * It retrieves a {@link Crossroad} with the specified id.
+     * @param id ID of the crossroad to retrieve
+     * @return ResponseEntity with the GetCrossroadResponseDTO and HTTP status code
+     */
     @GetMapping("/{id}")
     public ResponseEntity<GetCrossroadResponseDTO> getCrossroad(@PathVariable("id") Long id) {
         try {
@@ -30,6 +41,12 @@ public class CrossroadRestController {
         }
     }
 
+    /**
+     * This method maps the "/api/crossroad" URL with the POST method.
+     * It creates a new crossroad and starts it.
+     * @param tlAmount Number of {@link} TrafficLight} to be created for the {@link Crossroad}
+     * @return ResponseEntity with the created {@link Crossroad} ID and HTTP status code
+     */
     @PostMapping("")
     public ResponseEntity<Long> addCrossroad(@RequestParam int tlAmount) {
         try {
@@ -47,6 +64,12 @@ public class CrossroadRestController {
 
     }
 
+    /**
+     * This method maps the "/api/crossroad/{id}" URL with the DELETE method. 
+     * It deletes the {@link Crossroad} with the specified id.
+     * @param id ID of the {@link Crossroad} to delete
+     * @return ResponseEntity with the deletion message and HTTP status code
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCrossroad(@PathVariable("id") Long id) {
         try {
