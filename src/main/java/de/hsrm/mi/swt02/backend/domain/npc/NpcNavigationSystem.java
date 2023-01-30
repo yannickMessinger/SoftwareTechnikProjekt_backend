@@ -1,6 +1,4 @@
 package de.hsrm.mi.swt02.backend.domain.npc;
-
-
 import de.hsrm.mi.swt02.backend.domain.map.MapObject;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,8 +7,13 @@ import org.python.core.PyLong;
 import org.python.util.PythonInterpreter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.List;
+
+/**
+ * Class that contains python interpreter and calculates the new rotation that npc needs to be set to, 
+ * as well as the next Map Element of the npc(nextUpperMapObj) and the map element
+ * following (nextnextMapObject). 
+ */
 
 @Getter
 @Setter
@@ -29,15 +32,13 @@ public class NpcNavigationSystem {
 
     public NpcNavigationSystem () {
         this.pyInterp = new PythonInterpreter();
-        pyInterp.execfile("src/main/java/de/hsrm/mi/swt02/backend/domain/npc/NpcDriveScript.py");
-        this.currentMapObject = new MapObject();
-        this.nextUpperMapObj = new MapObject();
+        pyInterp.execfile("src/main/java/de/hsrm/mi/swt02/backend/domain/npc/NpcNavigationScript.py");
         this.info = new NpcNavInfo();
 
     }
 
     /**
-     * @param list        list with all MapElements from current map, gets handed in from MapImpl Service when NpcVehicle Class is instaniated
+     * @param list        list with all MapElements from current map, gets handed in from MapImpl Service when NpcNavigationSystem object is instaniated
      * @param currMapEleX X Coordinate of the current MapElement that the Npc Vehicle that requested the script is currently positioned on
      * @param currMapEleY Y Coordinate of the current MapElement that the Npc Vehicle that requested the script is currently positioned on
      * @param npcRot      current rotation of the Npc Car that requested the script
@@ -61,7 +62,7 @@ public class NpcNavigationSystem {
          * result is assigned to "nextUpperMapObj" object.
          */
 
-        //eig macht das doch auch das script....
+        
         try {
             this.nextUpperMapObj = findNextUpperMapObj();
         } catch (Exception e) {
@@ -71,13 +72,14 @@ public class NpcNavigationSystem {
 
         /**
          * preparation for Python Script call. Initializes all necessary values. Calculates the X and Y coordinates of the next Map Element, based on
-         * the street orientation and NpcVehicle orientation of the "nextUpperMapObj" object. 
+         * the street orientation and NpcVehicle orientation of the "nextUpperMapObj" object. Returns the orientation that the npc needs to be set to and the 
+         * "nextnext"upper Map object.
          */
         this.setNavigationScriptParams(nextUpperMapObj.getX(), nextUpperMapObj.getY(), nextUpperMapObj.getRotation(),
                 this.npcRot, nextUpperMapObj.getObjectTypeId());
     }
 
-    //updates / sets parameters that the python script is using to calculate the x ad y coordinates of the next new Map Element
+    //updates / sets parameters that the python script is using to calculate the x ad y coordinates of the nextnext new Map Element and new rotation of the npc.
     public void setNavigationScriptParams (int x, int z, int streetRotation, int carRotation, long objectTypeId) {
         pyInterp.set("x", new PyInteger(x));
         pyInterp.set("z", new PyInteger(z));
@@ -93,7 +95,7 @@ public class NpcNavigationSystem {
 
     //triggers python script, outputs the coordinates of next map ele and new npc car rotation
     public NpcNavInfo getDirections () {
-        pyInterp.exec("script = NpcDriveScript(x, z, streetR, carR, objectTypeId)");
+        pyInterp.exec("script = NpcNavigationScript(x, z, streetR, carR, objectTypeId)");
 
         /**
          * Determines if the map Element that was handed to the script is straight or curved. Than correct calculation method is executed in script.
@@ -111,7 +113,7 @@ public class NpcNavigationSystem {
         pyInterp.exec("newZCoord = script.getNextUpperMapEleZ()");
 
         /**
-         * trys to find the new nextnext MapObject with the previously calculated X and Y coordinates. If not found it is set to currentMap object.
+         * trys to find the new nextnext MapObject with the previously calculated X and Y coordinates.
          */
         try {
             this.nextnextMapObject = this.list.stream()

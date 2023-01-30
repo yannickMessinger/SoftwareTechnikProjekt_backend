@@ -5,7 +5,10 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Objects;
-
+/**
+ * Class that represents placable content that is placed on MapObject such as car, pedestrian or train. Contains to sets of position variables.
+ * x and y come from the 2d editor, x3d and z3d are the coresponding pixel positions in the 3D presentation.
+ */
 @Entity
 @Getter
 @Setter
@@ -28,7 +31,18 @@ public class GameAsset {
 
     public GameAsset () {
     }
-
+    
+    /**
+     * 
+     * @param objectTypeId Id to identfiy type of asset, such as car, pedestrian or train. 
+     * @param x x coordinate of the placing in the 2D Street Editor, between 0 and 1
+     * @param y y coordinate of the placing in the 2D Street Editor between 0 and 1
+     * @param rotation rotation of the Asset, betwenn 0 and 3
+     * @param texture string that contains path to the right texture
+     * @param userId id of the user who placed the asset
+     * 
+     * x3d and z3d are calculated and set afterwards.
+     */
     public GameAsset (int objectTypeId, double x, double y, int rotation, String texture, int userId) {
         this.objectTypeId = objectTypeId;
         this.x = x;
@@ -36,7 +50,7 @@ public class GameAsset {
         this.rotation = rotation;
         this.texture = texture;
         this.userId = userId;
-        this.x3d = 0.0;
+        this.x3d = 0.0; 
         this.z3d = 0.0;
     }
 

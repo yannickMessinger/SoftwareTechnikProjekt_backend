@@ -2,20 +2,15 @@
 
 
 import random
-class NpcDriveScript():
+class NpcNavigationScript():
 
     def __init__(self, x,z, streetRotation, carRotation, objectTypeId):
-       
         self.currentCarRotation = carRotation
         self.newCarRotation = -1
         self.currentMapEle = MapEle(x,z,streetRotation,objectTypeId)
         self.nextUpperMapEle = MapEle(-1,-1,-1,-1)
         
-        print('x_coord: {}'.format(self.currentMapEle.x_coord))
-        print('z_coord: {}'.format(self.currentMapEle.z_coord))
-        print('streetRotation: {}'.format(self.currentMapEle.streetRotation))
-        print('carRotation: {}'.format(self.currentCarRotation))
-        print('streetId: {}'.format(self.currentMapEle.objectTypeId))
+       
 
     #determines if MapElement contains straight, curve or intersection and exectues driving calculation 
     def determineDrivingDirection(self):
@@ -24,10 +19,9 @@ class NpcDriveScript():
         elif self.currentMapEle.objectTypeId == 1 or self.currentMapEle.objectTypeId == 10:
             self.curveStreet()
         elif self.currentMapEle.objectTypeId == 2:
-            print("Intersectttt me!")
             self.intersectionStreet()
 
-    #determines the new x and y(z) coordinates of next MapElem, depending on the car car rotation.
+    #determines the new x and y(z) coordinates of next MapEle, depending on the car car rotation.
     #gets executed directly if mapElement contains straight. 
     # if MapElement contained a curve,curve algorithm gets exucuted first than drive() method gets called.
     def drive(self):
@@ -114,7 +108,7 @@ class NpcDriveScript():
 
     def setNextUpperMapEle(self,MapEle):
         self.nextUpperMapEle = MapEle
-        print("naechstes upperMapElement", MapEle)
+       
 
     def getNextUpperMapEle(self):
         return self.nextUpperMapEle

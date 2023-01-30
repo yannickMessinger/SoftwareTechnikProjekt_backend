@@ -1,10 +1,12 @@
 package de.hsrm.mi.swt02.backend.websocket.model.npc;
-
-
 import de.hsrm.mi.swt02.backend.api.npc.dto.NpcNavInfoRequestDTO;
 import de.hsrm.mi.swt02.backend.api.npc.dto.NpcNavInfoResponseDTO;
 import lombok.Getter;
 import lombok.Setter;
+/**
+ * Message Class for websocket communication with Npc's from frontend. Used to transfer navigation data.
+ * 
+ */
 
 @Getter
 @Setter
