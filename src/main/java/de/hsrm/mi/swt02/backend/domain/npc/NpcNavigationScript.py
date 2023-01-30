@@ -14,7 +14,7 @@ class NpcNavigationScript():
 
     #determines if MapElement contains straight, curve or intersection and exectues driving calculation 
     def determineDrivingDirection(self):
-        if self.currentMapEle.objectTypeId == 0 or self.currentMapEle.objectTypeId == 12 or self.currentMapEle.objectTypeId == 9 or self.currentMapEle.objectTypeId == 11:
+        if self.currentMapEle.objectTypeId == 0 or self.currentMapEle.objectTypeId == 12 or self.currentMapEle.objectTypeId == 9 or self.currentMapEle.objectTypeId == 11 or self.currentMapEle.objectTypeId == 8:
             self.drive()
         elif self.currentMapEle.objectTypeId == 1 or self.currentMapEle.objectTypeId == 10:
             self.curveStreet()
