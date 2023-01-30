@@ -144,7 +144,7 @@ public class MapObjectServiceImpl implements MapObjectService {
         Map map = mapService.getMapById(mapId);
         List<MapObject> mapObjectList = map.getMapObjects();
         this.findMapObjectByXandY(mapObjectList, mapObjectDTO)
-                .ifPresent(mapObject -> mapObjRepo.delete(mapObject));
+            .ifPresent(mapObject -> mapObjRepo.delete(mapObject));
         MapObject mapObject = new MapObject(mapObjectDTO.objectTypeId(), mapObjectDTO.x(), mapObjectDTO.y(), mapObjectDTO.rotation());
 
         mapObject.setCenterX3d(calcMapEleCenterX(mapObjectDTO.y()));
@@ -169,7 +169,7 @@ public class MapObjectServiceImpl implements MapObjectService {
         Map map = mapService.getMapById(mapId);
         List<MapObject> mapObjectList = map.getMapObjects();
         this.findMapObjectByXandY(mapObjectList, mapObjectDTO)
-                .ifPresent(mapObject -> mapObjRepo.delete(mapObject));
+            .ifPresent(mapObject -> mapObjRepo.delete(mapObject));
     }
 
     /**
@@ -184,14 +184,14 @@ public class MapObjectServiceImpl implements MapObjectService {
         Map map = mapService.getMapById(mapId);
         List<MapObject> mapObjectList = map.getMapObjects();
         this.findMapObjectByXandY(mapObjectList, mapObjectDTO)
-                .ifPresent(mapObject -> {
-                    mapObject.setRotation(mapObjectDTO.rotation());
-                    deleteOldGameAssetsFromMapObject(mapObject);
-                    if (!mapObjectDTO.game_assets().isEmpty()) {
-                        this.addNewGameAssetToMapObject(mapObjectDTO.game_assets(), mapObject);
-                    }
-                    mapObjRepo.save(mapObject);
-                });
+            .ifPresent(mapObject -> {
+                mapObject.setRotation(mapObjectDTO.rotation());
+                deleteOldGameAssetsFromMapObject(mapObject);
+                if (!mapObjectDTO.game_assets().isEmpty()) {
+                    this.addNewGameAssetToMapObject(mapObjectDTO.game_assets(), mapObject);
+                }
+                mapObjRepo.save(mapObject);
+            });
     }
 
     /**
@@ -228,15 +228,6 @@ public class MapObjectServiceImpl implements MapObjectService {
     }
 
     /**
-     * @param id Map ID
-     * @return All MapObjects from Map
-     */
-    @Override
-    public List<MapObject> getAllMapObjectsFromMap(long id) {
-        return mapService.getMapById(id).getMapObjects();
-    }
-
-    /**
      * Help Method: Find the new MapObject by X and Y.
      * Find the right MapObject in mapObjectList.
      * Find MapObject which has the same x and y positions as the mapObjectDTO.
@@ -246,8 +237,8 @@ public class MapObjectServiceImpl implements MapObjectService {
      */
     private Optional<MapObject> findMapObjectByXandY(List<MapObject> mapObjectList, AddMapObjectRequestDTO mapObjectDTO) {
         return mapObjectList.stream()
-                .filter(c -> c.getX() == mapObjectDTO.x() && c.getY() == mapObjectDTO.y())
-                .findFirst();
+            .filter(c -> c.getX() == mapObjectDTO.x() && c.getY() == mapObjectDTO.y())
+            .findFirst();
     }
 
 
