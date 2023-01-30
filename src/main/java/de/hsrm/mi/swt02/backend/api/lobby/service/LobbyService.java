@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * interface to manage CRUD operations on lobby repository
+ */
 @Service
 public interface LobbyService {
     List<Lobby> findAllLobbys ();
@@ -18,8 +21,6 @@ public interface LobbyService {
     long createLobby (String lobbyName, LobbyModeEnum lobbyMode, int numOfPlayers, long hostId);
 
     long createLobbyWithMap (String lobbyName, LobbyModeEnum lobbyMode, int numOfPlayers, long hostId, long mapId);
-
-    void updateLobby (long id);
 
     void addPlayerToLobby (long lobbyId, long playerId);
 

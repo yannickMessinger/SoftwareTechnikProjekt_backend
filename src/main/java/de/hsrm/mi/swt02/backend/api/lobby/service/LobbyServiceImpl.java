@@ -29,6 +29,9 @@ public class LobbyServiceImpl implements LobbyService {
     @Autowired
     private MapService mapService;
 
+    /**
+     * returns list of all existing lobbys
+     */
     @Override
     @Transactional
     public List<Lobby> findAllLobbys () {
@@ -42,6 +45,10 @@ public class LobbyServiceImpl implements LobbyService {
         return lobbys;
     }
 
+    /**
+     * return single lobby by given id
+     * @param id id of the lobby that is supposed to be returned
+     */
     @Override
     @Transactional
     public Lobby findLobbyById (long id) {
@@ -55,6 +62,10 @@ public class LobbyServiceImpl implements LobbyService {
         return foundLobby.orElseThrow();
     }
 
+    /**
+     * deletes single lobby by given id, cuts existing relations before
+     * @param id id of the lobby that is supposed to be deleted
+     */
     @Override
     @Transactional
     public void deleteLobby (long id) {
@@ -69,10 +80,18 @@ public class LobbyServiceImpl implements LobbyService {
         lobbyRepository.deleteById(id);
     }
 
+    /**
+     * creates single lobby by handed parameters and adds / creates necessary relations to other entitiys
+     * creates lobby without map existing
+     * @param lobbyName name of the lobby assigned by creator / host
+     * @param lobbyMode value of mode that lobby was set to, either play oder buildmode
+     * @param numOfPlayers amount of players that are in lobby
+     * @param hostId id of host of the lobby
+     */
     @Override
     @Transactional
     public long createLobby (String lobbyName, LobbyModeEnum lobbyMode, int numOfPlayers, long hostId) {
-        //todo: wenn bereits exisitierende map mit gegeben wird per id, erst per mapservice finden und setzen!
+        
         Lobby createLobby = new Lobby(lobbyName, numOfPlayers, lobbyMode);
         createLobby = lobbyRepository.save(createLobby);
 
@@ -90,10 +109,18 @@ public class LobbyServiceImpl implements LobbyService {
         return createLobby.getId();
     }
 
+    /**
+     * creates single lobby by handed parameters and adds / creates necessary relations to other entitiys
+     * creates lobby with map existing and adds map to lobby and manages necessary relations.
+     * @param lobbyName name of the lobby assigned by creator / host
+     * @param lobbyMode value of mode that lobby was set to, either play oder buildmode
+     * @param numOfPlayers amount of players that are in lobby
+     * @param hostId id of host of the lobby
+     */
     @Override
     @Transactional
     public long createLobbyWithMap (String lobbyName, LobbyModeEnum lobbyMode, int numOfPlayers, long hostId, long mapId) {
-        //todo: wenn bereits exisitierende map mit gegeben wird per id, erst per mapservice finden und setzen!
+       
         Lobby createLobby = new Lobby(lobbyName, numOfPlayers, lobbyMode);
         createLobby = lobbyRepository.save(createLobby);
 
@@ -107,15 +134,7 @@ public class LobbyServiceImpl implements LobbyService {
         return createLobby.getId();
     }
 
-    @Override
-    @Transactional
-    public void updateLobby (long id) {
-        Optional<Lobby> findLobby = lobbyRepository.findById(id);
-
-        if (findLobby.isPresent()) {
-
-        }
-    }
+   
 
     /**
      * Find Player and Lobby by id and maintain the relations.
@@ -189,6 +208,11 @@ public class LobbyServiceImpl implements LobbyService {
         return map.getId();
     }
 
+    /**
+     * method to update lobbymode of existing lobby via messagebroker
+     * @param id id of lobby which mode is supposed to be switched
+     * @param lobbyMode lobbymode that lobby is supposed to be switched to
+     */
     @Override
     @Transactional
     public void updateLobbyModeBroker (long id, LobbyModeEnum lobbyMode) {
@@ -199,6 +223,10 @@ public class LobbyServiceImpl implements LobbyService {
 
     }
 
+    /**
+     * method to trigger save of handed lobby
+     * @param lobby lobby that is supposed to be saved
+     */
     @Override
     @Transactional
     public void saveEditedLobby (Lobby lobby) {
