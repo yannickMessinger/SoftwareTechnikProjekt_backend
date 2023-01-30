@@ -1,4 +1,4 @@
-#Script to calculate the coordinates of the next Map Element, based on rotation of street Element and rotation of Npc Vehicle
+#Script to calculate the coordinates of the next Map Element and the new rotation that npc needs to be set to, based on rotation of street Element and rotation of Npc Vehicle
 
 
 import random

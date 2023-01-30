@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * class that represents game map that contains all its map objects, each map belongs to one lobby and belongs to one map owner. 
+ */
 
 @Entity
 @Getter

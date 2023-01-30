@@ -9,6 +9,13 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Entity that represents lobby with own name, amount of players and two different modes the lobby can be set to (build and playmode).
+ * Each Lobby has its own list of players that are currently assigned to the lobby.
+ * Also contains method to add and remove players to this list and change the lobbymode.
+ * Each lobby contains its own game map.
+ */
+
 @Entity
 @Getter
 @Setter
