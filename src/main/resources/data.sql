@@ -11,8 +11,6 @@ VALUES (0, 0, '/../../../src/assets/3D_Models/Streets/straight_road.gltf', 'Gera
         '/img/streetplaner/building/Building.png', 'BUILDING', 0),
        (5, 1, '/../../../src/assets/3D_Models/Building/shop.gltf', 'Supermarkt', 0,
         '/img/streetplaner/building/Supermarkt.png', 'BUILDING', 0),
-       (6, 1, '/../../../src/assets/3D_Models/Building/stadium.gltf', 'Stadion', 0,
-        '/img/streetplaner/building/Stadium.png', 'BUILDING', 0),
        (7, 2, '', 'Auto', 0, '/img/streetplaner/object-icons/car-top-view.svg', 'ASSET', 0),
        (8, 0, '/../../../src/assets/3D_Models/Streets/streetCrossing.gltf', 'Fußgängerüberweg', 0,
         '/img/streetplaner/object-icons/crosswalk.png', 'RAIL', 0),
