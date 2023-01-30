@@ -79,7 +79,6 @@ public class MapServiceImpl implements MapService {
 
             lobby.setMap(map);
             map.setLobby(lobby);
-            //map.setMapOwner(lobby.getHost());
             mapRepository.save(map);
         });
     }
@@ -111,11 +110,7 @@ public class MapServiceImpl implements MapService {
     @Override
     @Transactional
     public void deleteMapById (long id) {
-        //Map delMap = this.getMapById(id);
-        //Player PlayertoDelMapFrom = delMap.getMapOwner();
-        //PlayertoDelMapFrom.removeMapFromMapList(delMap);
-
-        mapRepository.deleteById(id);
+       mapRepository.deleteById(id);
     }
 
     /**
@@ -156,12 +151,19 @@ public class MapServiceImpl implements MapService {
                 .toList();
     }
 
-    //Triggers Python Script
+    /**
+     * triggers the python script and returns new infos for the npc
+     * @param mapId mapId that the npc is currently on
+     * @param npcId id of the npc that beeds update of his intern map objects
+     * @param mapObjX x coordinate of the MapObject 
+     * @param mapObjY  y coordinate of the MapObject 
+     * @param npcRot  current rotation of the npc
+     */
     @Override
-    public NpcNavInfo getNpcDirections (long mapId, long npcId, int npcPosX, int npcPosY, int npcRot) {
+    public NpcNavInfo getNpcDirections (long mapId, long npcId, int mapObjX, int mapObjY, int npcRot) {
         NpcNavigationSystem npc = new NpcNavigationSystem();
         List<MapObject> list = this.getMapById(mapId).getMapObjects();
-        npc.setNpcNavigationParams(list, npcPosX, npcPosY, npcRot, npcId);
+        npc.setNpcNavigationParams(list, mapObjX, mapObjY, npcRot, npcId);
 
         return npc.getDirections();
 

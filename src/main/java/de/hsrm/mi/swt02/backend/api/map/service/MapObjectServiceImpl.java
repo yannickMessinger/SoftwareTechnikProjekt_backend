@@ -115,6 +115,9 @@ public class MapObjectServiceImpl implements MapObjectService {
         return returnValue;
     }
 
+    /**
+     * deletes all MapObjects from the Map with the given id.
+     */
     @Override
     @Transactional
     public void deleteAllMapObjectsFromMapById (long id) {
@@ -128,9 +131,11 @@ public class MapObjectServiceImpl implements MapObjectService {
 
     /**
      * Add a new MapObjekt to the right Map and save in database that comes from Message Broker.
-     * If MapObject has a field that already exist, it will be deleted.
+     * If MapObject has a field that already exist, it will be deleted. Also correct center coordinates
+     * of the map object are calculated and set to place map object correctly in 3D. 
      *
      * @param mapObjectDTO - came from Broker (create) channel
+     * @param mapId id of map that MapObject was placed on
      */
 
     @Override
@@ -168,9 +173,10 @@ public class MapObjectServiceImpl implements MapObjectService {
     }
 
     /**
-     * Update a new MapObjekt that comes from Message Broker (rotation).
+     * Update a new MapObject that comes from Message Broker (rotation).
      *
      * @param mapObjectDTO - came from Broker (update) channel
+     * @param mapId id of map that MapObject was placed on
      */
     @Transactional
     public void updateMapObjectFromBroker (AddMapObjectRequestDTO mapObjectDTO, long mapId) {
@@ -187,6 +193,14 @@ public class MapObjectServiceImpl implements MapObjectService {
                 });
     }
 
+    /**
+     * 
+     * @param gameAssetDTOs GameAssets such as cars, train or pedestrians that are placed on this one MapObject
+     * @param mapObject mapObject that the GameAssets are placed on
+     * Also calls methods calcPixelPosX and calcPixelPosZ to determine correct pixel positions of the gameAssets and
+     * set the values so that they can be placed correctly in 3d.
+     */
+
     private void addNewGameAssetToMapObject (List<GameAssetDTO> gameAssetDTOs, MapObject mapObject) {
         gameAssetDTOs.forEach(ele -> {
             GameAsset gameAsset = new GameAsset(ele.objectTypeId(), ele.x(), ele.y(), ele.rotation(), ele.texture(), ele.userId());
@@ -201,6 +215,11 @@ public class MapObjectServiceImpl implements MapObjectService {
         });
     }
 
+    /**
+     * deletes the old gameAssets from MapObject that is passed to method.
+     * @param mapObject
+     */
+
     private void deleteOldGameAssetsFromMapObject (MapObject mapObject) {
         mapObject.getGameAssets().forEach(ele -> {
             ele.setMapObject(null);
@@ -211,7 +230,7 @@ public class MapObjectServiceImpl implements MapObjectService {
 
     /**
      * @param id Map ID
-     * @return All MapObjects from Map
+     * @return All MapObjects from Map with given id
      */
     @Override
     public List<MapObject> getAllMapObjectsFromMap (long id) {
@@ -225,19 +244,38 @@ public class MapObjectServiceImpl implements MapObjectService {
     }
 
 
-    //center 3D xcoord for mapobject
+    
+    /**
+     * Calculates the center 3D xcoord for mapobject.
+     * @param curMapObjY Y Coordinate of the MapObject from 2D Editor, needs to be called with y value because 
+     * x and y axis are switched in editor
+     * @return  the X Center coordinate of the mapObject so that the x3d value can be set to it.
+     */
     public int calcMapEleCenterX (int curMapObjY) {
         int curMapObjcenterX = ((int) (this.GRID_SIZE_X * -0.5 + curMapObjY * this.FIELD_SIZE + this.FIELD_SIZE / 2));
         return curMapObjcenterX;
     }
 
-    //center 3D zcoord for mapobject
-    public int calcMapEleCenterZ (int curMapObjY) {
-        int curMapObjcenterZ = ((int) (this.GRID_SIZE_Y * -0.5 + curMapObjY * this.FIELD_SIZE + this.FIELD_SIZE / 2));
+    
+    /**
+     * calculates the center 3D zcoord for mapobject
+     * @param curMapObjX X Coordinate of the MapObject from 2D Editor, needs to be called with x value because 
+     * x and y axis are switched in editor
+     * @return  the Z Center coordinate of the mapObject so that the z3d value can be set to it.
+     */
+    public int calcMapEleCenterZ (int curMapObjX) {
+        int curMapObjcenterZ = ((int) (this.GRID_SIZE_Y * -0.5 + curMapObjX * this.FIELD_SIZE + this.FIELD_SIZE / 2));
         return curMapObjcenterZ;
     }
 
-    // x pixelpos asset 3d
+   
+    /**
+     * calculates the x pixelpos of asset for 3D 
+     * @param curMapObjcenterX  center 3D x coord of mapobject the asset is placed on, necessary to calculate upper left origin and place asset
+     * accordingly
+     * @param gameAssetX 2D x editor coordiante of the gameAsset 
+     * @return the corresponding 3D x pixelposition of the gameAsset. 
+     */
     public double calcPixelPosNpcX (int curMapObjcenterX, double gameAssetX) {
         double originX = curMapObjcenterX - this.FIELD_SIZE / 2;
         double npcPosX = originX + gameAssetX * this.FIELD_SIZE;
@@ -245,7 +283,13 @@ public class MapObjectServiceImpl implements MapObjectService {
         return npcPosX;
     }
 
-    //z pixelpos asset 3d
+    /**
+     * calculates the z pixelpos of asset for 3D 
+     * @param curMapObjcenterZ center 3D z coord of mapobject the asset is placed on, necessary to calculate upper left origin and place asset
+     * accordingly
+     * @param gameAssetZ 2D y editor coordiante of the gameAsset
+     * @return the corresponding 3D z pixelposition of the gameAsset
+     */
     public double calcPixelPosNpcZ (int curMapObjcenterZ, double gameAssetZ) {
 
 
