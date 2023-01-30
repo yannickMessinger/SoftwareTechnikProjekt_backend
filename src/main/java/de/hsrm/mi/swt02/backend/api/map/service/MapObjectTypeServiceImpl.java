@@ -18,18 +18,12 @@ public class MapObjectTypeServiceImpl implements MapObjectTypeService {
     private MapObjectTypeRepository mapConstRepo;
 
     @Override
-    /*
-     * returns a list with all available MapObjectTypes (placable Mapobjects)
-     */
-    public List<MapObjectType> findAllMapObjectType () {
+    public List<MapObjectType> findAllMapObjectType() {
         return mapConstRepo.findAll();
     }
 
     @Override
-    /*
-     * returns the MapObjectsType by objectId
-     */
-    public MapObjectType findMapObjectTypeById (long id) {
+    public MapObjectType findMapObjectTypeById(long id) {
         return mapConstRepo.findById(id).get();
     }
 

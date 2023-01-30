@@ -6,13 +6,43 @@ import java.util.List;
 
 public interface PlayerService {
 
-    List<Player> findAllPlayers ();
+    /**
+     * Get all Players from the Database
+     *
+     * @return List of found Players
+     */
+    List<Player> findAllPlayers();
 
-    Player findPlayerById (long id);
+    /**
+     * Find Player by given ID from the Database
+     *
+     * @param id ID of Player
+     * @return found Player
+     */
+    Player findPlayerById(long id);
 
-    void deletePlayer (long id);
+    /**
+     * Delete Player by given ID from the Database
+     *
+     * @param id ID of Player
+     */
+    void deletePlayer(long id);
 
-    Player createPlayer (String userName, String password);
+    /**
+     * Create new Player and save into the Database
+     *
+     * @param userName User Name of Player
+     * @param password Password of Player
+     * @return Player Object of Player
+     */
+    Player createPlayer(String userName, String password);
 
-    Player findPlayerByUsernameAndPassword (String username, String password);
+    /**
+     * Find a Player by given Username and Password from the Database
+     *
+     * @param username User Name of Player
+     * @param password Password of Player
+     * @return found Player
+     */
+    Player findPlayerByUsernameAndPassword(String username, String password);
 }

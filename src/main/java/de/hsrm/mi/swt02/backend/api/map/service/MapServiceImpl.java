@@ -30,15 +30,9 @@ public class MapServiceImpl implements MapService {
     @Autowired
     PlayerRepository playerRepository;
 
-    /**
-     * save map Plan
-     *
-     * @param dto
-     * @return id
-     */
     @Override
     @Transactional
-    public long saveMap (AddMapRequestDTO dto) {
+    public long saveMap(AddMapRequestDTO dto) {
         Map map = new Map(dto.mapName(), dto.creationDate(), dto.sizeX(), dto.sizeY());
         if (dto.mapOwnerId() != 0L) {
             Optional<Player> playerOptional = playerRepository.findById(dto.mapOwnerId());
@@ -54,18 +48,15 @@ public class MapServiceImpl implements MapService {
 
     @Override
     @Transactional
-    public Map createNewMap () {
+    public Map createNewMap() {
         Map map = new Map();
 
         return mapRepository.save(map);
     }
 
-    /**
-     * assign new Lobby to map and cut old relations
-     */
     @Override
     @Transactional
-    public void assignLobbyToMap (long mapId, long lobbyId) {
+    public void assignLobbyToMap(long mapId, long lobbyId) {
         Map map = this.getMapById(mapId);
 
         lobbyRepository.findById(lobbyId).ifPresent(lobby -> {
@@ -84,16 +75,9 @@ public class MapServiceImpl implements MapService {
         });
     }
 
-
-    /**
-     * get map by id
-     *
-     * @param id
-     * @return map
-     */
     @Override
     @Transactional
-    public Map getMapById (long id) {
+    public Map getMapById(long id) {
         Optional<Map> mapOpt = mapRepository.findById(id);
         if (mapOpt.isEmpty()) {
             log.info("Not found");
@@ -102,15 +86,9 @@ public class MapServiceImpl implements MapService {
         return mapOpt.orElseThrow();
     }
 
-    /**
-     * delete map by id
-     *
-     * @param id
-     * @return map
-     */
     @Override
     @Transactional
-    public void deleteMapById (long id) {
+    public void deleteMapById(long id) {
         //Map delMap = this.getMapById(id);
         //Player PlayertoDelMapFrom = delMap.getMapOwner();
         //PlayertoDelMapFrom.removeMapFromMapList(delMap);
@@ -118,14 +96,9 @@ public class MapServiceImpl implements MapService {
         mapRepository.deleteById(id);
     }
 
-    /**
-     * get all Maps
-     *
-     * @return Maps
-     */
     @Override
     @Transactional
-    public List<Map> findAllMaps () {
+    public List<Map> findAllMaps() {
 
         Optional<List<Map>> allMaps = Optional.of(mapRepository.findAll());
 
@@ -138,27 +111,22 @@ public class MapServiceImpl implements MapService {
 
     @Override
     @Transactional
-    public void saveEditedMap (Map map) {
+    public void saveEditedMap(Map map) {
         mapRepository.save(map);
 
     }
 
-    /**
-     * @param playerId
-     * @return
-     */
     @Override
-    public List<Map> findAllMapsFromPlayer (long playerId) {
+    public List<Map> findAllMapsFromPlayer(long playerId) {
         return mapRepository.findAll()
-                .stream()
-                .filter(map ->
-                        map.getMapOwner().getId() == playerId)
-                .toList();
+            .stream()
+            .filter(map ->
+                map.getMapOwner().getId() == playerId)
+            .toList();
     }
 
-    //Triggers Python Script
     @Override
-    public NpcNavInfo getNpcDirections (long mapId, long npcId, int npcPosX, int npcPosY, int npcRot) {
+    public NpcNavInfo getNpcDirections(long mapId, long npcId, int npcPosX, int npcPosY, int npcRot) {
         NpcNavigationSystem npc = new NpcNavigationSystem();
         List<MapObject> list = this.getMapById(mapId).getMapObjects();
         npc.setNpcNavigationParams(list, npcPosX, npcPosY, npcRot, npcId);
@@ -167,6 +135,4 @@ public class MapServiceImpl implements MapService {
 
 
     }
-
-
 }
