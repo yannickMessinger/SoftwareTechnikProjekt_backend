@@ -11,7 +11,6 @@ public class SoundMessage {
     private int posY;
 
     public enum SoundMessageType {
-        HORN,
-        ENGIN
+        HORN
     }
 }

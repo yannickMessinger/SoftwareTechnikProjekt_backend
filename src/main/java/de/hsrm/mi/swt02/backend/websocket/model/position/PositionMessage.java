@@ -12,7 +12,6 @@ public class PositionMessage {
     private MessageType type;
     private String author;
 
-
     public enum MessageType {
         CREATE,
         DELETE,
