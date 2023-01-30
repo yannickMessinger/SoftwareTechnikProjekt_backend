@@ -1,2 +1,65 @@
-<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" class="iconify iconify--logos" width="31.88"
-     height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 257"><defs><linearGradient id="IconifyId1813088fe1fbc01fb466" x1="-.828%" x2="57.636%" y1="7.652%" y2="78.411%"><stop offset="0%" stop-color="#41D1FF"></stop><stop offset="100%" stop-color="#BD34FE"></stop></linearGradient><linearGradient id="IconifyId1813088fe1fbc01fb467" x1="43.376%" x2="50.316%" y1="2.242%" y2="89.03%"><stop offset="0%" stop-color="#FFEA83"></stop><stop offset="8.333%" stop-color="#FFDD35"></stop><stop offset="100%" stop-color="#FFA800"></stop></linearGradient></defs><path fill="url(#IconifyId1813088fe1fbc01fb466)" d="M255.153 37.938L134.897 252.976c-2.483 4.44-8.862 4.466-11.382.048L.875 37.958c-2.746-4.814 1.371-10.646 6.827-9.67l120.385 21.517a6.537 6.537 0 0 0 2.322-.004l117.867-21.483c5.438-.991 9.574 4.796 6.877 9.62Z"></path><path fill="url(#IconifyId1813088fe1fbc01fb467)" d="M185.432.063L96.44 17.501a3.268 3.268 0 0 0-2.634 3.014l-5.474 92.456a3.268 3.268 0 0 0 3.997 3.378l24.777-5.718c2.318-.535 4.413 1.507 3.936 3.838l-7.361 36.047c-.495 2.426 1.782 4.5 4.151 3.78l15.304-4.649c2.372-.72 4.652 1.36 4.15 3.788l-11.698 56.621c-.732 3.542 3.979 5.473 5.943 2.437l1.313-2.028l72.516-144.72c1.215-2.423-.88-5.186-3.54-4.672l-25.505 4.922c-2.396.462-4.435-1.77-3.759-4.114l16.646-57.705c.677-2.35-1.37-4.583-3.769-4.113Z"></path></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generator: Adobe Illustrator 13.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 14948)  -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Layer_1"
+   x="0px"
+   y="0px"
+   width="128"
+   height="128"
+   viewBox="0 0 128 128"
+   xml:space="preserve"
+   sodipodi:docname="Pictograms-Electric_vehicle_charging_service.svg"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"><metadata
+     id="metadata82"><rdf:RDF><cc:Work
+         rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title><cc:license
+           rdf:resource="http://creativecommons.org/licenses/by-nc-sa/4.0/" /></cc:Work><cc:License
+         rdf:about="http://creativecommons.org/licenses/by-nc-sa/4.0/"><cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" /><cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" /><cc:requires
+           rdf:resource="http://creativecommons.org/ns#Notice" /><cc:requires
+           rdf:resource="http://creativecommons.org/ns#Attribution" /><cc:prohibits
+           rdf:resource="http://creativecommons.org/ns#CommercialUse" /><cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" /><cc:requires
+           rdf:resource="http://creativecommons.org/ns#ShareAlike" /></cc:License></rdf:RDF></metadata><defs
+     id="defs80" /><sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="640"
+     inkscape:window-height="480"
+     id="namedview78"
+     showgrid="false"
+     inkscape:zoom="2.7016116"
+     inkscape:cx="-3.4450132"
+     inkscape:cy="46.963524"
+     inkscape:current-layer="Layer_1"
+     showborder="false"
+     inkscape:pagecheckerboard="false" /><g
+     id="g75"
+     transform="translate(1.922,2.3985)"><path
+       style="fill:#231f20"
+       d="m 109.086,123.363 c 8.156,0 14.758,-6.586 14.758,-14.742 V 14.598 c 0,-8.156 -6.602,-14.758 -14.758,-14.758 H 15.07 C 6.914,-0.16 0.312,6.442 0.312,14.598 v 94.023 c 0,8.156 6.602,14.742 14.758,14.742 z"
+       id="path67"
+       inkscape:connector-curvature="0" /><path
+       style="fill:#ffffff"
+       d="M 15.07,2.34 C 8.312,2.34 2.812,7.84 2.812,14.598 v 94.023 c 0,6.758 5.5,12.25 12.258,12.25 h 94.016 c 6.766,0 12.258,-5.492 12.258,-12.25 V 14.598 C 121.344,7.84 115.852,2.34 109.086,2.34 Z"
+       id="path69"
+       inkscape:connector-curvature="0" /><path
+       d="m 98.669945,37.087033 v -7.639 c 0,-1.15 -0.934,-2.083 -2.084,-2.083 -1.149,0 -2.083,0.933 -2.083,2.083 v 7.639 h -8.333 v -7.639 c 0,-1.15 -0.934,-2.083 -2.084,-2.083 -1.149,0 -2.083,0.933 -2.083,2.083 v 7.639 h -4.167 v 4.166997 c 0,5.947 4.157,10.915 9.723,12.18 v 15.598 l 4.156,30.662 c -0.059,3.014 -2.518,5.449 -5.545,5.449 -3.062,0 -5.553,-2.489 -5.556,-5.55 h 0.001 v -38.89 l -0.001,-0.005 c 0,-4.595 -3.738,-8.333 -8.333,-8.333 h -8.334 V 18.800033 c 10e-4,-4.468 -3.737003,-8.102 -8.333003,-8.102 h -25 c -4.595,0 -8.333,3.634 -8.333,8.102 v 91.897997 h 41.667003 v -52.778 h 8.333 c 1.531,0 2.777,1.247 2.777,2.778 l 10e-4,0.005 v 38.883 h -10e-4 c 0,6.127 4.984,11.111 11.111,11.111 6.127,0.001 11.112,-4.983 11.112,-11.11 l -4.167,-30.744 v -15.41 c 5.565,-1.265 9.722005,-6.232 9.722005,-12.18 v -4.166997 h -4.166005 z m -65.865003,46.909997 5.983,-11.965 h -7.479 l 10.47,-17.95 h 7.478 l -7.478,11.966 h 8.974 z m 25.587,-43.901 c 0,1.404 -1.247,2.546 -2.778,2.546 h -25 c -1.531,0 -2.778,-1.142 -2.778,-2.546 V 18.800033 c 0,-1.404 1.247,-2.546 2.778,-2.546 h 25 c 1.531,0 2.778,1.142 2.778,2.546 z"
+       id="path2"
+       inkscape:connector-curvature="0" /></g></svg>
