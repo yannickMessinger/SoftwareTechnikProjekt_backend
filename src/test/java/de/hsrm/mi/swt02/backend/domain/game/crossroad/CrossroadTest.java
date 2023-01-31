@@ -16,22 +16,18 @@ class CrossroadTest {
     Crossroad crossroad;
 
     @BeforeEach
-    void setUp () {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
-    void testSetId () {
-        crossroad.setId("id");
-    }
 
     @Test
-    void testSetTrafficLights () {
+    void testSetTrafficLights() {
         crossroad.setTrafficLights(List.of(new TrafficLight()));
     }
 
     @Test
-    void testSetTlArrangement () {
+    void testSetTlArrangement() {
         crossroad.setTlArrangement(true);
     }
 }

@@ -6,12 +6,7 @@ class TrafficLightTest {
     TrafficLight trafficLight = new TrafficLight();
 
     @Test
-    void testSetId () {
-        trafficLight.setId("id");
-    }
-
-    @Test
-    void testSetCurrentState () {
+    void testSetCurrentState() {
         trafficLight.setCurrentState(Light.GREEN);
     }
 }
